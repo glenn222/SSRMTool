@@ -1,5 +1,5 @@
 SYDE 322 - Software Design Project
-Scanning Spreading Resistance Microscopy (SSRM) Tool
+Spreading Scanning Resistance Microscopy (SSRM) Tool
 
 Group Members:
 - Oberon Dixon-Luinenburg
