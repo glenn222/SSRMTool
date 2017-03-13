@@ -25,12 +25,6 @@ static double* create_curve_xdata(int xres, double xreal);
 static double* create_curve_ydata(const double *imagedata,
                                   int xres, int row);
 
-
-unsigned long TestSession(unsigned long handle, unsigned char *publicKey, unsigned char publicKeyLen)
-{
-	return 42;
-}
-
 unsigned long ConnectSession(unsigned long handle, unsigned char *publicKey, unsigned char publicKeyLen)
 {
 	return 42;
