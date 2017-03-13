@@ -18,12 +18,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CLibrary.c">
+    <ClCompile Include="gwyfile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GwyddionLibraryAdaptee.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Google Drive\SYDE 322 Project\SSRMTool\Win32Project1\Win32Project1\CLibrary.h">
+    <ClInclude Include="gwyfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GwyddionLibraryAdaptee.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
