@@ -9,11 +9,9 @@ namespace SSRMTool
         unsafe static extern UInt32 ConnectSession(UInt32 handle, char* publicKey, char publicKeyLen);
 
         [DllImport("GwyddionLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
-        unsafe static extern UInt32 TestSession(UInt32 handle, char* publicKey, char publicKeyLen);
+        unsafe static extern UInt32 TestGwyddion();
 
-        [DllImport("GwyddionLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
-        unsafe static extern UInt32 TestGwyddion(UInt32 handle, char* publicKey, char publicKeyLen);
-
+        // Example Method
         public unsafe UInt32 GetConnectSession(UInt32 handle, string publicKey, char publicKeyLen)
         {
             //"Convert" string to char*
@@ -26,16 +24,10 @@ namespace SSRMTool
             return ConnectSession(handle, pubKey, publicKeyLen);
         }
 
-        public unsafe UInt32 TestGwyddionSession(UInt32 handle, string publicKey, char publicKeyLen)
+        //TODO: Implement wrapper methods to call in GwyddionLibraryAdaptee.c
+        public unsafe UInt32 TestGwyddionSession()
         {
-            //"Convert" string to char*
-            char* pubKey;
-            fixed (char* bptr = publicKey)
-            {
-                pubKey = (char*)bptr;
-            }
-
-            return TestGwyddion(handle, pubKey, publicKeyLen);
+            return TestGwyddion();
         }
 
     }

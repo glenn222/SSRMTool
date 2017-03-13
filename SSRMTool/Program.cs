@@ -13,8 +13,8 @@ namespace SSRMTool
         {
             GwyddionLibraryAdapter wrapper = new GwyddionLibraryAdapter();
             //var res = wrapper.GetConnectSession(0, "key", '3');
-            var res = wrapper.TestGwyddionSession(0, "key", '3');
-            //var res = wrapper.TestGwyddionSession();
+            //var res = wrapper.TestGwyddionSession(0, "key", '3');
+            var res = wrapper.TestGwyddionSession();
             Console.WriteLine(res);
             Console.ReadKey();
         }

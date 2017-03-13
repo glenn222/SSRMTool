@@ -36,7 +36,7 @@ unsigned long ConnectSession(unsigned long handle, unsigned char *publicKey, uns
 	return 42;
 }
 
-unsigned int TestGwyddion(unsigned long handle, unsigned char *publicKey, unsigned char publicKeyLen)
+unsigned int TestGwyddion()
 {
     GwyfileObject *gwyf, *datafield, **curves, *graph, *selection;
     GwyfileError *error = NULL;
