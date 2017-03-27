@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RegionDrawer.cs" />
     <Compile Include="Staircase.cs" />
     <Compile Include="GwyddionLibraryAdapter.cs" />
     <Compile Include="Program.cs" />

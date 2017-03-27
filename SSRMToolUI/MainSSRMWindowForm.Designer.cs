@@ -55,6 +55,7 @@
             this.btn_QuantifyDevices.TabIndex = 1;
             this.btn_QuantifyDevices.Text = "Quantify Devices";
             this.btn_QuantifyDevices.UseVisualStyleBackColor = true;
+            this.btn_QuantifyDevices.Click += new System.EventHandler(this.btn_QuantifyDevices_Click);
             // 
             // lbl_MainSSRMLabel
             // 
@@ -89,7 +90,7 @@
             this.Controls.Add(this.btn_QuantifyDevices);
             this.Controls.Add(this.btn_DefineStaircases);
             this.Name = "MainSSRMWindowForm";
-            this.Text = "MainSSRMWindowForm";
+            this.Text = "SSRM - Main Window";
             this.ResumeLayout(false);
             this.PerformLayout();
 

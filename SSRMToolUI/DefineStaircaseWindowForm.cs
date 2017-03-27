@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SSRMToolUI
@@ -13,6 +7,30 @@ namespace SSRMToolUI
     public partial class DefineStaircaseWindowForm : Form
     {
         private static DefineStaircaseWindowForm _staircaseInstance = null;
+        private static readonly string RESISTIVITY_COLUMN_NAME = "Resistivity";
+        private static readonly string RESISTIVITY_UNITS_COLUMN_NAME = "ResistivityUnits";
+        private static readonly string DOPANTS_COLUMN_NAME = "Dopants";
+        private static readonly string DOPANT_UNITS_COLUMN_NAME = "DopantUnits";
+        private static readonly string RESISTANCE_COLUMN_NAME = "Resistance";
+        private static readonly string RESISTANCE_UNITS_COLUMN_NAME = "ResistanceUnits";
+        private static readonly string RESISTANCE_AMPLITUDE_COLUMN_NAME = "ResistanceAmplitude";
+        private static readonly string RESISTANCE_AMPLITUDE_UNITS_COLUMN_NAME = "ResistanceAmplitudeUnits";
+
+        private static readonly string[] STAIRCASE_TABLE_COLUMN_NAMES = new string[]
+        {
+            RESISTIVITY_COLUMN_NAME,
+            DOPANTS_COLUMN_NAME,
+            RESISTANCE_COLUMN_NAME,
+            RESISTANCE_AMPLITUDE_COLUMN_NAME,
+        };
+
+        private static readonly string[] STAIRCASE_TABLE_UNIT_COLUMN_NAMES = new string[]
+        {
+            RESISTIVITY_UNITS_COLUMN_NAME,
+            DOPANT_UNITS_COLUMN_NAME,
+            RESISTANCE_UNITS_COLUMN_NAME,
+            RESISTANCE_AMPLITUDE_UNITS_COLUMN_NAME
+        };
 
         private DefineStaircaseWindowForm()
         {
@@ -27,23 +45,53 @@ namespace SSRMToolUI
             return _staircaseInstance;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Bitmap myBitmap = new Bitmap(@"turtle island.jpg");
-            Graphics g = Graphics.FromImage(myBitmap);
-
-            Rectangle rect = new Rectangle();
-            PaintEventArgs eventArgs = new PaintEventArgs(g, rect);
-
-            Image newImage = Image.FromFile("turtle island.jpg");
-            PointF ulCorner = new PointF(100.0F, 100.0F);
-
-            eventArgs.Graphics.DrawImage(newImage, ulCorner);
-        }
-
         private void btn_OpenStaircases_Click(object sender, EventArgs e)
         {
             OpenStaircaseDataWindow.GetInstance().Show();
+        }
+
+        private void btn_addRow_Click(object sender, EventArgs e)
+        {
+            //TODO:: Get values from column cells
+            var fakeValues = new string[STAIRCASE_TABLE_COLUMN_NAMES.Length];
+
+            for (int i = 0; i < fakeValues.Length; i++)
+                fakeValues[i] = "New Value";
+
+            AddRow(fakeValues);
+        }
+
+        private void btn_deleteRow_Click(object sender, EventArgs e)
+        {
+            int rowCount = dataGridView_StairCaseMeasurements.SelectedRows.Count;
+            if (rowCount > 0)
+                dataGridView_StairCaseMeasurements.Rows.RemoveAt(dataGridView_StairCaseMeasurements.SelectedRows[rowCount].Index);
+            
+        }
+
+        // Helper Methods
+        private void AddRow(string[] columnValues)
+        {        
+            int index = dataGridView_StairCaseMeasurements.Rows.Add();
+            var row = dataGridView_StairCaseMeasurements.Rows[index];
+
+            for( int i = 0; i < STAIRCASE_TABLE_COLUMN_NAMES.Length; i++ )
+            {
+                //TODO:: add actual values into table.
+                row.Cells[STAIRCASE_TABLE_COLUMN_NAMES[i]].Value = columnValues[i];
+            }
+        }
+
+        // Populates the staircase values when a user selects a staircase.
+        internal static void PopulateStairCase(DataGridViewRow rowData)
+        {
+            StringBuilder rowBuilder = new StringBuilder();
+            foreach( var cell in rowData.Cells )
+            {
+                rowBuilder.Append(String.Format("Cell: {0} \n", cell));
+            }
+            
+            MessageBox.Show(rowBuilder.ToString());
         }
     }
 }

@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SSRMToolUI
@@ -16,7 +10,7 @@ namespace SSRMToolUI
         private static readonly string DATE_CREATED_COLUMN_NAME = "CreationDate";
 
         private static OpenStaircaseDataWindow _formInstance = null;
-        private List<String> _fileNames;
+        private List<string> _fileNames;
         private List<DateTime> _timeStamps;
         private string _selectedStaircase;
 
@@ -33,31 +27,19 @@ namespace SSRMToolUI
 
         private void DisplayNames()
         {   
+            // TODO:: Display staircase names from DB.
             // Add mock rows
-            AddRow("New Staircase Name", "Date Here");
-
-            AddRow("New Staircase Name", "Date Here");
-
-            AddRow("New Staircase Name", "Date Here");
-
-            AddRow("New Staircase Name", "Date Here");
-
-            AddRow("New Staircase Name", "Date Here");
-
-            AddRow("New Staircase Name", "Date Here");
-
-            AddRow("New Staircase Name", "Date Here");
-
-            AddRow("New Staircase Name", "Date Here");
+            for (int i = 0; i < 10; i++)
+                AddRow("New Staircase Name", "Date Here");
         }
 
         private void QueryStaircases()
         {
             // TODO:: Connect to Redis database
 
-            // TODO:: Use datbase manager to get staircase list
+            // TODO:: Use database manager to get staircase list
 
-            _fileNames = new List<String>(10);
+            _fileNames = new List<string>(10);
             _timeStamps = new List<DateTime>(10);
 
             //throw new NotImplementedException();
@@ -77,6 +59,25 @@ namespace SSRMToolUI
                 _formInstance = new OpenStaircaseDataWindow();
 
             return _formInstance;
+        }
+
+        private void dataGrdView_StairCaseTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var dataSenderGrid = (DataGridView) sender;
+
+            if (dataSenderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                //TODO - Button Clicked - Execute Code Here
+                FindStaircase(e.RowIndex);
+            }
+        }
+
+        private void FindStaircase(int index)
+        {
+            var rowData = dataGrdView_StairCaseTable.Rows[index];
+
+            MessageBox.Show(String.Format("You clicked button on row {0}!", index));
+            DefineStaircaseWindowForm.PopulateStairCase(rowData);
         }
     }
 }
