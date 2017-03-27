@@ -49,11 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <Compile Include="RegionDrawer.cs" />
+=======
     <Compile Include="DeviceImage.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="DeviceMap.cs" />
     <Compile Include="Measurement.cs" />
-    <Compile Include="RegionDrawer.cs" />
+>>>>>>> 7cd585d26610b0287814b033d854a73115b5973e
     <Compile Include="Staircase.cs" />
     <Compile Include="GwyddionLibraryAdapter.cs" />
     <Compile Include="Program.cs" />
