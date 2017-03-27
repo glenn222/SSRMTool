@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace SSRMToolUI
 {
-    public partial class Form1 : Form
+    public partial class DefineStaircaseWindowForm : Form
     {
-        public Form1()
+        private static DefineStaircaseWindowForm _staircaseInstance = null;
+
+        private DefineStaircaseWindowForm()
         {
             InitializeComponent();
+        }
+
+        public static DefineStaircaseWindowForm GetStairCaseInstance()
+        {
+            if (_staircaseInstance == null)
+                _staircaseInstance = new DefineStaircaseWindowForm();
+
+            return _staircaseInstance;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -29,6 +39,11 @@ namespace SSRMToolUI
             PointF ulCorner = new PointF(100.0F, 100.0F);
 
             eventArgs.Graphics.DrawImage(newImage, ulCorner);
+        }
+
+        private void btn_OpenStaircases_Click(object sender, EventArgs e)
+        {
+            OpenStaircaseDataWindow.GetInstance().Show();
         }
     }
 }
