@@ -207,6 +207,7 @@
             this.btn_SaveStairCase.TabIndex = 11;
             this.btn_SaveStairCase.Text = "Save Staircase";
             this.btn_SaveStairCase.UseVisualStyleBackColor = false;
+            this.btn_SaveStairCase.Click += new System.EventHandler(this.btn_SaveStairCase_Click);
             // 
             // btn_deleteRow
             // 
@@ -237,7 +238,7 @@
             this.Controls.Add(this.btn_CreateStaircase);
             this.Controls.Add(this.btn_addRow);
             this.Controls.Add(this.lbl_DefineStaircase);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "DefineStaircaseWindowForm";
             this.Text = "SSRM - Define Staircase Window";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_StairCaseMeasurements)).EndInit();

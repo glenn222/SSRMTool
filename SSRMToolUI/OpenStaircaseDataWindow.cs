@@ -55,7 +55,7 @@ namespace SSRMToolUI
         
         public static OpenStaircaseDataWindow GetInstance()
         {
-            if (_formInstance == null)
+            if (_formInstance == null || _formInstance.IsDisposed == true)
                 _formInstance = new OpenStaircaseDataWindow();
 
             return _formInstance;
@@ -76,6 +76,7 @@ namespace SSRMToolUI
         {
             var rowData = dataGrdView_StairCaseTable.Rows[index];
 
+            //TODO:: Find staircase object from DB.
             MessageBox.Show(String.Format("You clicked button on row {0}!", index));
             DefineStaircaseWindowForm.PopulateStairCase(rowData);
         }

@@ -39,7 +39,7 @@ namespace SSRMToolUI
 
         public static DefineStaircaseWindowForm GetStairCaseInstance()
         {
-            if (_staircaseInstance == null)
+            if (_staircaseInstance == null || _staircaseInstance.IsDisposed == true)
                 _staircaseInstance = new DefineStaircaseWindowForm();
 
             return _staircaseInstance;
@@ -63,10 +63,9 @@ namespace SSRMToolUI
 
         private void btn_deleteRow_Click(object sender, EventArgs e)
         {
-            int rowCount = dataGridView_StairCaseMeasurements.SelectedRows.Count;
-            if (rowCount > 0)
-                dataGridView_StairCaseMeasurements.Rows.RemoveAt(dataGridView_StairCaseMeasurements.SelectedRows[rowCount].Index);
-            
+            int rowCount = dataGridView_StairCaseMeasurements.RowCount;
+            if (rowCount > 1)
+                dataGridView_StairCaseMeasurements.Rows.RemoveAt(rowCount - 2);
         }
 
         // Helper Methods
@@ -92,6 +91,14 @@ namespace SSRMToolUI
             }
             
             MessageBox.Show(rowBuilder.ToString());
+        }
+
+        private void btn_SaveStairCase_Click(object sender, EventArgs e)
+        {
+            // TODO:: Get all values from cells and transform it into a single input
+            MessageBox.Show("Save Staircase");
+
+            // TODO:: Call DB Manager to store these values
         }
     }
 }
