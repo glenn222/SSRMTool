@@ -12,7 +12,8 @@ using SSRMTool;
 namespace SSRMToolDB
 {
     class DBManager
-    {   
+    {
+        private static DBManager dbManager;
         private RedisClient redis;
         private List<String> staircaseKeys;
         private List<Staircase> staircases;
@@ -28,23 +29,32 @@ namespace SSRMToolDB
             }
         }
 
-        public DBManager GetInstance()
+        private void UpdateLists()
         {
-            if (this == null)
+            using (redis)
             {
-                DBManager doc = new DBManager();
-                return doc;
+                IRedisTypedClient<Staircase> redisUsers = redis.As<Staircase>();
+                staircaseKeys = redisUsers.GetAllKeys();
+                staircases = redisUsers.GetAll().ToList();
             }
-            else
-                return this;
         }
 
-        private List<String> StaircaseKeys
+        // Implement Singleton for this class
+        public static DBManager GetInstance()
+        {
+            if (dbManager == null)
+            {
+                dbManager = new DBManager();
+            }
+            return dbManager;
+        }
+
+        public List<String> StaircaseKeys
         {
             get { return staircaseKeys; }
         }
 
-        private List<Staircase> Staircases
+        public List<Staircase> Staircases
         {
             get { return staircases; }
         }
@@ -56,7 +66,9 @@ namespace SSRMToolDB
                 IRedisTypedClient<Staircase> redisUsers = redis.As<Staircase>();
                 redisUsers.GetAndSetValue(obj.StaircaseName,obj);
             }
+            this.UpdateLists();
         }
+
         public void DeleteStaircaseFromDB(Staircase obj)
         {
             using (redis)
@@ -64,6 +76,7 @@ namespace SSRMToolDB
                 IRedisTypedClient<Staircase> redisUsers = redis.As<Staircase>();
                 redisUsers.RemoveEntry(obj.StaircaseName);
             }
+            this.UpdateLists();
         }
 
         public void AddStaircaseInDB(Staircase obj)
@@ -73,7 +86,7 @@ namespace SSRMToolDB
                 IRedisTypedClient<Staircase> redisUsers = redis.As<Staircase>();
                 redisUsers.GetAndSetValue(obj.StaircaseName, obj);
             }
-
+            this.UpdateLists();
         }
 
        
