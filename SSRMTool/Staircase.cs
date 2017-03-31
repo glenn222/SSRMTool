@@ -111,7 +111,7 @@ namespace SSRMTool
                 {
                     if (i < dependent.Count - 2)
                     {
-                        step_function = "0.5*" + step + "(" + tc + "*(" + var + "-(" + X1.ToString() + ")))-" + step + "(" + tc + "*(" + var + "-(" + X2.ToString() + "))))";
+                        step_function = "0.5*(" + step + "(" + tc + "*(" + var + "-(" + X1.ToString() + ")))-" + step + "(" + tc + "*(" + var + "-(" + X2.ToString() + "))))";
                     }
                     else
                     {

@@ -28,10 +28,13 @@ namespace SSRMTool
         {
             double[,] NewImage = new double[10, 10];
             //for each point determine region and do following:
-            Regions[0].Function.Parameters["x"] = Image[0,0];
-            NewImage[0,0] = (double)Regions[0].Function.Evaluate();
+            NewImage[0,0] = DeviceMap.CalculatePixel(Regions[0].Function,Image[0,0],"x");
             return NewImage;
         }
-
+        public static double CalculatePixel(Expression f, double Measured, string var="x")
+        {
+            f.Parameters[var] = Measured;
+            return (double)f.Evaluate();
+        }
     }
 }
