@@ -55,8 +55,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DeviceMapUnitTests.cs" />
-    <Compile Include="StaircaseUnitTests.cs" />
+    <Compile Include="CalculationBlackbox.cs" />
+    <Compile Include="StaircaseWhitebox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
