@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSRMTool", "SSRMTool\SSRMTool.csproj", "{4C586994-84CA-4A09-B8EA-A9BAB6D71C82}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -17,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSRMToolUI.Tests", "SSRMToolUI.Tests\SSRMToolUI.Tests.csproj", "{11ABA959-CDEC-4EA0-AD47-4B624667F3C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSRMTool.Tests", "SSRMTool.Tests\SSRMTool.Tests.csproj", "{1087F058-12AF-488B-9A28-40F0E501E4CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSRMToolDB", "SSRMToolDB\SSRMToolDB.csproj", "{3EDA227E-7EC6-466F-AA9E-34758298523E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,22 @@ Global
 		{1087F058-12AF-488B-9A28-40F0E501E4CB}.Release|x64.Build.0 = Release|Any CPU
 		{1087F058-12AF-488B-9A28-40F0E501E4CB}.Release|x86.ActiveCfg = Release|Any CPU
 		{1087F058-12AF-488B-9A28-40F0E501E4CB}.Release|x86.Build.0 = Release|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Debug|x64.Build.0 = Debug|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Debug|x86.Build.0 = Debug|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Release|ARM.Build.0 = Release|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Release|x64.ActiveCfg = Release|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Release|x64.Build.0 = Release|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Release|x86.ActiveCfg = Release|Any CPU
+		{3EDA227E-7EC6-466F-AA9E-34758298523E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
