@@ -17,7 +17,7 @@ namespace SSRMToolUI
 
         private void btn_QuantifyDevices_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            QuantifyDeviceWindow.GetQuantifyDeviceInstance().Show();
         }
 
         private void btn_QuitProgram_Click(object sender, EventArgs e)
