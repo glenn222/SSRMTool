@@ -46,10 +46,10 @@ namespace SSRMToolUI
         {
             if (_formInstance == null || _formInstance.IsDisposed == true)
                 _formInstance = new OpenStaircaseDataWindow();
-
+            
             return _formInstance;
         }
-
+        
         private void DisplayStairCases()
         {
             // TODO:: Display staircase names from DB.
@@ -90,7 +90,7 @@ namespace SSRMToolUI
 
         private void TransitionToDefineStairCaseWindow()
         {
-            Hide();
+            this.Dispose();
             DefineStaircaseWindowForm.GetStairCaseInstance().Show();
         }
         
