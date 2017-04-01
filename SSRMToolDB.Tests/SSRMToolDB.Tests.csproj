@@ -53,6 +53,19 @@
     <Compile Include="DBManagerUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SSRMToolDB\SSRMToolDB.csproj">
+      <Project>{3eda227e-7ec6-466f-aa9e-34758298523e}</Project>
+      <Name>SSRMToolDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SSRMTool\SSRMTool.csproj">
+      <Project>{4c586994-84ca-4a09-b8ea-a9bab6d71c82}</Project>
+      <Name>SSRMTool</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
