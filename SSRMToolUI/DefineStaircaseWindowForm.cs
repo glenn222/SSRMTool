@@ -136,6 +136,8 @@ namespace SSRMToolUI
         {
             // TODO:: Populate all the values in the staircase
             ToggleComputeStairCaseButton();
+
+            dataGridView_StairCaseMeasurements.Rows.Clear();
             List<string> rowData = new List<string>();
 
             for( int i = 0; i < stairCase.LiteratureResistivity.Count; i++ )

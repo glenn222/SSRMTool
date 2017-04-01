@@ -12,7 +12,7 @@ namespace SSRMToolUI
         private static readonly string DATE_CREATED_COLUMN_NAME = "CreationDate";
 
         private static OpenStaircaseDataWindow _formInstance = null;
-        private IList<String> _fileNames;
+        private IList<String> _stairCaseNames;
         private IList<DateTime> _timeStamps;
         private Staircase _selectedStaircase;
         private DocumentManager _documentManager;
@@ -25,26 +25,47 @@ namespace SSRMToolUI
             QueryStaircases();
 
             // Display all staircases into the data table.
-            DisplayNames();
+            DisplayStairCases();
         }
 
-        private void DisplayNames()
+        private void dataGrdView_StairCaseTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var dataSenderGrid = (DataGridView)sender;
+
+            if (dataSenderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                var stairCase = FindStaircase(e.RowIndex);
+
+                DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(stairCase, e.RowIndex);
+
+                TransitionToDefineStairCaseWindow();
+            }
+        }
+
+        public static OpenStaircaseDataWindow GetInstance()
+        {
+            if (_formInstance == null || _formInstance.IsDisposed == true)
+                _formInstance = new OpenStaircaseDataWindow();
+
+            return _formInstance;
+        }
+
+        private void DisplayStairCases()
         {
             // TODO:: Display staircase names from DB.
-            for (int i = 0; i < _fileNames.Count; i++)
-                AddRow(_fileNames[i], _timeStamps[i].ToString());
+            for (int i = 0; i < _stairCaseNames.Count; i++)
+                AddRow(_stairCaseNames[i], _timeStamps[i].ToString());
         }
 
         private void QueryStaircases()
         {
             _documentManager = new DocumentManager();
             Dictionary<String, DateTime> nameTimeList = _documentManager.GetNameTimeList();
-            
-            _fileNames = new List<string>(nameTimeList.Keys);
+
+            _stairCaseNames = new List<string>(nameTimeList.Keys);
             _timeStamps = new List<DateTime>(nameTimeList.Values);
             
             // TODO:: Update the data grid table.
-            
         }
 
         private void AddRow(string stairCaseName, string recordDate)
@@ -55,37 +76,24 @@ namespace SSRMToolUI
             row.Cells[STAIRCASE_COLUMN_NAME].Value = stairCaseName;
             row.Cells[DATE_CREATED_COLUMN_NAME].Value = recordDate;
         }
-        
-        public static OpenStaircaseDataWindow GetInstance()
-        {
-            if (_formInstance == null || _formInstance.IsDisposed == true)
-                _formInstance = new OpenStaircaseDataWindow();
 
-            return _formInstance;
-        }
-
-        private void dataGrdView_StairCaseTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var dataSenderGrid = (DataGridView) sender;
-
-            if (dataSenderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
-            {
-                //TODO - Button Clicked - Execute Code Here
-                FindStaircase(e.RowIndex);
-            }
-        }
-
-        private void FindStaircase(int index)
+        private Staircase FindStaircase(int index)
         {
             var rowData = dataGrdView_StairCaseTable.Rows[index];
 
-            string stairCaseName = _fileNames[index];
+            string stairCaseName = _stairCaseNames[index];
 
             _selectedStaircase = _documentManager.queryStaircase(stairCaseName);
-            //TODO:: Find staircase object from DB.
-            DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(_selectedStaircase, index);
+
+            return _selectedStaircase;
         }
 
+        private void TransitionToDefineStairCaseWindow()
+        {
+            Hide();
+            DefineStaircaseWindowForm.GetStairCaseInstance().Show();
+        }
+        
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -93,8 +101,8 @@ namespace SSRMToolUI
             if (e.CloseReason == CloseReason.WindowsShutDown)
                 return;
 
-            Hide();
-            DefineStaircaseWindowForm.GetStairCaseInstance().Show();
+            TransitionToDefineStairCaseWindow();
         }
+
     }
 }
