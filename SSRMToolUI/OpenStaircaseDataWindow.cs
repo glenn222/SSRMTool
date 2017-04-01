@@ -14,8 +14,8 @@ namespace SSRMToolUI
         private static OpenStaircaseDataWindow _formInstance = null;
         private List<String> _fileNames;
         private List<DateTime> _timeStamps;
-        private string _selectedStaircase;
-        private DocumentManager _documentManager = new DocumentManager();
+        private Staircase _selectedStaircase;
+        private DocumentManager _documentManager;
 
         private OpenStaircaseDataWindow()
         {
@@ -31,6 +31,7 @@ namespace SSRMToolUI
         private void DisplayNames()
         {
             // TODO:: Display staircase names from DB.
+
             // Add mock rows
             for (int i = 0; i < 10; i++)
                 AddRow("New Staircase Name", "Date Here");
@@ -38,6 +39,7 @@ namespace SSRMToolUI
 
         private void QueryStaircases()
         {
+            _documentManager = new DocumentManager();
             Dictionary<String, DateTime> nameTimeList = _documentManager.GetNameTimeList();
             
             _fileNames = new List<string>(nameTimeList.Keys);
@@ -81,14 +83,20 @@ namespace SSRMToolUI
 
             string stairCaseName = _fileNames[index];
 
-            Staircase selectedStaircase = _documentManager.queryStaircase(stairCaseName);
+            _selectedStaircase = _documentManager.queryStaircase(stairCaseName);
             //TODO:: Find staircase object from DB.
-            DefineStaircaseWindowForm.PopulateStairCase(selectedStaircase);
+            DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(_selectedStaircase);
         }
-        
-        private void Close()
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Close form, hide x
+            base.OnFormClosing(e);
+
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+                return;
+
+            Hide();
+            DefineStaircaseWindowForm.GetStairCaseInstance().Show();
         }
     }
 }

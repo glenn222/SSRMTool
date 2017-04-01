@@ -80,6 +80,7 @@
             // btn_ComputeStaircase
             // 
             this.btn_ComputeStaircase.BackColor = System.Drawing.SystemColors.Info;
+            this.btn_ComputeStaircase.Enabled = false;
             this.btn_ComputeStaircase.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_ComputeStaircase.Location = new System.Drawing.Point(542, 408);
             this.btn_ComputeStaircase.Name = "btn_ComputeStaircase";
@@ -104,6 +105,7 @@
             // dataGridView_StairCaseMeasurements
             // 
             this.dataGridView_StairCaseMeasurements.AllowUserToAddRows = false;
+            this.dataGridView_StairCaseMeasurements.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.dataGridView_StairCaseMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_StairCaseMeasurements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Resistivity,
