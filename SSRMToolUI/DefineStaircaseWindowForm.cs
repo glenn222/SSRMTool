@@ -61,12 +61,12 @@ namespace SSRMToolUI
 
         private void btn_addRow_Click(object sender, EventArgs e)
         {
-            var fakeValues = new List<string>(STAIRCASE_TABLE_COLUMN_NAMES.Length);
+            var defaultRowValues = new List<string>(STAIRCASE_TABLE_COLUMN_NAMES.Length);
 
-            for (int i = 0; i < fakeValues.Capacity; i++)
-                fakeValues.Add("1"); //String.Empty;
+            for (int i = 0; i < defaultRowValues.Capacity; i++)
+                defaultRowValues.Add("1"); //String.Empty;
 
-            AddRow(fakeValues);
+            AddRow(defaultRowValues);
 
             ToggleComputeStairCaseButton();
         }
@@ -92,6 +92,11 @@ namespace SSRMToolUI
 
         private void btn_ComputeStaircase_Click(object sender, EventArgs e)
         {
+            if (txtField_StairCaseName.Text.Equals(string.Empty) || txtField_StairCaseName.Text == null) {
+                MessageBox.Show("Please enter a name for the staircase");
+                return;
+            }
+
             Staircase stairCase = CreateStaircaseFromInputs();
 
             bool isStairCaseDefined = DefineStaircase(ref stairCase);
@@ -103,20 +108,17 @@ namespace SSRMToolUI
                 btn_SaveStairCase.Enabled = true;
                 _currentStairCase = stairCase;
                 _textAreaOutputLogger.AppendLine(StringConstants.COMPUTE_STATUS_LABEL + "Success");
+                UpdateFunctionLabels();
             }
             else
                 _textAreaOutputLogger.AppendLine(StringConstants.COMPUTE_STATUS_LABEL + "Failed");
-            
-            UpdateFunctionLabels();
         }
 
         private void UpdateFunctionLabels()
         {
-            // TODO:: Update labels to show functions
-            _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABEL_1, _functions[0]));
-            _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABEL_2, _functions[1]));
-            _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABEL_3, _functions[2]));
-            _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABEL_4 + _functions[3]));
+            for( int i = 0; i < StringConstants.FUNCTION_LABELS.Count; i++ )
+                _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABELS[i], _functions[i]));
+
             TxtArea_StairCaseOutput.Text = _textAreaOutputLogger.ToString();
 
             _textAreaOutputLogger.Clear();
@@ -261,6 +263,5 @@ namespace SSRMToolUI
             else
                 btn_ComputeStaircase.Enabled = false;
         }
-
     }
 }
