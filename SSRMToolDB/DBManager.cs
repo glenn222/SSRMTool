@@ -41,7 +41,7 @@ namespace SSRMToolDB
             {
                 IRedisTypedClient<Staircase> redisUsers = redis.As<Staircase>();
                 staircaseKeys = redisUsers.GetAllKeys();
-                IList<Staircase> staircasesTest = redisUsers.GetAll();
+                staircases = redisUsers.GetValues(staircaseKeys.ToList());
             }
         }
 
@@ -51,10 +51,12 @@ namespace SSRMToolDB
             if (dbManager == null)
             {
                 dbManager = new DBManager();
-            }
+            }else
+                dbManager.UpdateLists();
+
             return dbManager;
         }
-
+        
         public List<String> StaircaseKeys
         {
             get { return staircaseKeys; }
