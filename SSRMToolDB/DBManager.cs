@@ -18,6 +18,11 @@ namespace SSRMToolDB
         private List<String> staircaseKeys;
         private List<Staircase> staircases;
 
+        // TODO:: Check for adding or modifying 
+        // TODO:: Modify date time for existing staircases (Date Created)
+        // TODO:: Verify getting all staircases 
+        // TODO:: Write and Query
+
         private DBManager()
         {
             redis = new RedisClient();
@@ -35,7 +40,7 @@ namespace SSRMToolDB
             {
                 IRedisTypedClient<Staircase> redisUsers = redis.As<Staircase>();
                 staircaseKeys = redisUsers.GetAllKeys();
-                staircases = redisUsers.GetAll().ToList();
+                IList<Staircase> staircasesTest = redisUsers.GetAll();
             }
         }
 
