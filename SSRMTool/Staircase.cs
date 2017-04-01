@@ -11,16 +11,16 @@ namespace SSRMTool
     public class Staircase
     {
         //Member objects defining staircase
-        private int StaircaseID;
-        public List<double> LiteratureResistivity;
-        public List<double> LiteratureCarriers;
-        public string StaircaseName;
-        public string StaircaseDescription;
-        public string StaircaseMaterial;
-        public List<Measurement> MeasuredData;
-        public List<String> Functions;
-        public DateTime DateCreated;
-        public DateTime DateModified;
+        private int StaircaseID { get; set; }
+        public List<double> LiteratureResistivity { get; set; }
+        public List<double> LiteratureCarriers { get; set; }
+        public string StaircaseName { get; set; }
+        public string StaircaseDescription { get; set; }
+        public string StaircaseMaterial { get; set; }
+        public List<Measurement> MeasuredData { get; set; }
+        public List<String> Functions { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateModified { get; set; }
 
         //Constructor
         public Staircase(int id, string name, string description, string material)

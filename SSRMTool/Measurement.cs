@@ -10,13 +10,13 @@ namespace SSRMTool
 {
     public class Measurement
     {
-        public int ID;
-        public string Tip;
-        public string Date;
-        public string Description;
-        public Expression[] Functions;
-        public List<double> Resistance;
-        public List<double> ResistanceAmplitude;
+        public int ID { get; set; }
+        public string Tip { get; set; }
+        public string Date { get; set; }
+        public string Description { get; set; }
+        public Expression[] Functions { get; set; }
+        public List<double> Resistance { get; set; }
+        public List<double> ResistanceAmplitude { get; set; }
 
         public Measurement(string tip, string date, string description, List<double> R, List<double> dR)
         {

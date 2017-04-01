@@ -55,14 +55,12 @@ namespace SSRMToolUI
 
         private void btn_OpenStaircases_Click(object sender, EventArgs e)
         {
-            // TODO: Hide form and show staircase window
             Hide();
             OpenStaircaseDataWindow.GetInstance().Show();
         }
 
         private void btn_addRow_Click(object sender, EventArgs e)
         {
-            //TODO:: Get values from column cells
             var fakeValues = new List<string>(STAIRCASE_TABLE_COLUMN_NAMES.Length);
 
             for (int i = 0; i < fakeValues.Capacity; i++)
@@ -134,20 +132,21 @@ namespace SSRMToolUI
         }
 
         // Populates the staircase values when a user selects a staircase.
-        internal void PopulateStairCase(Staircase stairCase)
+        internal void PopulateStairCase(Staircase stairCase, int measurementIndex)
         {
             // TODO:: Populate all the values in the staircase
             ToggleComputeStairCaseButton();
+            List<string> rowData = new List<string>();
 
-            //AddRow(stairCase.LiteratureResistivity);
-
-            /*StringBuilder rowBuilder = new StringBuilder();
-            foreach( var cell in rowData.Cells )
+            for( int i = 0; i < stairCase.LiteratureResistivity.Count; i++ )
             {
-                rowBuilder.Append(String.Format("Cell: {0} \n", cell));
+                rowData.Add(stairCase.LiteratureResistivity[i].ToString());
+                rowData.Add(stairCase.LiteratureCarriers[i].ToString());
+                rowData.Add(stairCase.Measurements[0].Resistance[i].ToString());
+                rowData.Add(stairCase.Measurements[0].ResistanceAmplitude[i].ToString());
+                AddRow(rowData);
+                rowData.Clear();
             }
-            
-            MessageBox.Show(rowBuilder.ToString());*/
         }
 
         private bool DefineStaircase(ref Staircase stairCase)

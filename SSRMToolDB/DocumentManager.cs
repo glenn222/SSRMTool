@@ -15,6 +15,8 @@ namespace SSRMToolDB
 
         public DocumentManager()
         {
+            list = new Dictionary<string, Staircase>();
+            // Need to update staircases here
             dbManager = DBManager.GetInstance();
             staircases = dbManager.Staircases;
             foreach (Staircase st in staircases)

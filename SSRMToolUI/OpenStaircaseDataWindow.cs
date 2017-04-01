@@ -12,8 +12,8 @@ namespace SSRMToolUI
         private static readonly string DATE_CREATED_COLUMN_NAME = "CreationDate";
 
         private static OpenStaircaseDataWindow _formInstance = null;
-        private List<String> _fileNames;
-        private List<DateTime> _timeStamps;
+        private IList<String> _fileNames;
+        private IList<DateTime> _timeStamps;
         private Staircase _selectedStaircase;
         private DocumentManager _documentManager;
 
@@ -31,10 +31,8 @@ namespace SSRMToolUI
         private void DisplayNames()
         {
             // TODO:: Display staircase names from DB.
-
-            // Add mock rows
-            for (int i = 0; i < 10; i++)
-                AddRow("New Staircase Name", "Date Here");
+            for (int i = 0; i < _fileNames.Count; i++)
+                AddRow(_fileNames[i], _timeStamps[i].ToString());
         }
 
         private void QueryStaircases()
@@ -85,7 +83,7 @@ namespace SSRMToolUI
 
             _selectedStaircase = _documentManager.queryStaircase(stairCaseName);
             //TODO:: Find staircase object from DB.
-            DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(_selectedStaircase);
+            DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(_selectedStaircase, index);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
