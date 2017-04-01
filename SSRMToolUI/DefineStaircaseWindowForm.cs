@@ -13,6 +13,7 @@ namespace SSRMToolUI
         private static DefineStaircaseWindowForm _staircaseInstance = null;
         private List<string> _functions;
         private Staircase _currentStairCase;
+        private StringBuilder _textAreaOutputLogger = new StringBuilder();
 
         private static readonly string RESISTIVITY_COLUMN_NAME = "Resistivity";
         private static readonly string RESISTIVITY_UNITS_COLUMN_NAME = "ResistivityUnits";
@@ -122,25 +123,30 @@ namespace SSRMToolUI
 
             bool isStairCaseDefined = DefineStaircase(ref stairCase);
 
+            TxtArea_StairCaseOutput.Clear();
+
             if (isStairCaseDefined)
             {
                 btn_SaveStairCase.Enabled = true;
                 _currentStairCase = stairCase;
-                lbl_ComputeStairCase.Text += " Success";
+                _textAreaOutputLogger.AppendLine(StringConstants.COMPUTE_STATUS_LABEL + "Success");
             }
             else
-                lbl_ComputeStairCase.Text += " Failed";
-
+                _textAreaOutputLogger.AppendLine(StringConstants.COMPUTE_STATUS_LABEL + "Failed");
+            
             UpdateFunctionLabels();
         }
 
         private void UpdateFunctionLabels()
         {
             // TODO:: Update labels to show functions
-            lbl_Resistivity_Resistance_Function.Text = StringConstants.FUNCTION_LABEL_1 + _functions[0];
-            lbl_Resistivity_dR_Function.Text = StringConstants.FUNCTION_LABEL_2 + _functions[1];
-            lbl_Dopants_R_Function.Text = StringConstants.FUNCTION_LABEL_3 + _functions[2];
-            lbl_Dopants_dR_Function.Text = StringConstants.FUNCTION_LABEL_4 + _functions[3];
+            _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABEL_1, _functions[0]));
+            _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABEL_2, _functions[1]));
+            _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABEL_3, _functions[2]));
+            _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABEL_4 + _functions[3]));
+            TxtArea_StairCaseOutput.Text = _textAreaOutputLogger.ToString();
+
+            _textAreaOutputLogger.Clear();
         }
 
         private bool DefineStaircase(ref Staircase stairCase)

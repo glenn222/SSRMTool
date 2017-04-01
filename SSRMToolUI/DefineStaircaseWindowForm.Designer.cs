@@ -51,11 +51,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtField_StairCaseMaterial = new System.Windows.Forms.TextBox();
-            this.lbl_ComputeStairCase = new System.Windows.Forms.Label();
-            this.lbl_Resistivity_Resistance_Function = new System.Windows.Forms.Label();
-            this.lbl_Dopants_R_Function = new System.Windows.Forms.Label();
-            this.lbl_Dopants_dR_Function = new System.Windows.Forms.Label();
-            this.lbl_Resistivity_dR_Function = new System.Windows.Forms.Label();
+            this.TxtArea_StairCaseOutput = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_StairCaseMeasurements)).BeginInit();
             this.SuspendLayout();
             // 
@@ -269,55 +265,17 @@
             this.txtField_StairCaseMaterial.Size = new System.Drawing.Size(217, 26);
             this.txtField_StairCaseMaterial.TabIndex = 15;
             // 
-            // lbl_ComputeStairCase
+            // TxtArea_StairCaseOutput
             // 
-            this.lbl_ComputeStairCase.AutoSize = true;
-            this.lbl_ComputeStairCase.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_ComputeStairCase.Location = new System.Drawing.Point(34, 463);
-            this.lbl_ComputeStairCase.Name = "lbl_ComputeStairCase";
-            this.lbl_ComputeStairCase.Size = new System.Drawing.Size(130, 18);
-            this.lbl_ComputeStairCase.TabIndex = 17;
-            this.lbl_ComputeStairCase.Text = "Compute Status:";
-            // 
-            // lbl_Resistivity_Resistance_Function
-            // 
-            this.lbl_Resistivity_Resistance_Function.AutoSize = true;
-            this.lbl_Resistivity_Resistance_Function.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Resistivity_Resistance_Function.Location = new System.Drawing.Point(34, 494);
-            this.lbl_Resistivity_Resistance_Function.Name = "lbl_Resistivity_Resistance_Function";
-            this.lbl_Resistivity_Resistance_Function.Size = new System.Drawing.Size(297, 18);
-            this.lbl_Resistivity_Resistance_Function.TabIndex = 18;
-            this.lbl_Resistivity_Resistance_Function.Text = "Resistivity vs Resistance (R) Function:";
-            // 
-            // lbl_Dopants_R_Function
-            // 
-            this.lbl_Dopants_R_Function.AutoSize = true;
-            this.lbl_Dopants_R_Function.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Dopants_R_Function.Location = new System.Drawing.Point(34, 566);
-            this.lbl_Dopants_R_Function.Name = "lbl_Dopants_R_Function";
-            this.lbl_Dopants_R_Function.Size = new System.Drawing.Size(281, 18);
-            this.lbl_Dopants_R_Function.TabIndex = 20;
-            this.lbl_Dopants_R_Function.Text = "Dopants vs Resistance (R) Function:";
-            // 
-            // lbl_Dopants_dR_Function
-            // 
-            this.lbl_Dopants_dR_Function.AutoSize = true;
-            this.lbl_Dopants_dR_Function.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Dopants_dR_Function.Location = new System.Drawing.Point(34, 603);
-            this.lbl_Dopants_dR_Function.Name = "lbl_Dopants_dR_Function";
-            this.lbl_Dopants_dR_Function.Size = new System.Drawing.Size(380, 18);
-            this.lbl_Dopants_dR_Function.TabIndex = 21;
-            this.lbl_Dopants_dR_Function.Text = "Dopants vs Resistance Amplitude (dR) Function: ";
-            // 
-            // lbl_Resistivity_dR_Function
-            // 
-            this.lbl_Resistivity_dR_Function.AutoSize = true;
-            this.lbl_Resistivity_dR_Function.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Resistivity_dR_Function.Location = new System.Drawing.Point(34, 530);
-            this.lbl_Resistivity_dR_Function.Name = "lbl_Resistivity_dR_Function";
-            this.lbl_Resistivity_dR_Function.Size = new System.Drawing.Size(391, 18);
-            this.lbl_Resistivity_dR_Function.TabIndex = 22;
-            this.lbl_Resistivity_dR_Function.Text = "Resistivity vs Resistance Amplitude (dR) Function:";
+            this.TxtArea_StairCaseOutput.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.TxtArea_StairCaseOutput.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtArea_StairCaseOutput.Location = new System.Drawing.Point(25, 448);
+            this.TxtArea_StairCaseOutput.Margin = new System.Windows.Forms.Padding(2);
+            this.TxtArea_StairCaseOutput.Name = "TxtArea_StairCaseOutput";
+            this.TxtArea_StairCaseOutput.ReadOnly = true;
+            this.TxtArea_StairCaseOutput.Size = new System.Drawing.Size(683, 189);
+            this.TxtArea_StairCaseOutput.TabIndex = 23;
+            this.TxtArea_StairCaseOutput.Text = "";
             // 
             // DefineStaircaseWindowForm
             // 
@@ -325,11 +283,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(728, 689);
-            this.Controls.Add(this.lbl_Resistivity_dR_Function);
-            this.Controls.Add(this.lbl_Dopants_dR_Function);
-            this.Controls.Add(this.lbl_Dopants_R_Function);
-            this.Controls.Add(this.lbl_Resistivity_Resistance_Function);
-            this.Controls.Add(this.lbl_ComputeStairCase);
+            this.Controls.Add(this.TxtArea_StairCaseOutput);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtField_StairCaseMaterial);
             this.Controls.Add(this.label3);
@@ -378,11 +332,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtField_StairCaseMaterial;
-        private System.Windows.Forms.Label lbl_ComputeStairCase;
-        private System.Windows.Forms.Label lbl_Resistivity_Resistance_Function;
-        private System.Windows.Forms.Label lbl_Dopants_R_Function;
-        private System.Windows.Forms.Label lbl_Dopants_dR_Function;
-        private System.Windows.Forms.Label lbl_Resistivity_dR_Function;
+        private System.Windows.Forms.RichTextBox TxtArea_StairCaseOutput;
     }
 }
 
