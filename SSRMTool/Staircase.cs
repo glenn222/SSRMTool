@@ -18,6 +18,7 @@ namespace SSRMTool
         public string StaircaseDescription;
         public string StaircaseMaterial;
         public List<Measurement> MeasuredData;
+        public List<String> Functions;
         public DateTime DateCreated;
         public DateTime DateModified;
 
@@ -57,17 +58,17 @@ namespace SSRMTool
                 this.MeasuredData = value;
             }
         }
-        public bool AddMeas(string tip, string date, string description, List<double> R, List<double> dR)
+        public int AddMeas(string tip, string date, string description, List<double> R, List<double> dR)
         {
             if (R.Count==dR.Count && R.Count == LiteratureResistivity.Count)
             {
                 Measurement NewMeas = new Measurement(tip, date, description, R, dR);
                 MeasuredData.Add(NewMeas);
-                return true;
+                return MeasuredData.Count-1;
             }
             else
             {
-                return false;
+                return -1;
             }
         }
         //Create fit functions
@@ -79,10 +80,17 @@ namespace SSRMTool
             }
             else
             {
-                MeasuredData[index].Functions[0] = new Expression(Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureResistivity));
-                MeasuredData[index].Functions[1] = new Expression(Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureCarriers));
-                MeasuredData[index].Functions[2] = new Expression(Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureResistivity));
-                MeasuredData[index].Functions[3] = new Expression(Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureCarriers));
+
+                // TODO:: Store the function strings
+                Functions = new List<string>();
+                
+                Functions.Add(Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureResistivity));
+                Functions.Add(Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureCarriers));
+                Functions.Add(Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureResistivity));
+                Functions.Add(Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureCarriers));
+
+                for ( int i = 0; i < Functions.Count; i++ )
+                    MeasuredData[index].Functions[i] = new Expression(Functions[i]);
             }
         }
         public static string PiecewiseFit(List<double> independent, List<double> dependent, string var="[x]", string tc="1e6", string step="(2/3.14159265359)*Atan", string exp="Exp")

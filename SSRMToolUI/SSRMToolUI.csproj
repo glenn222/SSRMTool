@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External Dependencies\NCalc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,6 +76,7 @@
     <Compile Include="QuantifyDeviceWindow.Designer.cs">
       <DependentUpon>QuantifyDeviceWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="StringConstants.cs" />
     <EmbeddedResource Include="DefineStaircaseWindowForm.resx">
       <DependentUpon>DefineStaircaseWindowForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,6 +115,16 @@
     <Content Include="turtle island.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SSRMToolDB\SSRMToolDB.csproj">
+      <Project>{3eda227e-7ec6-466f-aa9e-34758298523e}</Project>
+      <Name>SSRMToolDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SSRMTool\SSRMTool.csproj">
+      <Project>{4c586994-84ca-4a09-b8ea-a9bab6d71c82}</Project>
+      <Name>SSRMTool</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

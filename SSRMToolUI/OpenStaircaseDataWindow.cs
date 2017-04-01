@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SSRMTool;
+using SSRMToolDB;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -10,9 +12,10 @@ namespace SSRMToolUI
         private static readonly string DATE_CREATED_COLUMN_NAME = "CreationDate";
 
         private static OpenStaircaseDataWindow _formInstance = null;
-        private List<string> _fileNames;
+        private List<String> _fileNames;
         private List<DateTime> _timeStamps;
         private string _selectedStaircase;
+        private DocumentManager _documentManager = new DocumentManager();
 
         private OpenStaircaseDataWindow()
         {
@@ -26,7 +29,7 @@ namespace SSRMToolUI
         }
 
         private void DisplayNames()
-        {   
+        {
             // TODO:: Display staircase names from DB.
             // Add mock rows
             for (int i = 0; i < 10; i++)
@@ -35,20 +38,20 @@ namespace SSRMToolUI
 
         private void QueryStaircases()
         {
-            // TODO:: Connect to Redis database
-
-            // TODO:: Use database manager to get staircase list
-
-            _fileNames = new List<string>(10);
-            _timeStamps = new List<DateTime>(10);
-
-            //throw new NotImplementedException();
+            Dictionary<String, DateTime> nameTimeList = _documentManager.GetNameTimeList();
+            
+            _fileNames = new List<string>(nameTimeList.Keys);
+            _timeStamps = new List<DateTime>(nameTimeList.Values);
+            
+            // TODO:: Update the data grid table.
+            
         }
 
         private void AddRow(string stairCaseName, string recordDate)
         {
             int index = dataGrdView_StairCaseTable.Rows.Add();
             var row = dataGrdView_StairCaseTable.Rows[index];
+
             row.Cells[STAIRCASE_COLUMN_NAME].Value = stairCaseName;
             row.Cells[DATE_CREATED_COLUMN_NAME].Value = recordDate;
         }
@@ -76,9 +79,16 @@ namespace SSRMToolUI
         {
             var rowData = dataGrdView_StairCaseTable.Rows[index];
 
+            string stairCaseName = _fileNames[index];
+
+            Staircase selectedStaircase = _documentManager.queryStaircase(stairCaseName);
             //TODO:: Find staircase object from DB.
-            MessageBox.Show(String.Format("You clicked button on row {0}!", index));
-            DefineStaircaseWindowForm.PopulateStairCase(rowData);
+            DefineStaircaseWindowForm.PopulateStairCase(selectedStaircase);
+        }
+        
+        private void Close()
+        {
+            // Close form, hide x
         }
     }
 }

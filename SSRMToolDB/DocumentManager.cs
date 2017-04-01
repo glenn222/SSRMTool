@@ -7,7 +7,7 @@ using SSRMTool;
 
 namespace SSRMToolDB
 {
-    class DocumentManager
+    public class DocumentManager
     {
         private DBManager dbManager;
         public List<Staircase> staircases;

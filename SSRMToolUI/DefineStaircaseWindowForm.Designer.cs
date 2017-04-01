@@ -30,7 +30,7 @@
         {
             this.lbl_DefineStaircase = new System.Windows.Forms.Label();
             this.btn_addRow = new System.Windows.Forms.Button();
-            this.btn_CreateStaircase = new System.Windows.Forms.Button();
+            this.btn_ComputeStaircase = new System.Windows.Forms.Button();
             this.btn_OpenStaircases = new System.Windows.Forms.Button();
             this.dataGridView_StairCaseMeasurements = new System.Windows.Forms.DataGridView();
             this.Resistivity = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,6 +47,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btn_SaveStairCase = new System.Windows.Forms.Button();
             this.btn_deleteRow = new System.Windows.Forms.Button();
+            this.txtField_StairCaseDescription = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtField_StairCaseMaterial = new System.Windows.Forms.TextBox();
+            this.lbl_ComputeStairCase = new System.Windows.Forms.Label();
+            this.lbl_Resistivity_Resistance_Function = new System.Windows.Forms.Label();
+            this.lbl_Dopants_R_Function = new System.Windows.Forms.Label();
+            this.lbl_Dopants_dR_Function = new System.Windows.Forms.Label();
+            this.lbl_Resistivity_dR_Function = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_StairCaseMeasurements)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,7 +73,7 @@
             // 
             this.btn_addRow.BackColor = System.Drawing.SystemColors.Info;
             this.btn_addRow.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_addRow.Location = new System.Drawing.Point(25, 362);
+            this.btn_addRow.Location = new System.Drawing.Point(25, 408);
             this.btn_addRow.Name = "btn_addRow";
             this.btn_addRow.Size = new System.Drawing.Size(144, 35);
             this.btn_addRow.TabIndex = 2;
@@ -72,16 +81,17 @@
             this.btn_addRow.UseVisualStyleBackColor = false;
             this.btn_addRow.Click += new System.EventHandler(this.btn_addRow_Click);
             // 
-            // btn_CreateStaircase
+            // btn_ComputeStaircase
             // 
-            this.btn_CreateStaircase.BackColor = System.Drawing.SystemColors.Info;
-            this.btn_CreateStaircase.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_CreateStaircase.Location = new System.Drawing.Point(564, 362);
-            this.btn_CreateStaircase.Name = "btn_CreateStaircase";
-            this.btn_CreateStaircase.Size = new System.Drawing.Size(144, 35);
-            this.btn_CreateStaircase.TabIndex = 3;
-            this.btn_CreateStaircase.Text = "Create Staircase";
-            this.btn_CreateStaircase.UseVisualStyleBackColor = false;
+            this.btn_ComputeStaircase.BackColor = System.Drawing.SystemColors.Info;
+            this.btn_ComputeStaircase.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_ComputeStaircase.Location = new System.Drawing.Point(542, 408);
+            this.btn_ComputeStaircase.Name = "btn_ComputeStaircase";
+            this.btn_ComputeStaircase.Size = new System.Drawing.Size(166, 35);
+            this.btn_ComputeStaircase.TabIndex = 3;
+            this.btn_ComputeStaircase.Text = "Compute Staircase";
+            this.btn_ComputeStaircase.UseVisualStyleBackColor = false;
+            this.btn_ComputeStaircase.Click += new System.EventHandler(this.btn_ComputeStaircase_Click);
             // 
             // btn_OpenStaircases
             // 
@@ -97,6 +107,7 @@
             // 
             // dataGridView_StairCaseMeasurements
             // 
+            this.dataGridView_StairCaseMeasurements.AllowUserToAddRows = false;
             this.dataGridView_StairCaseMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_StairCaseMeasurements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Resistivity,
@@ -107,7 +118,7 @@
             this.ResistanceUnits,
             this.ResistanceAmplitude,
             this.ResistanceAmplitudeUnits});
-            this.dataGridView_StairCaseMeasurements.Location = new System.Drawing.Point(25, 169);
+            this.dataGridView_StairCaseMeasurements.Location = new System.Drawing.Point(25, 216);
             this.dataGridView_StairCaseMeasurements.Name = "dataGridView_StairCaseMeasurements";
             this.dataGridView_StairCaseMeasurements.Size = new System.Drawing.Size(683, 187);
             this.dataGridView_StairCaseMeasurements.TabIndex = 6;
@@ -172,19 +183,19 @@
             // 
             // txtField_StairCaseName
             // 
-            this.txtField_StairCaseName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtField_StairCaseName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtField_StairCaseName.Location = new System.Drawing.Point(25, 130);
             this.txtField_StairCaseName.Name = "txtField_StairCaseName";
-            this.txtField_StairCaseName.Size = new System.Drawing.Size(198, 31);
+            this.txtField_StairCaseName.Size = new System.Drawing.Size(198, 26);
             this.txtField_StairCaseName.TabIndex = 8;
             // 
             // dropdown_StairCaseMeasurements
             // 
-            this.dropdown_StairCaseMeasurements.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dropdown_StairCaseMeasurements.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropdown_StairCaseMeasurements.FormattingEnabled = true;
             this.dropdown_StairCaseMeasurements.Location = new System.Drawing.Point(491, 130);
             this.dropdown_StairCaseMeasurements.Name = "dropdown_StairCaseMeasurements";
-            this.dropdown_StairCaseMeasurements.Size = new System.Drawing.Size(217, 33);
+            this.dropdown_StairCaseMeasurements.Size = new System.Drawing.Size(217, 28);
             this.dropdown_StairCaseMeasurements.TabIndex = 9;
             // 
             // label2
@@ -200,8 +211,9 @@
             // btn_SaveStairCase
             // 
             this.btn_SaveStairCase.BackColor = System.Drawing.SystemColors.Info;
+            this.btn_SaveStairCase.Enabled = false;
             this.btn_SaveStairCase.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SaveStairCase.Location = new System.Drawing.Point(413, 362);
+            this.btn_SaveStairCase.Location = new System.Drawing.Point(564, 642);
             this.btn_SaveStairCase.Name = "btn_SaveStairCase";
             this.btn_SaveStairCase.Size = new System.Drawing.Size(144, 35);
             this.btn_SaveStairCase.TabIndex = 11;
@@ -213,7 +225,7 @@
             // 
             this.btn_deleteRow.BackColor = System.Drawing.SystemColors.Info;
             this.btn_deleteRow.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_deleteRow.Location = new System.Drawing.Point(175, 362);
+            this.btn_deleteRow.Location = new System.Drawing.Point(175, 408);
             this.btn_deleteRow.Name = "btn_deleteRow";
             this.btn_deleteRow.Size = new System.Drawing.Size(165, 35);
             this.btn_deleteRow.TabIndex = 12;
@@ -221,12 +233,107 @@
             this.btn_deleteRow.UseVisualStyleBackColor = false;
             this.btn_deleteRow.Click += new System.EventHandler(this.btn_deleteRow_Click);
             // 
+            // txtField_StairCaseDescription
+            // 
+            this.txtField_StairCaseDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtField_StairCaseDescription.Location = new System.Drawing.Point(25, 182);
+            this.txtField_StairCaseDescription.Name = "txtField_StairCaseDescription";
+            this.txtField_StairCaseDescription.Size = new System.Drawing.Size(198, 26);
+            this.txtField_StairCaseDescription.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(22, 164);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(95, 18);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Description";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(488, 164);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(68, 18);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Material";
+            // 
+            // txtField_StairCaseMaterial
+            // 
+            this.txtField_StairCaseMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtField_StairCaseMaterial.Location = new System.Drawing.Point(491, 182);
+            this.txtField_StairCaseMaterial.Name = "txtField_StairCaseMaterial";
+            this.txtField_StairCaseMaterial.Size = new System.Drawing.Size(217, 26);
+            this.txtField_StairCaseMaterial.TabIndex = 15;
+            // 
+            // lbl_ComputeStairCase
+            // 
+            this.lbl_ComputeStairCase.AutoSize = true;
+            this.lbl_ComputeStairCase.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_ComputeStairCase.Location = new System.Drawing.Point(34, 463);
+            this.lbl_ComputeStairCase.Name = "lbl_ComputeStairCase";
+            this.lbl_ComputeStairCase.Size = new System.Drawing.Size(130, 18);
+            this.lbl_ComputeStairCase.TabIndex = 17;
+            this.lbl_ComputeStairCase.Text = "Compute Status:";
+            // 
+            // lbl_Resistivity_Resistance_Function
+            // 
+            this.lbl_Resistivity_Resistance_Function.AutoSize = true;
+            this.lbl_Resistivity_Resistance_Function.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Resistivity_Resistance_Function.Location = new System.Drawing.Point(34, 494);
+            this.lbl_Resistivity_Resistance_Function.Name = "lbl_Resistivity_Resistance_Function";
+            this.lbl_Resistivity_Resistance_Function.Size = new System.Drawing.Size(297, 18);
+            this.lbl_Resistivity_Resistance_Function.TabIndex = 18;
+            this.lbl_Resistivity_Resistance_Function.Text = "Resistivity vs Resistance (R) Function:";
+            // 
+            // lbl_Dopants_R_Function
+            // 
+            this.lbl_Dopants_R_Function.AutoSize = true;
+            this.lbl_Dopants_R_Function.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Dopants_R_Function.Location = new System.Drawing.Point(34, 566);
+            this.lbl_Dopants_R_Function.Name = "lbl_Dopants_R_Function";
+            this.lbl_Dopants_R_Function.Size = new System.Drawing.Size(281, 18);
+            this.lbl_Dopants_R_Function.TabIndex = 20;
+            this.lbl_Dopants_R_Function.Text = "Dopants vs Resistance (R) Function:";
+            // 
+            // lbl_Dopants_dR_Function
+            // 
+            this.lbl_Dopants_dR_Function.AutoSize = true;
+            this.lbl_Dopants_dR_Function.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Dopants_dR_Function.Location = new System.Drawing.Point(34, 603);
+            this.lbl_Dopants_dR_Function.Name = "lbl_Dopants_dR_Function";
+            this.lbl_Dopants_dR_Function.Size = new System.Drawing.Size(380, 18);
+            this.lbl_Dopants_dR_Function.TabIndex = 21;
+            this.lbl_Dopants_dR_Function.Text = "Dopants vs Resistance Amplitude (dR) Function: ";
+            // 
+            // lbl_Resistivity_dR_Function
+            // 
+            this.lbl_Resistivity_dR_Function.AutoSize = true;
+            this.lbl_Resistivity_dR_Function.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Resistivity_dR_Function.Location = new System.Drawing.Point(34, 530);
+            this.lbl_Resistivity_dR_Function.Name = "lbl_Resistivity_dR_Function";
+            this.lbl_Resistivity_dR_Function.Size = new System.Drawing.Size(391, 18);
+            this.lbl_Resistivity_dR_Function.TabIndex = 22;
+            this.lbl_Resistivity_dR_Function.Text = "Resistivity vs Resistance Amplitude (dR) Function:";
+            // 
             // DefineStaircaseWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(723, 447);
+            this.ClientSize = new System.Drawing.Size(728, 689);
+            this.Controls.Add(this.lbl_Resistivity_dR_Function);
+            this.Controls.Add(this.lbl_Dopants_dR_Function);
+            this.Controls.Add(this.lbl_Dopants_R_Function);
+            this.Controls.Add(this.lbl_Resistivity_Resistance_Function);
+            this.Controls.Add(this.lbl_ComputeStairCase);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtField_StairCaseMaterial);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtField_StairCaseDescription);
             this.Controls.Add(this.btn_deleteRow);
             this.Controls.Add(this.btn_SaveStairCase);
             this.Controls.Add(this.label2);
@@ -235,7 +342,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView_StairCaseMeasurements);
             this.Controls.Add(this.btn_OpenStaircases);
-            this.Controls.Add(this.btn_CreateStaircase);
+            this.Controls.Add(this.btn_ComputeStaircase);
             this.Controls.Add(this.btn_addRow);
             this.Controls.Add(this.lbl_DefineStaircase);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -250,7 +357,7 @@
         #endregion
         private System.Windows.Forms.Label lbl_DefineStaircase;
         private System.Windows.Forms.Button btn_addRow;
-        private System.Windows.Forms.Button btn_CreateStaircase;
+        private System.Windows.Forms.Button btn_ComputeStaircase;
         private System.Windows.Forms.Button btn_OpenStaircases;
         private System.Windows.Forms.DataGridView dataGridView_StairCaseMeasurements;
         private System.Windows.Forms.DataGridViewTextBoxColumn Resistivity;
@@ -267,6 +374,15 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_SaveStairCase;
         private System.Windows.Forms.Button btn_deleteRow;
+        private System.Windows.Forms.TextBox txtField_StairCaseDescription;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtField_StairCaseMaterial;
+        private System.Windows.Forms.Label lbl_ComputeStairCase;
+        private System.Windows.Forms.Label lbl_Resistivity_Resistance_Function;
+        private System.Windows.Forms.Label lbl_Dopants_R_Function;
+        private System.Windows.Forms.Label lbl_Dopants_dR_Function;
+        private System.Windows.Forms.Label lbl_Resistivity_dR_Function;
     }
 }
 

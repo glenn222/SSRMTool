@@ -1,12 +1,19 @@
-﻿using System;
+﻿using SSRMTool;
+using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using SSRMToolDB;
+using NCalc;
 
 namespace SSRMToolUI
 {
     public partial class DefineStaircaseWindowForm : Form
     {
         private static DefineStaircaseWindowForm _staircaseInstance = null;
+        private List<string> _functions;
+        private Staircase _currentStairCase;
+
         private static readonly string RESISTIVITY_COLUMN_NAME = "Resistivity";
         private static readonly string RESISTIVITY_UNITS_COLUMN_NAME = "ResistivityUnits";
         private static readonly string DOPANTS_COLUMN_NAME = "Dopants";
@@ -47,29 +54,35 @@ namespace SSRMToolUI
 
         private void btn_OpenStaircases_Click(object sender, EventArgs e)
         {
+            // TODO: Hide form and show staircase window
+            Hide();
             OpenStaircaseDataWindow.GetInstance().Show();
         }
 
         private void btn_addRow_Click(object sender, EventArgs e)
         {
             //TODO:: Get values from column cells
-            var fakeValues = new string[STAIRCASE_TABLE_COLUMN_NAMES.Length];
+            var fakeValues = new List<string>(STAIRCASE_TABLE_COLUMN_NAMES.Length);
 
-            for (int i = 0; i < fakeValues.Length; i++)
-                fakeValues[i] = "New Value";
+            for (int i = 0; i < fakeValues.Capacity; i++)
+                fakeValues.Add("1"); //String.Empty;
 
             AddRow(fakeValues);
+
+            ToggleComputeStairCaseButton();
         }
 
         private void btn_deleteRow_Click(object sender, EventArgs e)
         {
             int rowCount = dataGridView_StairCaseMeasurements.RowCount;
-            if (rowCount > 1)
-                dataGridView_StairCaseMeasurements.Rows.RemoveAt(rowCount - 2);
+            if (rowCount > 0)
+                dataGridView_StairCaseMeasurements.Rows.RemoveAt(rowCount - 1);
+
+            ToggleComputeStairCaseButton();
         }
 
         // Helper Methods
-        private void AddRow(string[] columnValues)
+        private void AddRow<T>(List<T> columnValues)
         {        
             int index = dataGridView_StairCaseMeasurements.Rows.Add();
             var row = dataGridView_StairCaseMeasurements.Rows[index];
@@ -82,23 +95,117 @@ namespace SSRMToolUI
         }
 
         // Populates the staircase values when a user selects a staircase.
-        internal static void PopulateStairCase(DataGridViewRow rowData)
+        internal static void PopulateStairCase(Staircase stairCase)
         {
-            StringBuilder rowBuilder = new StringBuilder();
+            // TODO:: Populate all the values in the staircase
+
+            //AddRow(stairCase.LiteratureResistivity);
+
+            /*StringBuilder rowBuilder = new StringBuilder();
             foreach( var cell in rowData.Cells )
             {
                 rowBuilder.Append(String.Format("Cell: {0} \n", cell));
             }
             
-            MessageBox.Show(rowBuilder.ToString());
+            MessageBox.Show(rowBuilder.ToString());*/
         }
 
         private void btn_SaveStairCase_Click(object sender, EventArgs e)
         {
-            // TODO:: Get all values from cells and transform it into a single input
-            MessageBox.Show("Save Staircase");
-
-            // TODO:: Call DB Manager to store these values
+            DocumentManager docManager = new DocumentManager();
+            docManager.writeStaircase(_currentStairCase);
         }
+
+        private void btn_ComputeStaircase_Click(object sender, EventArgs e)
+        {
+            Staircase stairCase = CreateStaircaseFromInputs();
+
+            bool isStairCaseDefined = DefineStaircase(ref stairCase);
+
+            if (isStairCaseDefined)
+            {
+                btn_SaveStairCase.Enabled = true;
+                _currentStairCase = stairCase;
+                lbl_ComputeStairCase.Text += " Success";
+            }
+            else
+                lbl_ComputeStairCase.Text += " Failed";
+
+            UpdateFunctionLabels();
+        }
+
+        private void UpdateFunctionLabels()
+        {
+            // TODO:: Update labels to show functions
+            lbl_Resistivity_Resistance_Function.Text = StringConstants.FUNCTION_LABEL_1 + _functions[0];
+            lbl_Resistivity_dR_Function.Text = StringConstants.FUNCTION_LABEL_2 + _functions[1];
+            lbl_Dopants_R_Function.Text = StringConstants.FUNCTION_LABEL_3 + _functions[2];
+            lbl_Dopants_dR_Function.Text = StringConstants.FUNCTION_LABEL_4 + _functions[3];
+        }
+
+        private bool DefineStaircase(ref Staircase stairCase)
+        {
+            var stairCaseTableRows = dataGridView_StairCaseMeasurements.Rows;
+
+            var rhoValues = new List<double>();
+            var dopantValues = new List<double>();
+            var resistanceValues = new List<double>();
+            var resistanceAmplitudeValues = new List<double>();
+
+            var values = new StringBuilder();
+            //values.Append(String.Format("Rho: {0}, Dopant: {1}, Resistance: {2}, Resistance Amplitude: {3} \n", rhoValue, dopantValue, resistanceValue, resistanceAmplitudeValue));
+
+            foreach (DataGridViewRow row in stairCaseTableRows)
+            {
+                for (int i = 0; i < STAIRCASE_TABLE_COLUMN_NAMES.Length; i++)
+                {
+                    string rhoValue = row.Cells[STAIRCASE_TABLE_COLUMN_NAMES[i]].Value.ToString();
+                    string dopantValue = row.Cells[STAIRCASE_TABLE_COLUMN_NAMES[i + 1]].Value.ToString();
+                    string resistanceValue = row.Cells[STAIRCASE_TABLE_COLUMN_NAMES[i + 2]].Value.ToString();
+                    string resistanceAmplitudeValue = row.Cells[STAIRCASE_TABLE_COLUMN_NAMES[i + 3]].Value.ToString();
+
+                    rhoValues.Add(Double.Parse(rhoValue));
+                    dopantValues.Add(Double.Parse(dopantValue));
+                    resistanceValues.Add(Double.Parse(resistanceValue));
+                    resistanceAmplitudeValues.Add(Double.Parse(resistanceAmplitudeValue));
+
+                    break;
+                }
+            }
+
+            var isDefined = stairCase.DefineSteps(rhoValues, dopantValues);
+
+            if (isDefined)
+            {
+                // Add Measurements to Staircase
+                int index = stairCase.AddMeas(String.Empty, new DateTime().ToString(), String.Empty, resistanceValues, resistanceAmplitudeValues);
+                stairCase.BuildFunctions(index);
+
+                _functions = stairCase.Functions;
+            }
+
+            // Define Staircase steps
+            return isDefined;
+        }
+
+        private Staircase CreateStaircaseFromInputs()
+        {
+            var stairCaseDescription = txtField_StairCaseDescription.Text;
+            var stairCaseName = txtField_StairCaseName.Text;
+            var stairCaseMaterial = txtField_StairCaseMaterial.Text;
+            int id = 1;
+
+            return new Staircase(id, stairCaseName, stairCaseDescription, stairCaseMaterial);   
+        }
+
+        private void ToggleComputeStairCaseButton()
+        {
+            // Enable compute button only if two rows are in table
+            if (dataGridView_StairCaseMeasurements.Rows.Count >= 2)
+                btn_ComputeStaircase.Enabled = true;
+            else
+                btn_ComputeStaircase.Enabled = false;
+        }
+
     }
 }
