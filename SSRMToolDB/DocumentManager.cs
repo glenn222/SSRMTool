@@ -11,26 +11,26 @@ namespace SSRMToolDB
     {
         private DBManager dbManager;
         public List<Staircase> staircases;
-        private Dictionary<String, Staircase> list;
+        private Dictionary<String, Staircase> fullStaircaseList;
 
         public DocumentManager()
         {
-            list = new Dictionary<string, Staircase>();
+            fullStaircaseList = new Dictionary<string, Staircase>();
             dbManager = DBManager.GetInstance();
             staircases = dbManager.Staircases;
             foreach (Staircase st in staircases)
             {
-                list.Add(st.StaircaseName, st);
+                fullStaircaseList.Add(st.StaircaseName, st);
             }
         }
     
         private void UpdateList()
         {
-            list.Clear();
+            fullStaircaseList.Clear();
             staircases = dbManager.Staircases;
             foreach (Staircase st in staircases)
             {
-                list.Add(st.StaircaseName, st);
+                fullStaircaseList.Add(st.StaircaseName, st);
             }
         }
 
@@ -46,18 +46,19 @@ namespace SSRMToolDB
 
         public Staircase queryStaircase(String name)
         {
-            return list[name];
+            if (fullStaircaseList.ContainsKey(name))
+                return fullStaircaseList[name];
+            else
+                return null;
         }
         
         public void writeStaircase(Staircase obj)
         {
-            dbManager.ModifyStaircaseInDB(obj);
-            this.UpdateList();
-        }
+            if (obj.DateCreated == null)
+                obj.DateCreated = DateTime.Now;
+            obj.DateModified = DateTime.Now;
 
-        public void addStaircase(Staircase obj)
-        {
-            dbManager.AddStaircaseInDB(obj);
+            dbManager.WriteStaircaseInDB(obj);
             this.UpdateList();
         }
 
