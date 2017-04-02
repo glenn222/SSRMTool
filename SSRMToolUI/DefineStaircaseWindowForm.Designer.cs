@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lbl_DefineStaircase = new System.Windows.Forms.Label();
             this.btn_addRow = new System.Windows.Forms.Button();
             this.btn_ComputeStaircase = new System.Windows.Forms.Button();
@@ -44,16 +44,16 @@
             this.txtField_StairCaseDescription = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtField_StairCaseMaterial = new System.Windows.Forms.TextBox();
+            this.txtField_MeasurementDescription = new System.Windows.Forms.TextBox();
             this.TxtArea_StairCaseOutput = new System.Windows.Forms.RichTextBox();
+            this.txtField_TipName = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtField_StaircaseMaterial = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.Resistivity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ResistivityUnits = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Dopants = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DopantUnits = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Resistance = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ResistanceUnits = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ResistanceAmplitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ResistanceAmplitudeUnits = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_StairCaseMeasurements)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +61,7 @@
             // 
             this.lbl_DefineStaircase.AutoSize = true;
             this.lbl_DefineStaircase.Font = new System.Drawing.Font("Lucida Sans", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_DefineStaircase.Location = new System.Drawing.Point(241, 9);
+            this.lbl_DefineStaircase.Location = new System.Drawing.Point(372, 9);
             this.lbl_DefineStaircase.Name = "lbl_DefineStaircase";
             this.lbl_DefineStaircase.Size = new System.Drawing.Size(279, 37);
             this.lbl_DefineStaircase.TabIndex = 1;
@@ -84,7 +84,7 @@
             this.btn_ComputeStaircase.BackColor = System.Drawing.SystemColors.Info;
             this.btn_ComputeStaircase.Enabled = false;
             this.btn_ComputeStaircase.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ComputeStaircase.Location = new System.Drawing.Point(542, 408);
+            this.btn_ComputeStaircase.Location = new System.Drawing.Point(853, 409);
             this.btn_ComputeStaircase.Name = "btn_ComputeStaircase";
             this.btn_ComputeStaircase.Size = new System.Drawing.Size(166, 35);
             this.btn_ComputeStaircase.TabIndex = 3;
@@ -108,35 +108,31 @@
             // 
             this.dataGridView_StairCaseMeasurements.AllowUserToAddRows = false;
             this.dataGridView_StairCaseMeasurements.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_StairCaseMeasurements.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_StairCaseMeasurements.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridView_StairCaseMeasurements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_StairCaseMeasurements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Resistivity,
-            this.ResistivityUnits,
             this.Dopants,
-            this.DopantUnits,
             this.Resistance,
-            this.ResistanceUnits,
-            this.ResistanceAmplitude,
-            this.ResistanceAmplitudeUnits});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_StairCaseMeasurements.DefaultCellStyle = dataGridViewCellStyle6;
+            this.ResistanceAmplitude});
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_StairCaseMeasurements.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridView_StairCaseMeasurements.Location = new System.Drawing.Point(25, 216);
             this.dataGridView_StairCaseMeasurements.Name = "dataGridView_StairCaseMeasurements";
-            this.dataGridView_StairCaseMeasurements.Size = new System.Drawing.Size(683, 187);
+            this.dataGridView_StairCaseMeasurements.Size = new System.Drawing.Size(994, 187);
             this.dataGridView_StairCaseMeasurements.TabIndex = 6;
             // 
             // label1
@@ -161,27 +157,30 @@
             // 
             this.dropdown_StairCaseMeasurements.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropdown_StairCaseMeasurements.FormattingEnabled = true;
-            this.dropdown_StairCaseMeasurements.Location = new System.Drawing.Point(491, 130);
+            this.dropdown_StairCaseMeasurements.Items.AddRange(new object[] {
+            "New Measurement"});
+            this.dropdown_StairCaseMeasurements.Location = new System.Drawing.Point(802, 66);
             this.dropdown_StairCaseMeasurements.Name = "dropdown_StairCaseMeasurements";
             this.dropdown_StairCaseMeasurements.Size = new System.Drawing.Size(217, 28);
             this.dropdown_StairCaseMeasurements.TabIndex = 9;
+            this.dropdown_StairCaseMeasurements.SelectedIndexChanged += new System.EventHandler(this.dropdown_StairCaseMeasurements_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(488, 109);
+            this.label2.Location = new System.Drawing.Point(799, 45);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(187, 18);
+            this.label2.Size = new System.Drawing.Size(223, 18);
             this.label2.TabIndex = 10;
-            this.label2.Text = "Staircase Measurements";
+            this.label2.Text = "Past Staircase Measurements";
             // 
             // btn_SaveStairCase
             // 
             this.btn_SaveStairCase.BackColor = System.Drawing.SystemColors.Info;
             this.btn_SaveStairCase.Enabled = false;
             this.btn_SaveStairCase.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_SaveStairCase.Location = new System.Drawing.Point(564, 642);
+            this.btn_SaveStairCase.Location = new System.Drawing.Point(875, 642);
             this.btn_SaveStairCase.Name = "btn_SaveStairCase";
             this.btn_SaveStairCase.Size = new System.Drawing.Size(144, 35);
             this.btn_SaveStairCase.TabIndex = 11;
@@ -215,27 +214,27 @@
             this.label3.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(22, 164);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 18);
+            this.label3.Size = new System.Drawing.Size(155, 18);
             this.label3.TabIndex = 14;
-            this.label3.Text = "Description";
+            this.label3.Text = "Sample Description";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(488, 164);
+            this.label4.Location = new System.Drawing.Point(799, 164);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 18);
+            this.label4.Size = new System.Drawing.Size(198, 18);
             this.label4.TabIndex = 16;
-            this.label4.Text = "Material";
+            this.label4.Text = "Measurement Description";
             // 
-            // txtField_StairCaseMaterial
+            // txtField_MeasurementDescription
             // 
-            this.txtField_StairCaseMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtField_StairCaseMaterial.Location = new System.Drawing.Point(491, 182);
-            this.txtField_StairCaseMaterial.Name = "txtField_StairCaseMaterial";
-            this.txtField_StairCaseMaterial.Size = new System.Drawing.Size(217, 26);
-            this.txtField_StairCaseMaterial.TabIndex = 15;
+            this.txtField_MeasurementDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtField_MeasurementDescription.Location = new System.Drawing.Point(802, 182);
+            this.txtField_MeasurementDescription.Name = "txtField_MeasurementDescription";
+            this.txtField_MeasurementDescription.Size = new System.Drawing.Size(217, 26);
+            this.txtField_MeasurementDescription.TabIndex = 15;
             // 
             // TxtArea_StairCaseOutput
             // 
@@ -245,63 +244,83 @@
             this.TxtArea_StairCaseOutput.Margin = new System.Windows.Forms.Padding(2);
             this.TxtArea_StairCaseOutput.Name = "TxtArea_StairCaseOutput";
             this.TxtArea_StairCaseOutput.ReadOnly = true;
-            this.TxtArea_StairCaseOutput.Size = new System.Drawing.Size(683, 189);
+            this.TxtArea_StairCaseOutput.Size = new System.Drawing.Size(994, 189);
             this.TxtArea_StairCaseOutput.TabIndex = 23;
             this.TxtArea_StairCaseOutput.Text = "";
             // 
+            // txtField_TipName
+            // 
+            this.txtField_TipName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtField_TipName.Location = new System.Drawing.Point(802, 130);
+            this.txtField_TipName.Name = "txtField_TipName";
+            this.txtField_TipName.Size = new System.Drawing.Size(198, 26);
+            this.txtField_TipName.TabIndex = 25;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(799, 109);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(81, 18);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Tip Name";
+            // 
+            // txtField_StaircaseMaterial
+            // 
+            this.txtField_StaircaseMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtField_StaircaseMaterial.Location = new System.Drawing.Point(245, 182);
+            this.txtField_StaircaseMaterial.Name = "txtField_StaircaseMaterial";
+            this.txtField_StaircaseMaterial.Size = new System.Drawing.Size(198, 26);
+            this.txtField_StaircaseMaterial.TabIndex = 27;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(242, 163);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(68, 18);
+            this.label6.TabIndex = 26;
+            this.label6.Text = "Material";
+            // 
             // Resistivity
             // 
+            this.Resistivity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Resistivity.HeaderText = "Resistivity";
             this.Resistivity.Name = "Resistivity";
             // 
-            // ResistivityUnits
-            // 
-            this.ResistivityUnits.HeaderText = "Units";
-            this.ResistivityUnits.Name = "ResistivityUnits";
-            this.ResistivityUnits.Width = 60;
-            // 
             // Dopants
             // 
+            this.Dopants.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Dopants.HeaderText = "Dopants";
             this.Dopants.Name = "Dopants";
             // 
-            // DopantUnits
-            // 
-            this.DopantUnits.HeaderText = "Units";
-            this.DopantUnits.Name = "DopantUnits";
-            this.DopantUnits.Width = 60;
-            // 
             // Resistance
             // 
+            this.Resistance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Resistance.HeaderText = "Resistance (R)";
             this.Resistance.Name = "Resistance";
             // 
-            // ResistanceUnits
-            // 
-            this.ResistanceUnits.HeaderText = "Units";
-            this.ResistanceUnits.Name = "ResistanceUnits";
-            this.ResistanceUnits.Width = 60;
-            // 
             // ResistanceAmplitude
             // 
+            this.ResistanceAmplitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.ResistanceAmplitude.HeaderText = "Resistance Amplitude (dR)";
             this.ResistanceAmplitude.Name = "ResistanceAmplitude";
-            // 
-            // ResistanceAmplitudeUnits
-            // 
-            this.ResistanceAmplitudeUnits.HeaderText = "Units";
-            this.ResistanceAmplitudeUnits.Name = "ResistanceAmplitudeUnits";
-            this.ResistanceAmplitudeUnits.Width = 60;
             // 
             // DefineStaircaseWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(728, 689);
+            this.ClientSize = new System.Drawing.Size(1057, 689);
+            this.Controls.Add(this.txtField_StaircaseMaterial);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtField_TipName);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.TxtArea_StairCaseOutput);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtField_StairCaseMaterial);
+            this.Controls.Add(this.txtField_MeasurementDescription);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtField_StairCaseDescription);
             this.Controls.Add(this.btn_deleteRow);
@@ -339,16 +358,16 @@
         private System.Windows.Forms.TextBox txtField_StairCaseDescription;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtField_StairCaseMaterial;
+        private System.Windows.Forms.TextBox txtField_MeasurementDescription;
         private System.Windows.Forms.RichTextBox TxtArea_StairCaseOutput;
+        private System.Windows.Forms.TextBox txtField_TipName;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtField_StaircaseMaterial;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Resistivity;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ResistivityUnits;
         private System.Windows.Forms.DataGridViewTextBoxColumn Dopants;
-        private System.Windows.Forms.DataGridViewComboBoxColumn DopantUnits;
         private System.Windows.Forms.DataGridViewTextBoxColumn Resistance;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ResistanceUnits;
         private System.Windows.Forms.DataGridViewTextBoxColumn ResistanceAmplitude;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ResistanceAmplitudeUnits;
     }
 }
 
