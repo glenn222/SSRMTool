@@ -27,5 +27,15 @@ namespace SSRMToolUI
             
             return _quantifyDeviceWindow;
         }
+
+        private void btn_OpenFile_Click(object sender, EventArgs e)
+        {
+            FileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Gwyddion File|*.gwy";
+
+            dialog.ShowDialog();
+            
+            txtArea_GwyFilePath.Text = dialog.FileName;
+        }
     }
 }
