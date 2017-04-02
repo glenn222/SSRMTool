@@ -179,7 +179,6 @@ namespace SSRMToolUI
         {
             ToggleComputeStairCaseButton();
             ClearAllFormComponents();
-            DisableAllButtons();
             TxtArea_StairCaseOutput.Clear();
 
             _currentStairCase = stairCase;
