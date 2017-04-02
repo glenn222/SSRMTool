@@ -10,24 +10,33 @@ namespace SSRMTool.Tests
     public class CalculationBlackbox
     {
         [TestMethod]
-        public void BuildEmptyFunction()
+        public void BuildFunctionEmpty()
         {
             List<double> indep = new List<double>(new double[] { });
             List<double> dep = new List<double>(new double[] { });
-            string output = SSRMTool.Staircase.PiecewiseFit(indep, dep, "[x]", "1e6", "tanh", "exp");
+            string output = SSRMTool.Staircase.PiecewiseFit(indep, dep, "[x]", "1e12", "tanh", "exp");
             Console.WriteLine(output);
-            bool isempty = (output == "");
+            bool isempty = (output == "1+0*[x]");
             Assert.IsTrue(isempty);
         }
         [TestMethod]
-        public void BuildNon_EmptyFunction()
+        public void BuildFunction2Elements()
         {
             List<double> indep = new List<double>(new double[] { 1, 2 });
             List <double> dep = new List<double>(new double[] { 1, 10 });
-            string output = SSRMTool.Staircase.PiecewiseFit(indep, dep, "[x]", "1e6", "tanh", "exp");
+            string output = SSRMTool.Staircase.PiecewiseFit(indep, dep, "[x]", "1e12", "(2/3.14159265359)*Atan", "Exp");
+            Expression function = new Expression(output);
             Console.WriteLine(output);
-            bool matches = (output == "exp(2.30258509299405*[x]+(-2.30258509299405))*0.5*(1+tanh(-1e6*([x]-(2))))");
-            Assert.IsTrue(matches);
+            bool vals_match = true;
+            double val;
+            for (int i = 0; i < indep.Count; i++)
+            {
+                function.Parameters["x"] = indep[i];
+                val = (double)function.Evaluate();
+                Console.WriteLine(val);
+                vals_match = vals_match && (val - dep[i] < 0.001);
+            }
+            Assert.IsTrue(vals_match);
         }
         [TestMethod]
         public void ExpressionOutputMatching()
@@ -47,6 +56,54 @@ namespace SSRMTool.Tests
                 vals_match = vals_match && (val - dep[i] < 0.001);
             }
             
+            Assert.IsTrue(vals_match);
+        }
+        [TestMethod]
+        public void ExpressionOutputMatchingUnsorted()
+        {
+            List<double> indep = new List<double>(new double[] { 1, 2, 5, 4, 3 });
+            List<double> dep = new List<double>(new double[] { 1, 10, 10000, 1000, 100 });
+            string output = SSRMTool.Staircase.PiecewiseFit(indep, dep, "[x]");
+            Expression function = new Expression(output);
+            bool vals_match = true;
+            double val;
+            for (int i = 0; i < indep.Count; i++)
+            {
+                function.Parameters["x"] = indep[i];
+                val = (double)function.Evaluate();
+                Console.WriteLine(val);
+                vals_match = vals_match && (val - dep[i] < 0.001);
+            }
+            Assert.IsTrue(vals_match);
+        }
+        [TestMethod]
+        public void IllegalExpressionInputs()
+        {
+            List<double> indep = new List<double>(new double[] { 1, 1, 2 });
+            List<double> dep = new List<double>(new double[] { -20, 2, 0 });
+            string output = SSRMTool.Staircase.PiecewiseFit(indep, dep, "[x]");
+            Expression function = new Expression(output);
+            function.Parameters["x"] = 0.0;
+            double val = (double)function.Evaluate();
+            bool valmatch = val == 20;
+            Assert.IsTrue(valmatch);
+        }
+        [TestMethod]
+        public void ExpressionOutputMatchingNonmonotonic()
+        {
+            List<double> indep = new List<double>(new double[] { 1, 2, 3, 4, 5 });
+            List<double> dep = new List<double>(new double[] { 1, 10, 10000, 1000, 100 });
+            string output = SSRMTool.Staircase.PiecewiseFit(indep, dep, "[x]");
+            Expression function = new Expression(output);
+            bool vals_match = true;
+            double val;
+            for (int i = 0; i < indep.Count; i++)
+            {
+                function.Parameters["x"] = indep[i];
+                val = (double)function.Evaluate();
+                //Console.WriteLine(val);
+                vals_match = vals_match && (val - dep[i] < 0.001);
+            }
             Assert.IsTrue(vals_match);
         }
         [TestMethod]

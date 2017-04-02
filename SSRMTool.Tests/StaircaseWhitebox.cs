@@ -31,12 +31,13 @@ namespace SSRMTool.Tests
             List<double> dR = new List<double>(new double[] { 1, 10, 100, 1000 });
             Staircase test = new Staircase(5, "ST3", "n-type doped", "Si");
             test.DefineSteps(rho, cm3);
-            test.AddMeas("A","B","C",R, dR);
+            int index = test.AddMeas("A","B","C",R, dR);
+            bool index_match = index == 0;
             bool length = test.Measurements.Count == 1;
             bool type = test.Measurements[0].GetType() == typeof(Measurement);
             bool steps_meas = test.Measurements[0].Resistance.Count == 4 && test.Measurements[0].ResistanceAmplitude.Count == 4;
             bool metadata = test.Measurements[0].Tip == "A" && test.Measurements[0].Date == "B" && test.Measurements[0].Description == "C";
-            Assert.IsTrue(length&&type&&steps_meas&&metadata);
+            Assert.IsTrue(length&&type&&steps_meas&&metadata&&index_match);
         }
         [TestMethod]
         public void PopulateFunctions()
