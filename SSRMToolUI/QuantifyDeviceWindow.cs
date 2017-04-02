@@ -7,14 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SSRMTool;
 
 namespace SSRMToolUI
 {
     public partial class QuantifyDeviceWindow : Form
     {
-
         private static QuantifyDeviceWindow _quantifyDeviceWindow = null;
-
+        private Staircase _currentStairCase;
+        private Measurement _currentMeasurement;
+        private static readonly string FILE_DIALOG_FILTER = "Gwyddion File|*.gwy";
+        
         private QuantifyDeviceWindow()
         {
             InitializeComponent();
@@ -31,11 +34,128 @@ namespace SSRMToolUI
         private void btn_OpenFile_Click(object sender, EventArgs e)
         {
             FileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Gwyddion File|*.gwy";
+            dialog.Filter = FILE_DIALOG_FILTER;
 
             dialog.ShowDialog();
             
             txtArea_GwyFilePath.Text = dialog.FileName;
+        }
+
+        private void btn_OpenStaircase_Click(object sender, EventArgs e)
+        {
+            Hide();
+            OpenStaircaseDataWindow.GetInstance(this).Show();
+        }
+
+        private void dropdown_Measurements_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_currentStairCase == null)
+            {
+                MessageBox.Show(StringConstants.ERROR_NO_STAIRCASE_DEFINED);
+                return;
+            }
+
+            var measurementsComboBox = (ComboBox)sender;
+
+            if (measurementsComboBox.SelectedIndex >= 0)
+            {
+                var index = measurementsComboBox.SelectedIndex;
+                var measurement = _currentStairCase.MeasuredData[index];
+
+                _currentMeasurement = _currentStairCase.MeasuredData[index];
+            }
+        }
+
+        private void dropdown_MeasurementFunctions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_currentMeasurement == null)
+            {
+                MessageBox.Show(StringConstants.ERROR_NO_MEASUREMENT_DEFINED);
+                return;
+            }
+
+            var functionsComboBox = (ComboBox)sender;
+
+            if (functionsComboBox.SelectedIndex >= 0)
+            {
+                var index = functionsComboBox.SelectedIndex;
+                PopulateFunctionExpression(index);
+            }
+        }
+        
+        private void dropdown_DataChannels_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var dataChannelComboBox = (ComboBox) sender;
+            MessageBox.Show("Data Channel Selected " + dataChannelComboBox.SelectedIndex);
+
+            // TODO:: Get image for that certain data channel.
+        }
+
+        private void btn_Calculate_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Calculate");
+            // TODO:: Get Apply Function Expression on displayed gwyddion image.
+        }
+
+        public void PopulateStairCase(Staircase stairCase)
+        {
+            ClearCurrentStairCase();
+            ClearAllFormComponents();
+            EnableAllFormComponents();
+
+            _currentStairCase = stairCase;
+
+            PopulateStairCaseMetaData(ref stairCase);
+
+            PopulateMeasurementsDropdown(stairCase.MeasuredData);
+        }
+
+        private void ClearCurrentStairCase()
+        {
+            _currentStairCase = null;
+            _currentMeasurement = null;
+        }
+
+        private void EnableAllFormComponents()
+        {
+            dropdown_DataChannels.Enabled = true;
+            dropdown_Measurements.Enabled = true;
+            dropdown_MeasurementFunctions.Enabled = true;
+        }
+
+        private void ClearAllFormComponents()
+        {
+            dropdown_Measurements.Items.Clear();
+        }
+
+        private void PopulateStairCaseMetaData(ref Staircase stairCase)
+        {
+            var stairCaseMetaData = new string[] { stairCase.StaircaseName, stairCase.StaircaseDescription, stairCase.StaircaseMaterial };
+            var stairCaseMetaDataBuilder = new StringBuilder();
+            
+            foreach (var metaData in txtArea_StairCaseMetaData.Lines.Zip(stairCaseMetaData, Tuple.Create))
+            {
+                var metaDataKey = metaData.Item1.Split(':')[0];
+                stairCaseMetaDataBuilder.AppendLine(string.Join(": ", metaDataKey, metaData.Item2));
+                stairCaseMetaDataBuilder.AppendLine();
+            }
+
+            txtArea_StairCaseMetaData.Clear();
+            txtArea_StairCaseMetaData.Text = stairCaseMetaDataBuilder.ToString();
+        }
+
+        private void PopulateMeasurementsDropdown(List<Measurement> measurements)
+        {
+            foreach (Measurement m in measurements)
+            {
+                var stairCaseMeasurementName = string.Join("-", m.Tip, m.Date, m.Description);
+                dropdown_Measurements.Items.Add(stairCaseMeasurementName);
+            }
+        }
+
+        private void PopulateFunctionExpression(int index)
+        {
+            txtArea_FunctionExpression.Text = _currentMeasurement.FunctionStrings[index];
         }
     }
 }

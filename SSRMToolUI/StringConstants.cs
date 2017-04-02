@@ -28,5 +28,8 @@ namespace SSRMToolUI
             RESISTANCE_AMPLITUDE_UNITS_COLUMN_NAME
         };
 
+        // Error Messages
+        public const string ERROR_NO_MEASUREMENT_DEFINED = "Please choose a staircase measurement first";
+        public const string ERROR_NO_STAIRCASE_DEFINED = "Please load a staircase first";
     }
 }

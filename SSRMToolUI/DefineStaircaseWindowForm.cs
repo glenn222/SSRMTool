@@ -46,7 +46,7 @@ namespace SSRMToolUI
         private void btn_OpenStaircases_Click(object sender, EventArgs e)
         {
             Hide();
-            OpenStaircaseDataWindow.GetInstance().Show();
+            OpenStaircaseDataWindow.GetInstance(this).Show();
         }
 
         private void btn_addRow_Click(object sender, EventArgs e)

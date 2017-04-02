@@ -16,10 +16,16 @@ namespace SSRMToolUI
         private IList<DateTime> _timeStamps;
         private Staircase _selectedStaircase;
         private DocumentManager _documentManager;
+        private Form _requestForm;
 
-        private OpenStaircaseDataWindow()
+        private OpenStaircaseDataWindow(Form requestForm)
         {
             InitializeComponent();
+
+            if (requestForm.Name.Equals("QuantifyDeviceWindow"))
+                _requestForm = (QuantifyDeviceWindow) requestForm;
+            else if (requestForm.Name.Equals("DefineStaircaseWindowForm"))
+                _requestForm = (DefineStaircaseWindowForm) requestForm;
 
             // Access Redis Database to get a list of staircases
             QueryStaircases();
@@ -36,17 +42,25 @@ namespace SSRMToolUI
             {
                 var stairCase = FindStaircase(e.RowIndex);
 
-                DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(stairCase);
-
-                TransitionToDefineStairCaseWindow();
+                if (_requestForm is DefineStaircaseWindowForm)
+                {
+                    DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(stairCase);
+                    TransitionToDefineStairCaseWindow();
+                }
+                else if (_requestForm is QuantifyDeviceWindow)
+                {
+                    QuantifyDeviceWindow.GetQuantifyDeviceInstance().PopulateStairCase(stairCase);
+                    TransitionToQuantifyDeviceWindow();
+                }
+                
             }
         }
 
-        public static OpenStaircaseDataWindow GetInstance()
+        public static OpenStaircaseDataWindow GetInstance(Form requestForm)
         {
             if (_formInstance == null || _formInstance.IsDisposed == true)
-                _formInstance = new OpenStaircaseDataWindow();
-            
+                _formInstance = new OpenStaircaseDataWindow(requestForm);
+
             return _formInstance;
         }
         
@@ -90,7 +104,13 @@ namespace SSRMToolUI
             this.Dispose();
             DefineStaircaseWindowForm.GetStairCaseInstance().Show();
         }
-        
+
+        private void TransitionToQuantifyDeviceWindow()
+        {
+            this.Dispose();
+            QuantifyDeviceWindow.GetQuantifyDeviceInstance().Show();
+        }
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
