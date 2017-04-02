@@ -18,7 +18,6 @@ namespace SSRMTool
         public string StaircaseDescription { get; set; }
         public string StaircaseMaterial { get; set; }
         public List<Measurement> MeasuredData { get; set; }
-        public List<String> Functions { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
 
@@ -81,16 +80,14 @@ namespace SSRMTool
             else
             {
 
-                // TODO:: Store the function strings
-                Functions = new List<string>();
+                Measurements[index].FunctionStrings[0] = Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureResistivity);
+                Measurements[index].FunctionStrings[1] = Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureCarriers);
+                Measurements[index].FunctionStrings[2] = Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureResistivity);
+                Measurements[index].FunctionStrings[3] = Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureCarriers);
                 
-                Functions.Add(Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureResistivity));
-                Functions.Add(Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureCarriers));
-                Functions.Add(Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureResistivity));
-                Functions.Add(Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureCarriers));
-
-                for ( int i = 0; i < Functions.Count; i++ )
-                    MeasuredData[index].Functions[i] = new Expression(Functions[i]);
+                for ( int i = 0; i < Measurements[index].FunctionStrings.Length; i++)
+                    MeasuredData[index].Functions[i] = new Expression(Measurements[index].FunctionStrings[i]);
+                
             }
         }
         public static string PiecewiseFit(List<double> independent, List<double> dependent, string var="[x]", string tc="1e12", string step="(2/3.14159265359)*Atan", string exp="Exp")

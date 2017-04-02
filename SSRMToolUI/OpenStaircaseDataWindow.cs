@@ -36,7 +36,7 @@ namespace SSRMToolUI
             {
                 var stairCase = FindStaircase(e.RowIndex);
 
-                DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(stairCase, e.RowIndex);
+                DefineStaircaseWindowForm.GetStairCaseInstance().PopulateStairCase(stairCase);
 
                 TransitionToDefineStairCaseWindow();
             }
@@ -52,7 +52,6 @@ namespace SSRMToolUI
         
         private void DisplayStairCases()
         {
-            // TODO:: Display staircase names from DB.
             for (int i = 0; i < _stairCaseNames.Count; i++)
                 AddRow(_stairCaseNames[i], _timeStamps[i].ToString());
         }
@@ -64,8 +63,6 @@ namespace SSRMToolUI
 
             _stairCaseNames = new List<string>(nameTimeList.Keys);
             _timeStamps = new List<DateTime>(nameTimeList.Values);
-            
-            // TODO:: Update the data grid table.
         }
 
         private void AddRow(string stairCaseName, string recordDate)

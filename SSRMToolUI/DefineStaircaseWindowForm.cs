@@ -11,7 +11,7 @@ namespace SSRMToolUI
     public partial class DefineStaircaseWindowForm : Form
     {
         private static DefineStaircaseWindowForm _staircaseInstance = null;
-        private List<string> _functions;
+        private string[] _functions;
         private Staircase _currentStairCase;
         private StringBuilder _textAreaOutputLogger = new StringBuilder();
         private bool _isExistingMeasurement = false;
@@ -87,7 +87,12 @@ namespace SSRMToolUI
                 return;
             }
 
-            Staircase stairCase = CreateStaircaseFromInputs();
+            Staircase stairCase;
+
+            if (_currentStairCase != null)
+                stairCase = _currentStairCase;
+            else
+                stairCase = CreateStaircaseFromInputs();
 
             bool isStairCaseDefined = DefineStaircase(ref stairCase);
 
@@ -112,7 +117,8 @@ namespace SSRMToolUI
 
             if (measurementIndex > 0)
             {
-                var selectedMeasurement = _currentStairCase.MeasuredData[measurementIndex];
+                var selectedMeasurement = _currentStairCase.MeasuredData[measurementIndex - 1];
+
                 int index = 0;
 
                 foreach ( DataGridViewRow row in dataGridView_StairCaseMeasurements.Rows)
@@ -122,8 +128,27 @@ namespace SSRMToolUI
                     index++;
                 }
 
+                txtField_TipName.Text = selectedMeasurement.Tip;
+                txtField_MeasurementDescription.Text = selectedMeasurement.Description;
+                _functions = selectedMeasurement.FunctionStrings;
+                UpdateFunctionLabels();
+
                 _isExistingMeasurement = true;
-                _measurementIndex = measurementIndex;
+                _measurementIndex = measurementIndex - 1;
+            }
+            else
+            {
+                TxtArea_StairCaseOutput.Clear();
+                txtField_TipName.Clear();
+                txtField_MeasurementDescription.Clear();
+
+                foreach (DataGridViewRow row in dataGridView_StairCaseMeasurements.Rows)
+                {
+                    row.Cells[RESISTANCE_COLUMN_NAME].Value = string.Empty;
+                    row.Cells[RESISTANCE_AMPLITUDE_COLUMN_NAME].Value = string.Empty;
+                }
+
+                _isExistingMeasurement = false;
             }
         }
 
@@ -150,15 +175,15 @@ namespace SSRMToolUI
         }
 
         // Populates the staircase values when a user selects a staircase.
-        internal void PopulateStairCase(Staircase stairCase, int measurementIndex)
+        internal void PopulateStairCase(Staircase stairCase)
         {
             ToggleComputeStairCaseButton();
             ClearAllFormComponents();
             DisableAllButtons();
-           
-            _currentStairCase = stairCase;
-            _functions = stairCase.Functions;
+            TxtArea_StairCaseOutput.Clear();
 
+            _currentStairCase = stairCase;
+            
             var rowData = new List<string>();
 
             for( int i = 0; i < stairCase.LiteratureResistivity.Count; i++ )
@@ -174,15 +199,18 @@ namespace SSRMToolUI
             txtField_StairCaseName.Text = stairCase.StaircaseName;
             txtField_StairCaseDescription.Text = stairCase.StaircaseDescription;
             txtField_StaircaseMaterial.Text = stairCase.StaircaseMaterial;
-            UpdateFunctionLabels();
 
+            dropdown_StairCaseMeasurements.Items.Clear();
             dropdown_StairCaseMeasurements.Items.Add("New Measurement");
             foreach (Measurement m in stairCase.Measurements)
             {
                 var stairCaseMeasurementName = string.Join("-", m.Tip, m.Date, m.Description);
                 dropdown_StairCaseMeasurements.Items.Add(stairCaseMeasurementName);
             }
-            
+
+            // Default select "New Measurement"
+            dropdown_StairCaseMeasurements.SelectedItem = dropdown_StairCaseMeasurements.Items[0];
+
             if(!btn_ComputeStaircase.Enabled)
                 btn_ComputeStaircase.Enabled = true;
         }
@@ -222,7 +250,7 @@ namespace SSRMToolUI
             dropdown_StairCaseMeasurements.Items.Clear();
             txtField_StairCaseName.Clear();
             txtField_StairCaseDescription.Clear();
-            txtField_MeasurementDescription.Clear();
+            txtField_StaircaseMaterial.Clear();
         }
 
         private bool DefineStaircase(ref Staircase stairCase)
@@ -267,11 +295,12 @@ namespace SSRMToolUI
                 var measurementDescription = txtField_MeasurementDescription.Text;
                 var measurementTip = txtField_TipName.Text;
 
-                if (_isExistingMeasurement)
+                if (!_isExistingMeasurement)
                 {
                     // Add New Measurement to Staircase
                     int index = stairCase.AddMeas(measurementTip, new DateTime().ToString(), measurementDescription, resistanceValues, resistanceAmplitudeValues);
                     stairCase.BuildFunctions(index);
+                    _functions = stairCase.Measurements[index].FunctionStrings;
                 }
                 else
                 {
@@ -279,9 +308,9 @@ namespace SSRMToolUI
                     stairCase.Measurements[_measurementIndex].Resistance = resistanceValues;
                     stairCase.Measurements[_measurementIndex].ResistanceAmplitude = resistanceAmplitudeValues;
                     stairCase.BuildFunctions(_measurementIndex);
-                }
 
-                _functions = stairCase.Functions;
+                    _functions = stairCase.Measurements[_measurementIndex].FunctionStrings;
+                }
             }
 
             // Define Staircase steps
