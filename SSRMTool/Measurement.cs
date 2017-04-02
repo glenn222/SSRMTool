@@ -15,6 +15,7 @@ namespace SSRMTool
         public string Date { get; set; }
         public string Description { get; set; }
         public Expression[] Functions { get; set; }
+        public string[] FunctionStrings { get; set; }
         public List<double> Resistance { get; set; }
         public List<double> ResistanceAmplitude { get; set; }
 
@@ -26,6 +27,15 @@ namespace SSRMTool
             Resistance = R;
             ResistanceAmplitude = dR;
             Functions = new Expression[4];
+            FunctionStrings = new string[4];
         }
+        public void PopulateExpressions()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Functions[i] = new Expression(FunctionStrings[i]);
+            }
+        }
+
     }
 }

@@ -93,23 +93,52 @@ namespace SSRMTool
                     MeasuredData[index].Functions[i] = new Expression(Functions[i]);
             }
         }
-        public static string PiecewiseFit(List<double> independent, List<double> dependent, string var="[x]", string tc="1e6", string step="(2/3.14159265359)*Atan", string exp="Exp")
+        public static string PiecewiseFit(List<double> independent, List<double> dependent, string var="[x]", string tc="1e12", string step="(2/3.14159265359)*Atan", string exp="Exp")
         {
             //Sort and check length matching
+            if (dependent.Count != independent.Count)
+            {
+                return "";
+            }
+            SortedDictionary<double, double> sorted = new SortedDictionary<double, double>();
+            for (int i = 0; i < dependent.Count; i++)
+            {
+                //if both independent and dependent variables are specified, add to the list
+                //the dependent variable is analyzed on a log scale and thus cannot equal zero
+                if (independent[i]!=Double.NaN && dependent[i] != Double.NaN && dependent[i]!=0 && !sorted.ContainsKey(independent[i]))
+                {
+                    //add value to sorted list with dependent variable only positive
+                    sorted.Add(independent[i], Math.Abs(dependent[i]));
+                }              
+            }
+            if (sorted.Count == 0)
+            {
+                return "1+0*"+var;
+            }
+            if (sorted.Count == 1)
+            {
+                return sorted.ElementAt(0).Value.ToString()+"+0*"+var;
+            }
             //function string
             string fstring = "";
             //Temporary values for iterations
             double Y1, Y2, X1, X2, M, B;
             string piece_function, step_function; 
-            for (int i = 0; i < dependent.Count-1; i++)
+            for (int i = 0; i < sorted.Count-1; i++)
             {
-                Y1 = Math.Log(dependent[i]);
-                Y2 = Math.Log(dependent[i + 1]);
-                X1 = independent[i];
-                X2 = independent[i + 1];
+
+                Y1 = Math.Log(sorted.ElementAt(i).Value);
+                Y2 = Math.Log(sorted.ElementAt(i+1).Value);
+                X1 = sorted.ElementAt(i).Key;
+                X2 = sorted.ElementAt(i+1).Key;
                 M = (Y2 - Y1) / (X2 - X1);
                 B = Y1 - X1 * M;
                 piece_function = exp+"(" + M.ToString() + "*" + var + "+(" + B.ToString() + "))";
+                if (sorted.Count == 2)
+                {
+                    fstring = piece_function;
+                    break;
+                }
                 if (i == 0)
                 {
                     step_function = "0.5*(1+" + step + "(-" + tc + "*(" + var + "-(" + X2.ToString() + "))))";
@@ -117,7 +146,7 @@ namespace SSRMTool
                 }
                 else
                 {
-                    if (i < dependent.Count - 2)
+                    if (i < sorted.Count - 2)
                     {
                         step_function = "0.5*(" + step + "(" + tc + "*(" + var + "-(" + X1.ToString() + ")))-" + step + "(" + tc + "*(" + var + "-(" + X2.ToString() + "))))";
                     }
