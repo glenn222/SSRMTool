@@ -33,7 +33,7 @@
             this.dataGrdView_StairCaseTable = new System.Windows.Forms.DataGridView();
             this.lbl_DefineStaircase = new System.Windows.Forms.Label();
             this.Staircases = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CreationDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ModifiedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Select = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrdView_StairCaseTable)).BeginInit();
             this.SuspendLayout();
@@ -54,7 +54,7 @@
             this.dataGrdView_StairCaseTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrdView_StairCaseTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Staircases,
-            this.CreationDate,
+            this.ModifiedDate,
             this.Select});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -66,7 +66,7 @@
             this.dataGrdView_StairCaseTable.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrdView_StairCaseTable.Location = new System.Drawing.Point(12, 60);
             this.dataGrdView_StairCaseTable.Name = "dataGrdView_StairCaseTable";
-            this.dataGrdView_StairCaseTable.Size = new System.Drawing.Size(740, 168);
+            this.dataGrdView_StairCaseTable.Size = new System.Drawing.Size(740, 297);
             this.dataGrdView_StairCaseTable.TabIndex = 0;
             this.dataGrdView_StairCaseTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrdView_StairCaseTable_CellContentClick);
             // 
@@ -89,12 +89,12 @@
             this.Staircases.ReadOnly = true;
             this.Staircases.ToolTipText = "Staircase Measurement";
             // 
-            // CreationDate
+            // ModifiedDate
             // 
-            this.CreationDate.HeaderText = "Date Created";
-            this.CreationDate.Name = "CreationDate";
-            this.CreationDate.ReadOnly = true;
-            this.CreationDate.Width = 200;
+            this.ModifiedDate.HeaderText = "Date Modifed";
+            this.ModifiedDate.Name = "ModifiedDate";
+            this.ModifiedDate.ReadOnly = true;
+            this.ModifiedDate.Width = 200;
             // 
             // Select
             // 
@@ -127,7 +127,7 @@
         private System.Windows.Forms.DataGridView dataGrdView_StairCaseTable;
         private System.Windows.Forms.Label lbl_DefineStaircase;
         private System.Windows.Forms.DataGridViewTextBoxColumn Staircases;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CreationDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ModifiedDate;
         private System.Windows.Forms.DataGridViewButtonColumn Select;
     }
 }

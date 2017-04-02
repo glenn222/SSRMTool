@@ -9,7 +9,7 @@ namespace SSRMToolUI
     public partial class OpenStaircaseDataWindow : Form
     {
         private static readonly string STAIRCASE_COLUMN_NAME = "Staircases";
-        private static readonly string DATE_CREATED_COLUMN_NAME = "CreationDate";
+        private static readonly string DATE_MODIFIED_COLUMN_NAME = "ModifiedDate";
 
         private static OpenStaircaseDataWindow _formInstance = null;
         private IList<String> _stairCaseNames;
@@ -71,7 +71,7 @@ namespace SSRMToolUI
             var row = dataGrdView_StairCaseTable.Rows[index];
 
             row.Cells[STAIRCASE_COLUMN_NAME].Value = stairCaseName;
-            row.Cells[DATE_CREATED_COLUMN_NAME].Value = recordDate;
+            row.Cells[DATE_MODIFIED_COLUMN_NAME].Value = recordDate;
         }
 
         private Staircase FindStaircase(int index)

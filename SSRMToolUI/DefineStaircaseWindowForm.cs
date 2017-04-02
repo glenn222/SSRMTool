@@ -90,7 +90,10 @@ namespace SSRMToolUI
             Staircase stairCase;
 
             if (_currentStairCase != null)
+            {
                 stairCase = _currentStairCase;
+                UpdateStairCaseFromInputs(ref stairCase);
+            }
             else
                 stairCase = CreateStaircaseFromInputs();
 
@@ -109,6 +112,15 @@ namespace SSRMToolUI
                 _textAreaOutputLogger.AppendLine(StringConstants.COMPUTE_STATUS_LABEL + "Failed");
         }
 
+        private void UpdateStairCaseFromInputs(ref Staircase stairCase)
+        {
+            stairCase.StaircaseDescription = txtField_StairCaseDescription.Text;
+            stairCase.StaircaseName = txtField_StairCaseName.Text;
+            stairCase.StaircaseMaterial = txtField_StaircaseMaterial.Text;
+            stairCase.MeasuredData[_measurementIndex].Tip = txtField_TipName.Text;
+            stairCase.MeasuredData[_measurementIndex].Description = txtField_MeasurementDescription.Text;
+        }
+
         private void dropdown_StairCaseMeasurements_SelectedIndexChanged(object sender, EventArgs e)
         {
             var measurementComboBox = (ComboBox) sender;
@@ -119,73 +131,28 @@ namespace SSRMToolUI
             {
                 var selectedMeasurement = _currentStairCase.MeasuredData[measurementIndex - 1];
 
-                int index = 0;
-
-                foreach ( DataGridViewRow row in dataGridView_StairCaseMeasurements.Rows)
-                {
-                    row.Cells[RESISTANCE_COLUMN_NAME].Value = selectedMeasurement.Resistance[index];
-                    row.Cells[RESISTANCE_AMPLITUDE_COLUMN_NAME].Value = selectedMeasurement.ResistanceAmplitude[index];
-                    index++;
-                }
-
-                txtField_TipName.Text = selectedMeasurement.Tip;
-                txtField_MeasurementDescription.Text = selectedMeasurement.Description;
-                _functions = selectedMeasurement.FunctionStrings;
-                UpdateFunctionLabels();
-
-                _isExistingMeasurement = true;
+                UpdateFormWithMeasurement(selectedMeasurement);
                 _measurementIndex = measurementIndex - 1;
             }
             else
             {
-                TxtArea_StairCaseOutput.Clear();
-                txtField_TipName.Clear();
-                txtField_MeasurementDescription.Clear();
-
-                foreach (DataGridViewRow row in dataGridView_StairCaseMeasurements.Rows)
-                {
-                    row.Cells[RESISTANCE_COLUMN_NAME].Value = string.Empty;
-                    row.Cells[RESISTANCE_AMPLITUDE_COLUMN_NAME].Value = string.Empty;
-                }
-
-                _isExistingMeasurement = false;
+                CreateNewMeasurement();
             }
+
+            ToggleComputeStairCaseButton();
         }
 
-        private void UpdateFunctionLabels()
-        {
-            for( int i = 0; i < StringConstants.FUNCTION_LABELS.Count; i++ )
-                _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABELS[i], _functions[i]));
-
-            TxtArea_StairCaseOutput.Text = _textAreaOutputLogger.ToString();
-
-            _textAreaOutputLogger.Clear();
-        }
-
-        // Helper Methods
-        private void AddRow<T>(List<T> columnValues)
-        {
-            int index = dataGridView_StairCaseMeasurements.Rows.Add();
-            var row = dataGridView_StairCaseMeasurements.Rows[index];
-            
-            for (int i = 0; i < columnValues.Count; i++)
-            {
-                row.Cells[STAIRCASE_TABLE_COLUMN_NAMES[i]].Value = columnValues[i];
-            }
-        }
-
-        // Populates the staircase values when a user selects a staircase.
-        internal void PopulateStairCase(Staircase stairCase)
+        public void PopulateStairCase(Staircase stairCase)
         {
             ToggleComputeStairCaseButton();
-            ClearAllFormComponents();
+            ClearAllStaircaseFormComponents();
             TxtArea_StairCaseOutput.Clear();
 
             _currentStairCase = stairCase;
-            
+
             var rowData = new List<string>();
 
-            for( int i = 0; i < stairCase.LiteratureResistivity.Count; i++ )
+            for (int i = 0; i < stairCase.LiteratureResistivity.Count; i++)
             {
                 rowData.Add(stairCase.LiteratureResistivity[i].ToString());
                 rowData.Add(stairCase.LiteratureCarriers[i].ToString());
@@ -209,47 +176,6 @@ namespace SSRMToolUI
 
             // Default select "New Measurement"
             dropdown_StairCaseMeasurements.SelectedItem = dropdown_StairCaseMeasurements.Items[0];
-
-            if(!btn_ComputeStaircase.Enabled)
-                btn_ComputeStaircase.Enabled = true;
-        }
-
-        private void DisableAllFormComponents()
-        {
-            DisableAllTextFieldComponents();
-            DisableAllButtons();
-        }
-
-        private void DisableAllTextFieldComponents()
-        {
-            txtField_StairCaseName.Enabled = false;
-            txtField_StairCaseDescription.Enabled = false;
-            txtField_MeasurementDescription.Enabled = false;
-        }
-    
-        private void DisableAllButtons()
-        {
-            btn_addRow.Enabled = false;
-            btn_deleteRow.Enabled = false;
-        }
-
-        private void EnableAllFormComponents()
-        {
-            dataGridView_StairCaseMeasurements.Enabled = true;
-            txtField_StairCaseName.Enabled = true;
-            txtField_StairCaseDescription.Enabled = true;
-            txtField_MeasurementDescription.Enabled = true;
-            btn_addRow.Enabled = true;
-            btn_deleteRow.Enabled = true;
-        }
-        
-        private void ClearAllFormComponents()
-        {
-            dataGridView_StairCaseMeasurements.Rows.Clear();
-            dropdown_StairCaseMeasurements.Items.Clear();
-            txtField_StairCaseName.Clear();
-            txtField_StairCaseDescription.Clear();
-            txtField_StaircaseMaterial.Clear();
         }
 
         private bool DefineStaircase(ref Staircase stairCase)
@@ -260,7 +186,7 @@ namespace SSRMToolUI
             var dopantValues = new List<double>();
             var resistanceValues = new List<double>();
             var resistanceAmplitudeValues = new List<double>();
-            
+
             foreach (DataGridViewRow row in stairCaseTableRows)
             {
                 for (int i = 0; i < STAIRCASE_TABLE_COLUMN_NAMES.Length; i++)
@@ -286,7 +212,7 @@ namespace SSRMToolUI
                     break;
                 }
             }
-            
+
             var isDefined = stairCase.DefineSteps(rhoValues, dopantValues);
 
             if (isDefined)
@@ -331,16 +257,112 @@ namespace SSRMToolUI
             var stairCaseMaterial = txtField_StaircaseMaterial.Text;
             int id = 1;
 
-            return new Staircase(id, stairCaseName, stairCaseDescription, stairCaseMaterial);   
+            return new Staircase(id, stairCaseName, stairCaseDescription, stairCaseMaterial);
         }
 
+        // Helper Methods
+        private void UpdateFormWithMeasurement(Measurement selectedMeasurement)
+        {
+            int index = 0;
+
+            foreach (DataGridViewRow row in dataGridView_StairCaseMeasurements.Rows)
+            {
+                row.Cells[RESISTANCE_COLUMN_NAME].Value = selectedMeasurement.Resistance[index];
+                row.Cells[RESISTANCE_AMPLITUDE_COLUMN_NAME].Value = selectedMeasurement.ResistanceAmplitude[index];
+                index++;
+            }
+
+            txtField_TipName.Text = selectedMeasurement.Tip;
+            txtField_MeasurementDescription.Text = selectedMeasurement.Description;
+
+            _functions = selectedMeasurement.FunctionStrings;
+            UpdateFunctionLabels();
+
+            _isExistingMeasurement = true;
+        }
+
+        private void CreateNewMeasurement()
+        {
+            TxtArea_StairCaseOutput.Clear();
+            txtField_TipName.Clear();
+            txtField_MeasurementDescription.Clear();
+
+            foreach (DataGridViewRow row in dataGridView_StairCaseMeasurements.Rows)
+            {
+                row.Cells[RESISTANCE_COLUMN_NAME].Value = string.Empty;
+                row.Cells[RESISTANCE_AMPLITUDE_COLUMN_NAME].Value = string.Empty;
+            }
+
+            _isExistingMeasurement = false;
+        }
+
+        private void UpdateFunctionLabels()
+        {
+            for( int i = 0; i < StringConstants.FUNCTION_LABELS.Count; i++)
+            {
+                _textAreaOutputLogger.AppendLine();
+                _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABELS[i], _functions[i]));
+            }
+
+            TxtArea_StairCaseOutput.Text = _textAreaOutputLogger.ToString();
+
+            _textAreaOutputLogger.Clear();
+        }
+
+        private void AddRow<T>(List<T> rowValues)
+        {
+            int index = dataGridView_StairCaseMeasurements.Rows.Add();
+            var row = dataGridView_StairCaseMeasurements.Rows[index];
+            
+            for (int i = 0; i < rowValues.Count; i++)
+            {
+                row.Cells[STAIRCASE_TABLE_COLUMN_NAMES[i]].Value = rowValues[i];
+            }
+        }
+
+        // UI Behaviours
+        private void DisableAllFormComponents()
+        {
+            DisableAllTextFieldComponents();
+            DisableAllButtons();
+        }
+
+        private void DisableAllTextFieldComponents()
+        {
+            txtField_StairCaseName.Enabled = false;
+            txtField_StairCaseDescription.Enabled = false;
+            txtField_MeasurementDescription.Enabled = false;
+        }
+    
+        private void DisableAllButtons()
+        {
+            btn_addRow.Enabled = false;
+            btn_deleteRow.Enabled = false;
+        }
+
+        private void EnableAllFormComponents()
+        {
+            dataGridView_StairCaseMeasurements.Enabled = true;
+            txtField_StairCaseName.Enabled = true;
+            txtField_StairCaseDescription.Enabled = true;
+            txtField_MeasurementDescription.Enabled = true;
+            btn_addRow.Enabled = true;
+            btn_deleteRow.Enabled = true;
+        }
+        
+        private void ClearAllStaircaseFormComponents()
+        {
+            dataGridView_StairCaseMeasurements.Rows.Clear();
+            dropdown_StairCaseMeasurements.Items.Clear();
+            txtField_StairCaseName.Clear();
+            txtField_StairCaseDescription.Clear();
+            txtField_StaircaseMaterial.Clear();
+        }
+        
         private void ToggleComputeStairCaseButton()
         {
             // Enable compute button only if two rows are in table
-            if (dataGridView_StairCaseMeasurements.Rows.Count >= 2)
-                btn_ComputeStaircase.Enabled = true;
-            else
-                btn_ComputeStaircase.Enabled = false;
+            btn_ComputeStaircase.Enabled = (dataGridView_StairCaseMeasurements.Rows.Count >= 2 && dropdown_StairCaseMeasurements.SelectedIndex >= 0) ? true : false;
         }
     }
 }
