@@ -36,7 +36,7 @@
             this.txtArea_GwyFilePath = new System.Windows.Forms.RichTextBox();
             this.lbl_GwyFileName = new System.Windows.Forms.Label();
             this.dropdown_DataChannels = new System.Windows.Forms.ComboBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox_GwyddionImage = new System.Windows.Forms.PictureBox();
             this.dropdown_Measurements = new System.Windows.Forms.ComboBox();
             this.dropdown_MeasurementFunctions = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,7 +47,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtArea_StairCaseMetaData = new System.Windows.Forms.RichTextBox();
             this.txtArea_FunctionExpression = new System.Windows.Forms.RichTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_GwyddionImage)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_OpenFile
@@ -126,18 +126,18 @@
             this.dropdown_DataChannels.TabIndex = 21;
             this.dropdown_DataChannels.SelectedIndexChanged += new System.EventHandler(this.dropdown_DataChannels_SelectedIndexChanged);
             // 
-            // pictureBox1
+            // pictureBox_GwyddionImage
             // 
-            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(299, 138);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(576, 359);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 22;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.WaitOnLoad = true;
+            this.pictureBox_GwyddionImage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox_GwyddionImage.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_GwyddionImage.Image")));
+            this.pictureBox_GwyddionImage.InitialImage = null;
+            this.pictureBox_GwyddionImage.Location = new System.Drawing.Point(299, 138);
+            this.pictureBox_GwyddionImage.Name = "pictureBox_GwyddionImage";
+            this.pictureBox_GwyddionImage.Size = new System.Drawing.Size(576, 359);
+            this.pictureBox_GwyddionImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_GwyddionImage.TabIndex = 22;
+            this.pictureBox_GwyddionImage.TabStop = false;
+            this.pictureBox_GwyddionImage.WaitOnLoad = true;
             // 
             // dropdown_Measurements
             // 
@@ -260,7 +260,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dropdown_MeasurementFunctions);
             this.Controls.Add(this.dropdown_Measurements);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBox_GwyddionImage);
             this.Controls.Add(this.dropdown_DataChannels);
             this.Controls.Add(this.lbl_GwyFileName);
             this.Controls.Add(this.txtArea_GwyFilePath);
@@ -271,7 +271,7 @@
             this.Name = "QuantifyDeviceWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QuantifyDeviceWindow";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_GwyddionImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -285,7 +285,7 @@
         private System.Windows.Forms.RichTextBox txtArea_GwyFilePath;
         private System.Windows.Forms.Label lbl_GwyFileName;
         private System.Windows.Forms.ComboBox dropdown_DataChannels;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox_GwyddionImage;
         private System.Windows.Forms.ComboBox dropdown_Measurements;
         private System.Windows.Forms.ComboBox dropdown_MeasurementFunctions;
         private System.Windows.Forms.Label label3;

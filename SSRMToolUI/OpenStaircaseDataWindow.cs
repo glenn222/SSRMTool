@@ -118,7 +118,10 @@ namespace SSRMToolUI
             if (e.CloseReason == CloseReason.WindowsShutDown)
                 return;
 
-            TransitionToDefineStairCaseWindow();
+            if (_requestForm.Name.Equals("QuantifyDeviceWindow"))
+                TransitionToQuantifyDeviceWindow();
+            else if (_requestForm.Name.Equals("DefineStaircaseWindowForm"))
+                TransitionToDefineStairCaseWindow();
         }
 
     }

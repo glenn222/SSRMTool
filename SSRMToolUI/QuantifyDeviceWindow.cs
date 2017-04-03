@@ -16,6 +16,7 @@ namespace SSRMToolUI
         private static QuantifyDeviceWindow _quantifyDeviceWindow = null;
         private Staircase _currentStairCase;
         private Measurement _currentMeasurement;
+        private static readonly string FILE_DIALOG_JPG_FILTER = "JPEG File|*.jpg";
         private static readonly string FILE_DIALOG_FILTER = "Gwyddion File|*.gwy";
         
         private QuantifyDeviceWindow()
@@ -33,12 +34,41 @@ namespace SSRMToolUI
 
         private void btn_OpenFile_Click(object sender, EventArgs e)
         {
-            FileDialog dialog = new OpenFileDialog();
-            dialog.Filter = FILE_DIALOG_FILTER;
+            using (FileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Filter = FILE_DIALOG_FILTER;
+                dialog.ShowDialog();
 
-            dialog.ShowDialog();
-            
-            txtArea_GwyFilePath.Text = dialog.FileName;
+                // Check if file was selected
+                if (dialog.FileName != string.Empty && dialog.FileName != null)
+                {
+                    txtArea_GwyFilePath.Text = dialog.FileName;
+
+                    //TODO:: Get gwyddion image data and create bitmap with it.
+
+                    // Create fake bitmap values
+                    double[,] bitMapValues = CreateFakeBitmapValues(1000, 1000);
+
+                    // Create bitmap using array of doubles
+                    pictureBox_GwyddionImage.Image = BitmapMaker.CreateBitMap(bitMapValues);
+                }
+            }
+        }
+
+        private double[,] CreateFakeBitmapValues(int width, int height)
+        {
+            var rand = new Random();
+
+            double[,] bitMapValues = new double[width, height];
+            for (int i = 0; i < bitMapValues.GetLength(0); i++)
+            {
+                for (int j = 0; j < bitMapValues.GetLength(1); j++)
+                {
+                    bitMapValues[i, j] = rand.NextDouble();
+                }
+            }
+
+            return bitMapValues;
         }
 
         private void btn_OpenStaircase_Click(object sender, EventArgs e)

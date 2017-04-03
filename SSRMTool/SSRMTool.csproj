@@ -54,7 +54,7 @@
     <Compile Include="Region.cs" />
     <Compile Include="DeviceMap.cs" />
     <Compile Include="Measurement.cs" />
-    <Compile Include="RegionDrawer.cs" />
+    <Compile Include="BitmapMaker.cs" />
     <Compile Include="Staircase.cs" />
     <Compile Include="GwyddionLibraryAdapter.cs" />
     <Compile Include="Program.cs" />
