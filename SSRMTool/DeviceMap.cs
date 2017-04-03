@@ -27,6 +27,13 @@ namespace SSRMTool
             Source = new DeviceImage();
             Image = ImageData;
         }
+        public DeviceMap(double[,] ImageData,Expression bground)
+        {
+            Regions = new List<Region>();
+            Background = bground;
+            Source = new DeviceImage();
+            Image = ImageData;
+        }
         public void AddRegion(Expression f, List<int[]> p, string m)
         {
             Regions.Add(new Region(f, p, m));
