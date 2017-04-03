@@ -56,9 +56,9 @@ namespace SSRMTool
                         bytePointer[3] = (byte)255;
                         bytePointer += 4;
 
+                        // Slower method
                         /*double color = bitMapValues[i, j];
                         ColorRGB RGB = new ColorRGB() { red = color, green = color, blue = color };
-
                         bmp.SetPixel(i, j, Color.FromArgb(255, RGB.red, RGB.green, RGB.blue);*/
                     }
                     bytePointer += (bmpData.Stride - (bmpData.Width * 4));
@@ -67,20 +67,6 @@ namespace SSRMTool
 
             bmp.UnlockBits(bmpData);
             return bmp;
-        }
-
-        public static void DrawPolygon()
-        {
-            Bitmap myBitmap = new Bitmap(@"turtle island.jpg");
-            Graphics g = Graphics.FromImage(myBitmap);
-
-            Rectangle rect = new Rectangle();
-            //PaintEventArgs eventArgs = new PaintEventArgs(g, rect);
-
-            Image newImage = Image.FromFile("turtle island.jpg");
-            PointF ulCorner = new PointF(100.0F, 100.0F);
-
-            //eventArgs.Graphics.DrawImage(newImage, ulCorner);
         }
     }
 }
