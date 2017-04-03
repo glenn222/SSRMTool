@@ -46,11 +46,11 @@ namespace SSRMToolUI
 
                     //TODO:: Get gwyddion image data and create bitmap with it.
 
-                    // Create fake bitmap values
-                    double[,] bitMapValues = CreateFakeBitmapValues(1000, 1000);
+                    //// Create fake bitmap values
+                    //double[,] bitMapValues = CreateFakeBitmapValues(1000, 1000);
 
-                    // Create bitmap using array of doubles
-                    pictureBox_GwyddionImage.Image = BitmapMaker.CreateBitMap(bitMapValues);
+                    //// Create bitmap using array of doubles
+                    //pictureBox_GwyddionImage.Image = BitmapMaker.CreateBitMap(bitMapValues);
                 }
             }
         }
@@ -117,6 +117,9 @@ namespace SSRMToolUI
         {
             var dataChannelComboBox = (ComboBox) sender;
             MessageBox.Show("Data Channel Selected " + dataChannelComboBox.SelectedIndex);
+            DeviceManager devManager = new DeviceManager();
+            Bitmap image = devManager.GetChannelImage(" ", 3);
+            pictureBox_GwyddionImage.Image = image;
 
             // TODO:: Get image for that certain data channel.
         }
@@ -187,5 +190,6 @@ namespace SSRMToolUI
         {
             txtArea_FunctionExpression.Text = _currentMeasurement.FunctionStrings[index];
         }
+        
     }
 }

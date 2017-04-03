@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeviceImage.cs" />
+    <Compile Include="DeviceManager.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="DeviceMap.cs" />
     <Compile Include="Measurement.cs" />
