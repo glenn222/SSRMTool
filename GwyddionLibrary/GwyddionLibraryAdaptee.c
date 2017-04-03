@@ -20,10 +20,6 @@
 /* rand() is not good but it exists even in Win32 and suffices here. */
 #define rng() (rand()/(double)RAND_MAX - 0.5)
 
-static double* create_image_data(int xres, int yres);
-static double* create_curve_xdata(int xres, double xreal);
-static double* create_curve_ydata(const double *imagedata,
-	int xres, int row);
 double* CreateArray(int length) {
 	double *new_array = (double*)malloc(length * sizeof(double));
 	return new_array;
@@ -89,23 +85,52 @@ int* ReadGWYChannelNames(char *path, unsigned int* n) {
 bool
 WriteGWY(double *imagedata,unsigned int xres,unsigned int yres)
 {
-	GwyfileObject *gwyf, *datafield, **curves, *graph, *selection;
+	GwyfileObject *gwyf, *gwyf2, *datafield;
 	GwyfileError *error = NULL;
-	double seldata[8];
 	datafield = gwyfile_object_new_datafield(xres, yres, 1.6e-9, 1.6e-9,
 		"data", imagedata,
 		"si_unit_xy", "m",
 		"si_unit_z", "",
 		NULL);
+
 	gwyf = gwyfile_object_new("GwyContainer",
 		gwyfile_item_new_object("/0/data", datafield),
 		NULL);
 	/* Write the top-level GwyContainer to a file. */
 	if (!gwyfile_write_file(gwyf, "d19_R.gwy", &error)) {
-		fprintf(stderr, "Cannot write test.gwy: %s\n", error->message);
+		//fprintf(stderr, "Cannot write test.gwy: %s\n", error->message);
 		gwyfile_error_clear(&error);
 		exit(EXIT_FAILURE);
 	}
 	gwyfile_object_free(gwyf);
 	return true;
+}
+bool
+WriteGWYChannel(char* path, double *imagedata, unsigned int xres, unsigned int yres) {
+	GwyfileObject *gwyf,*gwyftemp,*datafield;
+	char key[32];
+	GwyfileError *error = NULL;
+	unsigned int i,n;
+	int* ids;
+	gwyf = gwyfile_read_file("d19_tip11.gwy", &error);
+	if (!gwyf) {
+		gwyfile_object_free(gwyf);
+		return false;
+	}
+	else {
+		ids = gwyfile_object_container_enumerate_channels(gwyf, &n);
+		datafield = gwyfile_object_new_datafield(xres, yres, 1.6e-9, 1.6e-9,
+			"data", imagedata,
+			"si_unit_xy", "m",
+			"si_unit_z", "",
+			NULL);
+		snprintf(key, sizeof(key), "/%d/data", n);
+		gwyftemp = gwyfile_object_new("GwyContainer",
+			gwyfile_item_new_object(key, datafield),
+			NULL);
+		bool added = (gwyfile_object_add(gwyf, gwyfile_object_get(gwyftemp, key)));
+		bool saved = gwyfile_write_file(gwyf, "d19_R.gwy", &error);
+		gwyfile_object_free(gwyf);
+		return added&&saved;
+	}
 }

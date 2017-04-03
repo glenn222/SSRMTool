@@ -20,21 +20,48 @@ namespace SSRMTool
             Source = s;
             Image = Source.PullChannel();
         }
+        public DeviceMap(double[,] ImageData,string Function)
+        {
+            Regions = new List<Region>();
+            Background = new Expression(Function);
+            Source = new DeviceImage();
+            Image = ImageData;
+        }
         public void AddRegion(Expression f, List<int[]> p, string m)
         {
             Regions.Add(new Region(f, p, m));
         }
         public double[,] Calculate()
         {
-            double[,] NewImage = new double[Image.Length, Image.Length];
-            //for each point determine region and do following:
-            NewImage[0,0] = DeviceMap.CalculatePixel(Background,Image[0,0],"x");
+            int xres = Image.GetLength(0);
+            int yres = Image.GetLength(1);
+            double[,] NewImage = new double[xres, yres];
+            for (int x = 0; x < xres; x++)
+            {
+                for (int y = 0; y < yres; y++)
+                {
+                    Expression function = Background;
+                    for (int i = 0; i < Regions.Count; i++)
+                    {
+                        if (InPolygon(x, y, Regions[i].Polygon))
+                        {
+                            function = Regions[i].Function;
+                            break;
+                        }
+                    }
+                    NewImage[x, y] = DeviceMap.CalculatePixel(function, Image[x, y], "x");
+                }
+            }
             return NewImage;
         }
         public static double CalculatePixel(Expression f, double Measured, string var="x")
         {
             f.Parameters[var] = Measured;
             return (double)f.Evaluate();
+        }
+        public static bool InPolygon(int x,int y,List<int[]> Polygon)
+        {
+            return false;
         }
     }
 }
