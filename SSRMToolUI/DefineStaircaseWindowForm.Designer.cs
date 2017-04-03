@@ -134,29 +134,30 @@
             this.dataGridView_StairCaseMeasurements.Name = "dataGridView_StairCaseMeasurements";
             this.dataGridView_StairCaseMeasurements.Size = new System.Drawing.Size(994, 187);
             this.dataGridView_StairCaseMeasurements.TabIndex = 6;
+            this.dataGridView_StairCaseMeasurements.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_StairCaseMeasurements_CellEndEdit);
             // 
             // Resistivity
             // 
             this.Resistivity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Resistivity.HeaderText = "Resistivity";
+            this.Resistivity.HeaderText = "Resistivity [Ω⋅cm]";
             this.Resistivity.Name = "Resistivity";
             // 
             // Dopants
             // 
             this.Dopants.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Dopants.HeaderText = "Dopants";
+            this.Dopants.HeaderText = "Dopants [cm-3]";
             this.Dopants.Name = "Dopants";
             // 
             // Resistance
             // 
             this.Resistance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Resistance.HeaderText = "Resistance (R)";
+            this.Resistance.HeaderText = "Resistance (R) [Ω]";
             this.Resistance.Name = "Resistance";
             // 
             // ResistanceAmplitude
             // 
             this.ResistanceAmplitude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ResistanceAmplitude.HeaderText = "Resistance Amplitude (dR)";
+            this.ResistanceAmplitude.HeaderText = "Resistance Amplitude (dR) [Ω]";
             this.ResistanceAmplitude.Name = "ResistanceAmplitude";
             // 
             // label1

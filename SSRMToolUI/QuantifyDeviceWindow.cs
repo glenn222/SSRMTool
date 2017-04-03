@@ -23,7 +23,7 @@ namespace SSRMToolUI
         {
             InitializeComponent();
         }
-
+        
         public static QuantifyDeviceWindow GetQuantifyDeviceInstance()
         {
             if (_quantifyDeviceWindow == null || _quantifyDeviceWindow.IsDisposed)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using SSRMToolDB;
-using NCalc;
+using System.Globalization;
 
 namespace SSRMToolUI
 {
@@ -363,6 +363,19 @@ namespace SSRMToolUI
         {
             // Enable compute button only if two rows are in table
             btn_ComputeStaircase.Enabled = (dataGridView_StairCaseMeasurements.Rows.Count >= 2 && dropdown_StairCaseMeasurements.SelectedIndex >= 0) ? true : false;
+        }
+
+        private void dataGridView_StairCaseMeasurements_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string cellValue = dataGridView_StairCaseMeasurements[e.ColumnIndex, e.RowIndex].Value.ToString();
+
+            double formattedCellValue;
+            bool parsingSuccess = Double.TryParse(cellValue, NumberStyles.Float, CultureInfo.InvariantCulture.NumberFormat, out formattedCellValue);
+
+            if (parsingSuccess)
+                dataGridView_StairCaseMeasurements[e.ColumnIndex, e.RowIndex].Value = formattedCellValue;
+            else
+                dataGridView_StairCaseMeasurements[e.ColumnIndex, e.RowIndex].Value = string.Empty;
         }
     }
 }

@@ -100,7 +100,7 @@
             this.txtArea_GwyFilePath.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtArea_GwyFilePath.Location = new System.Drawing.Point(182, 79);
             this.txtArea_GwyFilePath.Name = "txtArea_GwyFilePath";
-            this.txtArea_GwyFilePath.Size = new System.Drawing.Size(682, 31);
+            this.txtArea_GwyFilePath.Size = new System.Drawing.Size(701, 31);
             this.txtArea_GwyFilePath.TabIndex = 19;
             this.txtArea_GwyFilePath.Text = "";
             // 
@@ -133,7 +133,7 @@
             this.pictureBox_GwyddionImage.InitialImage = null;
             this.pictureBox_GwyddionImage.Location = new System.Drawing.Point(299, 138);
             this.pictureBox_GwyddionImage.Name = "pictureBox_GwyddionImage";
-            this.pictureBox_GwyddionImage.Size = new System.Drawing.Size(576, 359);
+            this.pictureBox_GwyddionImage.Size = new System.Drawing.Size(584, 359);
             this.pictureBox_GwyddionImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox_GwyddionImage.TabIndex = 22;
             this.pictureBox_GwyddionImage.TabStop = false;
