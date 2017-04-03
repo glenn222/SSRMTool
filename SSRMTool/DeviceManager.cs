@@ -48,7 +48,7 @@ namespace SSRMTool
             return names;
         }
 
-        public Bitmap GetChannelImage(String channel, int ch)
+        public async Task<Bitmap> GetChannelImage(String channel, int ch)
         {
             this.channelName = channel;
             int index = 3;
@@ -56,17 +56,18 @@ namespace SSRMTool
                 index = 5;
             // channelImage = gwyAdapter.GetChannelData(channelName, path);
             this.channelImage = gwyAdapter.GetChannelData("d19_tip11.gwy", index);
-            Bitmap image = BitmapMaker.CreateBitMap(channelImage);
+            Bitmap image = await BitmapMaker.CreateBitMap(channelImage);
+
             return image;
         }
 
-        public Bitmap CalculateNewImage(Measurement meas, int FuncIndex)
+        public async Task<Bitmap> CalculateNewImage(Measurement meas, int FuncIndex)
         {
-            Expression function = meas.Functions[FuncIndex];
+            String function = meas.FunctionStrings[FuncIndex];
             DeviceMap dMap = new DeviceMap(this.channelImage, function);
-            double[,] newImageValues = dMap.Calculate();
-            bool state = gwyAdapter.WriteNewChannel(newImageValues, "d19_tip11.gwy");
-            Bitmap newImage = BitmapMaker.CreateBitMap(newImageValues);
+            double[,] newImageValues = await dMap.Calculate().ConfigureAwait(false);
+            bool state = gwyAdapter.WriteNewFile(newImageValues, "d19_tip11.gwy");
+            Bitmap newImage = await BitmapMaker.CreateBitMap(newImageValues).ConfigureAwait(false);
             return newImage;
         }
 

@@ -26,9 +26,9 @@ namespace SSRMTool
             }
 
             return bmp;
-        } 
+        }
 
-        public static Bitmap CreateBitMap(double[,] bitMapValues)
+        public static async Task<Bitmap> CreateBitMap(double[,] bitMapValues)
         {
             int xDimensions = bitMapValues.GetLength(0);
             int yDimensions = bitMapValues.GetLength(1);
@@ -41,30 +41,33 @@ namespace SSRMTool
 
             Bitmap bmp = new Bitmap(xDimensions, yDimensions);
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-            
-            unsafe
+
+            await Task.Run(() =>
             {
-                byte* bytePointer = (byte*) bmpData.Scan0;
-                for (int j = 0; j < yDimensions; j++)
+                unsafe
                 {
-                    for (int i = 0; i < xDimensions; i++)
+                    byte* bytePointer = (byte*)bmpData.Scan0;
+                    for (int j = 0; j < yDimensions; j++)
                     {
-                        bitMapByte = (byte) (255 * (bitMapValues[i, bmpData.Height - 1 - j] - min) / range);
+                        for (int i = 0; i < xDimensions; i++)
+                        {
+                            bitMapByte = (byte)(255 * (bitMapValues[i, bmpData.Height - 1 - j] - min) / range);
 
-                        for (int k = 0; k < 3; k++)
-                            bytePointer[k] = bitMapByte;
-                        bytePointer[3] = (byte)255;
-                        bytePointer += 4;
+                            for (int k = 0; k < 3; k++)
+                                bytePointer[k] = bitMapByte;
+                            bytePointer[3] = (byte)255;
+                            bytePointer += 4;
 
-                        // Slower method
-                        /*double color = bitMapValues[i, j];
-                        ColorRGB RGB = new ColorRGB() { red = color, green = color, blue = color };
-                        bmp.SetPixel(i, j, Color.FromArgb(255, RGB.red, RGB.green, RGB.blue);*/
+                            // Slower method
+                            /*double color = bitMapValues[i, j];
+                            ColorRGB RGB = new ColorRGB() { red = color, green = color, blue = color };
+                            bmp.SetPixel(i, j, Color.FromArgb(255, RGB.red, RGB.green, RGB.blue);*/
+                        }
+                        bytePointer += (bmpData.Stride - (bmpData.Width * 4));
                     }
-                    bytePointer += (bmpData.Stride - (bmpData.Width * 4));
                 }
-            }
-
+            });
+            
             bmp.UnlockBits(bmpData);
             return bmp;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace SSRMTool
 {
@@ -76,7 +77,7 @@ namespace SSRMTool
             }
             IntPtr ptr_input= CreateArray(xres * yres);
             Marshal.Copy(linearized, 0, ptr_input, xres * yres);
-            return WriteGWY(ptr_input,xres,yres);
+            return WriteGWY(ptr_input, xres, yres);
         }
         public unsafe bool WriteNewChannel(double[,] imagedata,string filename)
         {

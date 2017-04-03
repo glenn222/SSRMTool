@@ -38,27 +38,32 @@ namespace SSRMTool
         {
             Regions.Add(new Region(f, p, m));
         }
-        public double[,] Calculate()
+        public async Task<double[,]> Calculate()
         {
             int xres = Image.GetLength(0);
             int yres = Image.GetLength(1);
             double[,] NewImage = new double[xres, yres];
-            for (int x = 0; x < xres; x++)
+
+            await Task.Run(() =>
             {
-                for (int y = 0; y < yres; y++)
+                for (int x = 0; x < xres; x++)
                 {
-                    Expression function = Background;
-                    for (int i = 0; i < Regions.Count; i++)
+                    for (int y = 0; y < yres; y++)
                     {
-                        if (InPolygon(x, y, Regions[i].Polygon))
+                        Expression function = Background;
+                        for (int i = 0; i < Regions.Count; i++)
                         {
-                            function = Regions[i].Function;
-                            break;
+                            if (InPolygon(x, y, Regions[i].Polygon))
+                            {
+                                function = Regions[i].Function;
+                                break;
+                            }
                         }
+                        NewImage[x, y] = DeviceMap.CalculatePixel(function, Image[x, y], "x");
                     }
-                    NewImage[x, y] = DeviceMap.CalculatePixel(function, Image[x, y], "x");
                 }
-            }
+            });
+
             return NewImage;
         }
         public static double CalculatePixel(Expression f, double Measured, string var="x")

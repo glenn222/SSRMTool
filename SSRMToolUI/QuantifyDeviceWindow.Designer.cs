@@ -47,16 +47,22 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtArea_StairCaseMetaData = new System.Windows.Forms.RichTextBox();
             this.txtArea_FunctionExpression = new System.Windows.Forms.RichTextBox();
+            this.pictureBox_NewGwyddionImage = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox_ProcessedGwyddionImage = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_GwyddionImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_NewGwyddionImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ProcessedGwyddionImage)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_OpenFile
             // 
-            this.btn_OpenFile.BackColor = System.Drawing.SystemColors.Info;
+            this.btn_OpenFile.BackColor = System.Drawing.Color.LemonChiffon;
             this.btn_OpenFile.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_OpenFile.Location = new System.Drawing.Point(32, 79);
             this.btn_OpenFile.Name = "btn_OpenFile";
-            this.btn_OpenFile.Size = new System.Drawing.Size(144, 31);
+            this.btn_OpenFile.Size = new System.Drawing.Size(242, 31);
             this.btn_OpenFile.TabIndex = 9;
             this.btn_OpenFile.Text = "Open File";
             this.btn_OpenFile.UseVisualStyleBackColor = false;
@@ -66,7 +72,7 @@
             // 
             this.lbl_DefineStaircase.AutoSize = true;
             this.lbl_DefineStaircase.Font = new System.Drawing.Font("Lucida Sans", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_DefineStaircase.Location = new System.Drawing.Point(322, 9);
+            this.lbl_DefineStaircase.Location = new System.Drawing.Point(491, 9);
             this.lbl_DefineStaircase.Name = "lbl_DefineStaircase";
             this.lbl_DefineStaircase.Size = new System.Drawing.Size(293, 37);
             this.lbl_DefineStaircase.TabIndex = 12;
@@ -84,11 +90,12 @@
             // 
             // btn_Calculate
             // 
-            this.btn_Calculate.BackColor = System.Drawing.SystemColors.Info;
+            this.btn_Calculate.BackColor = System.Drawing.Color.YellowGreen;
             this.btn_Calculate.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Calculate.Location = new System.Drawing.Point(801, 521);
+            this.btn_Calculate.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_Calculate.Location = new System.Drawing.Point(1135, 608);
             this.btn_Calculate.Name = "btn_Calculate";
-            this.btn_Calculate.Size = new System.Drawing.Size(82, 34);
+            this.btn_Calculate.Size = new System.Drawing.Size(82, 47);
             this.btn_Calculate.TabIndex = 17;
             this.btn_Calculate.Text = "Calculate";
             this.btn_Calculate.UseVisualStyleBackColor = false;
@@ -98,9 +105,9 @@
             // 
             this.txtArea_GwyFilePath.Enabled = false;
             this.txtArea_GwyFilePath.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtArea_GwyFilePath.Location = new System.Drawing.Point(182, 79);
+            this.txtArea_GwyFilePath.Location = new System.Drawing.Point(299, 79);
             this.txtArea_GwyFilePath.Name = "txtArea_GwyFilePath";
-            this.txtArea_GwyFilePath.Size = new System.Drawing.Size(701, 31);
+            this.txtArea_GwyFilePath.Size = new System.Drawing.Size(918, 31);
             this.txtArea_GwyFilePath.TabIndex = 19;
             this.txtArea_GwyFilePath.Text = "";
             // 
@@ -108,7 +115,7 @@
             // 
             this.lbl_GwyFileName.AutoSize = true;
             this.lbl_GwyFileName.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_GwyFileName.Location = new System.Drawing.Point(182, 58);
+            this.lbl_GwyFileName.Location = new System.Drawing.Point(296, 58);
             this.lbl_GwyFileName.Name = "lbl_GwyFileName";
             this.lbl_GwyFileName.Size = new System.Drawing.Size(85, 18);
             this.lbl_GwyFileName.TabIndex = 20;
@@ -118,8 +125,6 @@
             // 
             this.dropdown_DataChannels.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dropdown_DataChannels.FormattingEnabled = true;
-            this.dropdown_DataChannels.Items.AddRange(new object[] {
-            "Default"});
             this.dropdown_DataChannels.Location = new System.Drawing.Point(35, 138);
             this.dropdown_DataChannels.Name = "dropdown_DataChannels";
             this.dropdown_DataChannels.Size = new System.Drawing.Size(239, 28);
@@ -131,9 +136,9 @@
             this.pictureBox_GwyddionImage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox_GwyddionImage.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_GwyddionImage.Image")));
             this.pictureBox_GwyddionImage.InitialImage = null;
-            this.pictureBox_GwyddionImage.Location = new System.Drawing.Point(299, 138);
+            this.pictureBox_GwyddionImage.Location = new System.Drawing.Point(303, 138);
             this.pictureBox_GwyddionImage.Name = "pictureBox_GwyddionImage";
-            this.pictureBox_GwyddionImage.Size = new System.Drawing.Size(584, 359);
+            this.pictureBox_GwyddionImage.Size = new System.Drawing.Size(450, 450);
             this.pictureBox_GwyddionImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox_GwyddionImage.TabIndex = 22;
             this.pictureBox_GwyddionImage.TabStop = false;
@@ -156,8 +161,8 @@
             this.dropdown_MeasurementFunctions.Items.AddRange(new object[] {
             "Resistivity vs Resistance (R)",
             "Resistivity vs Resistance Amplitude (dR)",
-            "Carrier Concentration vs Resistance (R)",
-            "Carrier Concentration vs Resistance Amplitude (dR)"});
+            "Dopants vs Resistance (R)",
+            "Dopants vs Resistance Amplitude (dR)"});
             this.dropdown_MeasurementFunctions.Location = new System.Drawing.Point(40, 471);
             this.dropdown_MeasurementFunctions.Name = "dropdown_MeasurementFunctions";
             this.dropdown_MeasurementFunctions.Size = new System.Drawing.Size(235, 26);
@@ -188,15 +193,15 @@
             // 
             this.lbl_Message.AutoSize = true;
             this.lbl_Message.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Message.Location = new System.Drawing.Point(37, 537);
+            this.lbl_Message.Location = new System.Drawing.Point(300, 591);
             this.lbl_Message.Name = "lbl_Message";
-            this.lbl_Message.Size = new System.Drawing.Size(95, 18);
+            this.lbl_Message.Size = new System.Drawing.Size(90, 18);
             this.lbl_Message.TabIndex = 29;
-            this.lbl_Message.Text = "Expression:";
+            this.lbl_Message.Text = "Expression";
             // 
             // btn_OpenStaircase
             // 
-            this.btn_OpenStaircase.BackColor = System.Drawing.SystemColors.Info;
+            this.btn_OpenStaircase.BackColor = System.Drawing.Color.LemonChiffon;
             this.btn_OpenStaircase.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_OpenStaircase.Location = new System.Drawing.Point(32, 181);
             this.btn_OpenStaircase.Name = "btn_OpenStaircase";
@@ -220,7 +225,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(296, 117);
+            this.label1.Location = new System.Drawing.Point(300, 117);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(139, 18);
             this.label1.TabIndex = 33;
@@ -228,6 +233,7 @@
             // 
             // txtArea_StairCaseMetaData
             // 
+            this.txtArea_StairCaseMetaData.Enabled = false;
             this.txtArea_StairCaseMetaData.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtArea_StairCaseMetaData.Location = new System.Drawing.Point(39, 242);
             this.txtArea_StairCaseMetaData.Name = "txtArea_StairCaseMetaData";
@@ -238,18 +244,61 @@
             // txtArea_FunctionExpression
             // 
             this.txtArea_FunctionExpression.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtArea_FunctionExpression.Location = new System.Drawing.Point(138, 521);
+            this.txtArea_FunctionExpression.Location = new System.Drawing.Point(303, 610);
             this.txtArea_FunctionExpression.Name = "txtArea_FunctionExpression";
-            this.txtArea_FunctionExpression.Size = new System.Drawing.Size(657, 47);
+            this.txtArea_FunctionExpression.Size = new System.Drawing.Size(826, 47);
             this.txtArea_FunctionExpression.TabIndex = 35;
             this.txtArea_FunctionExpression.Text = "";
+            // 
+            // pictureBox_NewGwyddionImage
+            // 
+            this.pictureBox_NewGwyddionImage.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox_NewGwyddionImage.Name = "pictureBox_NewGwyddionImage";
+            this.pictureBox_NewGwyddionImage.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox_NewGwyddionImage.TabIndex = 0;
+            this.pictureBox_NewGwyddionImage.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(759, 117);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(137, 18);
+            this.label5.TabIndex = 37;
+            this.label5.Text = "Processed Image";
+            // 
+            // pictureBox_ProcessedGwyddionImage
+            // 
+            this.pictureBox_ProcessedGwyddionImage.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox_ProcessedGwyddionImage.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_ProcessedGwyddionImage.Image")));
+            this.pictureBox_ProcessedGwyddionImage.InitialImage = null;
+            this.pictureBox_ProcessedGwyddionImage.Location = new System.Drawing.Point(767, 138);
+            this.pictureBox_ProcessedGwyddionImage.Name = "pictureBox_ProcessedGwyddionImage";
+            this.pictureBox_ProcessedGwyddionImage.Size = new System.Drawing.Size(450, 450);
+            this.pictureBox_ProcessedGwyddionImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_ProcessedGwyddionImage.TabIndex = 36;
+            this.pictureBox_ProcessedGwyddionImage.TabStop = false;
+            this.pictureBox_ProcessedGwyddionImage.WaitOnLoad = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(764, 117);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(137, 18);
+            this.label7.TabIndex = 37;
+            this.label7.Text = "Processed Image";
             // 
             // QuantifyDeviceWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(906, 580);
+            this.ClientSize = new System.Drawing.Size(1238, 667);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.pictureBox_ProcessedGwyddionImage);
             this.Controls.Add(this.txtArea_FunctionExpression);
             this.Controls.Add(this.txtArea_StairCaseMetaData);
             this.Controls.Add(this.label1);
@@ -272,6 +321,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QuantifyDeviceWindow";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_GwyddionImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_NewGwyddionImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ProcessedGwyddionImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,5 +347,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox txtArea_StairCaseMetaData;
         private System.Windows.Forms.RichTextBox txtArea_FunctionExpression;
+        private System.Windows.Forms.PictureBox pictureBox_NewGwyddionImage;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.PictureBox pictureBox_ProcessedGwyddionImage;
+        private System.Windows.Forms.Label label7;
     }
 }

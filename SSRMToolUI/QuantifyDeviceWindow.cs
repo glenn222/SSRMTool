@@ -1,34 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SSRMTool;
+using System.Threading.Tasks;
 
 namespace SSRMToolUI
 {
     public partial class QuantifyDeviceWindow : Form
     {
         private static QuantifyDeviceWindow _quantifyDeviceWindow = null;
+        private DeviceManager _deviceManager = new DeviceManager();
+        private string _fileName;
         private Staircase _currentStairCase;
         private Measurement _currentMeasurement;
         private static readonly string FILE_DIALOG_JPG_FILTER = "JPEG File|*.jpg";
         private static readonly string FILE_DIALOG_FILTER = "Gwyddion File|*.gwy";
-        
+
+        private Task<Bitmap> NewImage;
+
         private QuantifyDeviceWindow()
         {
             InitializeComponent();
+            PopulateDataChannelDropDownMenu();
+            PopulateFunctionsDropDownMenu();
         }
-        
+
         public static QuantifyDeviceWindow GetQuantifyDeviceInstance()
         {
             if (_quantifyDeviceWindow == null || _quantifyDeviceWindow.IsDisposed)
                 _quantifyDeviceWindow = new QuantifyDeviceWindow();
-            
+
             return _quantifyDeviceWindow;
         }
 
@@ -40,18 +45,31 @@ namespace SSRMToolUI
                 dialog.ShowDialog();
 
                 // Check if file was selected
-                if (dialog.FileName != string.Empty && dialog.FileName != null)
+                if (!string.IsNullOrEmpty(dialog.FileName))
                 {
+                    _fileName = dialog.FileName;
                     txtArea_GwyFilePath.Text = dialog.FileName;
 
-                    //TODO:: Get gwyddion image data and create bitmap with it.
-
-                    //// Create fake bitmap values
+                    // Create fake bitmap values
                     //double[,] bitMapValues = CreateFakeBitmapValues(1000, 1000);
-
-                    //// Create bitmap using array of doubles
-                    //pictureBox_GwyddionImage.Image = BitmapMaker.CreateBitMap(bitMapValues);
                 }
+            }
+        }
+
+        private void PopulateDataChannelDropDownMenu()
+        {
+            foreach (string channelName in _deviceManager.ChannelIndex.Values)
+            {
+                dropdown_DataChannels.Items.Add(channelName);
+            }
+        }
+
+        private void PopulateFunctionsDropDownMenu()
+        {
+            dropdown_MeasurementFunctions.Items.Clear();
+            foreach (string functionName in _deviceManager.FuncIndexToString.Values)
+            {
+                dropdown_MeasurementFunctions.Items.Add(functionName);
             }
         }
 
@@ -112,22 +130,39 @@ namespace SSRMToolUI
                 PopulateFunctionExpression(index);
             }
         }
-        
-        private void dropdown_DataChannels_SelectedIndexChanged(object sender, EventArgs e)
+
+        private async void dropdown_DataChannels_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var dataChannelComboBox = (ComboBox) sender;
-            MessageBox.Show("Data Channel Selected " + dataChannelComboBox.SelectedIndex);
-            DeviceManager devManager = new DeviceManager();
-            Bitmap image = devManager.GetChannelImage(" ", 3);
+            if (string.IsNullOrEmpty(_fileName))
+            {
+                MessageBox.Show("Please open a gwyddion file first");
+                return;
+            }
+
+            var dataChannelComboBox = (ComboBox)sender;
+            Bitmap image = await _deviceManager.GetChannelImage(" ", dataChannelComboBox.SelectedIndex);
             pictureBox_GwyddionImage.Image = image;
+
+            // TODO:: Check bitmap creation to see if it can flip values.
+            pictureBox_GwyddionImage.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
 
             // TODO:: Get image for that certain data channel.
         }
 
-        private void btn_Calculate_Click(object sender, EventArgs e)
+        private async void btn_Calculate_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Calculate");
-            // TODO:: Get Apply Function Expression on displayed gwyddion image.
+            if (_currentMeasurement == null)
+            {
+                MessageBox.Show(StringConstants.ERROR_NO_MEASUREMENT_DEFINED);
+                return;
+            }
+
+            var index = dropdown_MeasurementFunctions.SelectedIndex;
+            
+            Bitmap newImage = await _deviceManager.CalculateNewImage(_currentMeasurement, index);
+
+            pictureBox_ProcessedGwyddionImage.Image = newImage;
+            pictureBox_ProcessedGwyddionImage.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
         }
 
         public void PopulateStairCase(Staircase stairCase)
@@ -159,14 +194,16 @@ namespace SSRMToolUI
         private void ClearAllFormComponents()
         {
             dropdown_Measurements.Items.Clear();
+            dropdown_MeasurementFunctions.SelectedIndex = -1;
         }
 
         private void PopulateStairCaseMetaData(ref Staircase stairCase)
         {
             var stairCaseMetaData = new string[] { stairCase.StaircaseName, stairCase.StaircaseDescription, stairCase.StaircaseMaterial };
             var stairCaseMetaDataBuilder = new StringBuilder();
-            
-            foreach (var metaData in txtArea_StairCaseMetaData.Lines.Zip(stairCaseMetaData, Tuple.Create))
+            var stairCaseProperties = txtArea_StairCaseMetaData.Lines.Where(l => !string.IsNullOrEmpty(l));
+
+            foreach (var metaData in stairCaseProperties.Zip(stairCaseMetaData, Tuple.Create))
             {
                 var metaDataKey = metaData.Item1.Split(':')[0];
                 stairCaseMetaDataBuilder.AppendLine(string.Join(": ", metaDataKey, metaData.Item2));
@@ -190,6 +227,6 @@ namespace SSRMToolUI
         {
             txtArea_FunctionExpression.Text = _currentMeasurement.FunctionStrings[index];
         }
-        
+
     }
 }
