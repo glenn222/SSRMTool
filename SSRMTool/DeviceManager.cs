@@ -51,8 +51,11 @@ namespace SSRMTool
         public Bitmap GetChannelImage(String channel, int ch)
         {
             this.channelName = channel;
+            int index = 3;
+            if (ch == 1)
+                index = 5;
             // channelImage = gwyAdapter.GetChannelData(channelName, path);
-            this.channelImage = gwyAdapter.GetChannelData("d19_tip11.gwy", ch);
+            this.channelImage = gwyAdapter.GetChannelData("d19_tip11.gwy", index);
             Bitmap image = BitmapMaker.CreateBitMap(channelImage);
             return image;
         }
