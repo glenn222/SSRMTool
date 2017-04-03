@@ -26,9 +26,9 @@ namespace SSRMTool
         }
         public double[,] Calculate()
         {
-            double[,] NewImage = new double[10, 10];
+            double[,] NewImage = new double[Image.Length, Image.Length];
             //for each point determine region and do following:
-            NewImage[0,0] = DeviceMap.CalculatePixel(Regions[0].Function,Image[0,0],"x");
+            NewImage[0,0] = DeviceMap.CalculatePixel(Background,Image[0,0],"x");
             return NewImage;
         }
         public static double CalculatePixel(Expression f, double Measured, string var="x")

@@ -23,138 +23,89 @@
 static double* create_image_data(int xres, int yres);
 static double* create_curve_xdata(int xres, double xreal);
 static double* create_curve_ydata(const double *imagedata,
-                                  int xres, int row);
-
-unsigned long ConnectSession(unsigned long handle, unsigned char *publicKey, unsigned char publicKeyLen)
-{
-	return 42;
+	int xres, int row);
+double* CreateArray(int length) {
+	double *new_array = (double*)malloc(length * sizeof(double));
+	return new_array;
 }
-
-unsigned int TestGwyddion()
-{
-    GwyfileObject *gwyf, *datafield, **curves, *graph, *selection;
-    GwyfileError *error = NULL;
-    double *imagedata, *xdata, *ydata;
-    double seldata[8];
-    int xres = 256, yres = 256;
-
-    /* Build the file structure in a bottom-up manner: take image data, create
-     * GwyDataFields, then the top-level GwyContainer. */
-    imagedata = create_image_data(xres, yres);
-    datafield = gwyfile_object_new_datafield(xres, yres, 1.6e-9, 1.6e-9,
-                                             "data", imagedata,
-                                             "si_unit_xy", "m",
-                                             "si_unit_z", "A",
-                                             NULL);
-    /* Create some graph curves and put them to a graph.  Note the graph
-     * consumes the curves array.  */
-    curves = (GwyfileObject**)malloc(2*sizeof(GwyfileObject*));
-
-    xdata = create_curve_xdata(xres, 1.6e-9);
-    ydata = create_curve_ydata(imagedata, xres, yres/4);
-    curves[0] = gwyfile_object_new_graphcurvemodel(xres,
-                                                   "xdata", xdata,
-                                                   "ydata", ydata,
-                                                   "type", 1,
-                                                   "color.red", 0.9,
-                                                   "description", "Profile 1",
-                                                   NULL);
-
-    xdata = create_curve_xdata(xres, 1.6e-9);
-    ydata = create_curve_ydata(imagedata, xres, 3*yres/4);
-    curves[1] = gwyfile_object_new_graphcurvemodel(xres,
-                                                   "xdata", xdata,
-                                                   "ydata", ydata,
-                                                   "type", 2,
-                                                   "color.green", 0.8,
-                                                   "description", "Profile 2",
-                                                   NULL);
-
-    graph = gwyfile_object_new_graphmodel(2,
-                                          "curves", curves,
-                                          "title", "Profiles",
-                                          "x_unit", "m",
-                                          "y_unit", "A",
-                                          NULL);
-
-    /* Create a simple selection with two lines. */
-    seldata[0] = 0.1e-9;
-    seldata[1] = 0.2e-9;
-    seldata[2] = 1.5e-9;
-    seldata[3] = 0.3e-9;
-
-    seldata[4] = 0.3e-9;
-    seldata[5] = 0.4e-9;
-    seldata[6] = 0.5e-9;
-    seldata[7] = 1.1e-9;
-
-    selection = gwyfile_object_new_selectionline(2,
-                                                 "data(copy)", seldata,
-                                                 NULL);
-
-    /* Put the first channel at "/0/data" and the first graph as
-     * "/0/graph/graph/1" as usual in Gwyddion. */
-    gwyf = gwyfile_object_new("GwyContainer",
-                              gwyfile_item_new_object("/0/data", datafield),
-                              gwyfile_item_new_object("/0/graph/graph/1",
-                                                      graph),
-                              gwyfile_item_new_object("/0/select/line",
-                                                      selection),
-                              NULL);
-
-    /* Write the top-level GwyContainer to a file. */
-    if (!gwyfile_write_file(gwyf, "test.gwy", &error)) {
-        fprintf(stderr, "Cannot write test.gwy: %s\n", error->message);
-        gwyfile_error_clear(&error);
-        exit(EXIT_FAILURE);
-    }
-
-    /* Clean-up.  With the default ownership transfer rules, this call nicely
-     * frees all the created objects and items, even imagedata itself. */
-    gwyfile_object_free(gwyf);
-
-    return 0;
+bool DestroyArray(double * used_array) {
+	free(used_array);
+	return true;
 }
-
-/* Create a ‘simulated’ image of dimensions xres×yres. */
-static double*
-create_image_data(int xres, int yres)
-{
-    double *data = (double*)malloc(xres*yres*sizeof(double));
-    int i, j, k;
-
-    k = 0;
-    for (i = 0; i < yres; i++) {
-        for (j = 0; j < xres; j++, k++) {
-            data[k] = rng() + 0.08*sin(i/10.0)*cos(j/5.0)
-                      + ((i ? data[k-xres] : 0.0)
-                         + (j ? data[k-1] : 0.0))*(i && j ? 0.48 : 0.8);
-        }
-    }
-    for (k = 0; k < xres*yres; k++)
-        data[k] *= 1.2e-11;
-
-    return data;
+double* ReadGWYChannelData(char* path, int id, int *resX, int *resY) {
+	GwyfileObject *gwyf;
+	GwyfileError *error = NULL;
+	unsigned int i;
+	char* new_path = "d19_tip11.gwy";
+	gwyf = gwyfile_read_file(new_path, &error);
+	if (!gwyf) { return NULL; }
+	char key[32];
+	int32_t xres, yres;
+	double xreal, yreal;
+	char *xyunit = NULL, *zunit = NULL;
+	GwyfileItem *item, *auxitem;
+	GwyfileObject *object;
+	double *channelData,*channelDataCopy;
+	/* Examine the main data field object. */
+	snprintf(key, sizeof(key), "/%d/data", id);
+	item = gwyfile_object_get(gwyf, key);
+	object = gwyfile_item_get_object(item);
+	gwyfile_object_datafield_get(object, &error,
+		"xres", &xres, "yres", &yres,
+		"xreal", &xreal, "yreal", &yreal,
+		"si_unit_xy", &xyunit,
+		"si_unit_z", &zunit,
+		NULL);
+	channelData = CreateArray(xres*yres);
+	gwyfile_object_datafield_get(object, &error,
+		"data", &channelData,
+		NULL);
+	channelDataCopy = CreateArray(xres*yres);
+	for (int i = 0;i < xres*yres;i++) {
+		channelDataCopy[i] = channelData[i];
+	}
+	*resX = xres;
+	*resY = yres;
+	gwyfile_object_free(gwyf);
+	return channelDataCopy;
 }
-
-static double*
-create_curve_xdata(int xres, double xreal)
-{
-    double *xdata = (double*)malloc(xres*sizeof(double));
-    int i;
-
-    for (i = 0; i < xres; i++)
-        xdata[i] = (i + 0.5)/xres*xreal;
-
-    return xdata;
+int* ReadGWYChannelNames(char *path, unsigned int* n) {
+	GwyfileObject *gwyf;
+	GwyfileError *error = NULL;
+	unsigned int i;
+	int* ids;
+	gwyf = gwyfile_read_file("d19_tip11.gwy", &error);
+	if (!gwyf) {
+		ids = n;
+		gwyfile_object_free(gwyf);
+		return ids;
+	}
+	else {
+		ids = gwyfile_object_container_enumerate_channels(gwyf,n);
+		gwyfile_object_free(gwyf);
+		return ids;
+	}
 }
-
-static double*
-create_curve_ydata(const double *imagedata, int xres, int row)
+bool
+WriteGWY(double *imagedata,unsigned int xres,unsigned int yres)
 {
-    double *ydata = (double*)malloc(xres*sizeof(double));
-    memcpy(ydata, imagedata + xres*row, xres*sizeof(double));
-    return ydata;
+	GwyfileObject *gwyf, *datafield, **curves, *graph, *selection;
+	GwyfileError *error = NULL;
+	double seldata[8];
+	datafield = gwyfile_object_new_datafield(xres, yres, 1.6e-9, 1.6e-9,
+		"data", imagedata,
+		"si_unit_xy", "m",
+		"si_unit_z", "",
+		NULL);
+	gwyf = gwyfile_object_new("GwyContainer",
+		gwyfile_item_new_object("/0/data", datafield),
+		NULL);
+	/* Write the top-level GwyContainer to a file. */
+	if (!gwyfile_write_file(gwyf, "d19_R.gwy", &error)) {
+		fprintf(stderr, "Cannot write test.gwy: %s\n", error->message);
+		gwyfile_error_clear(&error);
+		exit(EXIT_FAILURE);
+	}
+	gwyfile_object_free(gwyf);
+	return true;
 }
-
-/* vim: set cin et ts=4 sw=4 cino=>1s,e0,n0,f0,{0,}0,^0,\:1s,=0,g1s,h0,t0,+1s,c3,(0,u0 : */
