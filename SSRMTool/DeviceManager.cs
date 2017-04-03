@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing;
+using NCalc;
+
 
 namespace SSRMTool
 {
@@ -18,6 +20,7 @@ namespace SSRMTool
         private String relation; // Resistivty vs R or Resistivity Vs dR ... 
         private String path;
         private String channelName;
+        private double[,] channelImage;
         public Dictionary<int, String> FuncIndexToString;
         public Dictionary<int, String> ChannelIndex;
 
@@ -38,6 +41,7 @@ namespace SSRMTool
 
         public List<String> GetChannelNames(String path)
         {
+            //TODO: still need to figure thsi out ... 
             this.path = path;
             List<String> names = new List<String>();
             //names = gwyAdapter.GetChannelNames(String path);
@@ -48,12 +52,20 @@ namespace SSRMTool
         {
             this.channelName = channel;
             // channelImage = gwyAdapter.GetChannelData(channelName, path);
-            double [,] channelImage = gwyAdapter.GetChannelData("d19_tip11.gwy", ch);
+            this.channelImage = gwyAdapter.GetChannelData("d19_tip11.gwy", ch);
             Bitmap image = BitmapMaker.CreateBitMap(channelImage);
             return image;
         }
-        
-        // create an enumeration for the functions 
+
+        public Bitmap CalculateNewImage(Measurement meas, int FuncIndex)
+        {
+            Expression function = meas.Functions[FuncIndex];
+            DeviceMap dMap = new DeviceMap(this.channelImage, function);
+            double[,] newImageValues = dMap.Calculate();
+            bool state = gwyAdapter.WriteNewChannel(newImageValues, "d19_tip11.gwy");
+            Bitmap newImage = BitmapMaker.CreateBitMap(newImageValues);
+            return newImage;
+        }
 
     }
 }
