@@ -28,16 +28,13 @@ bool DestroyArray(double * used_array) {
 	free(used_array);
 	return true;
 }
-double* ReadGWYChannelData(char* path, int id, int *resX, int *resY) {
+double* ReadGWYChannelData(char* path, int id, int *xres, int *yres, double *xreal, double *yreal) {
 	GwyfileObject *gwyf;
 	GwyfileError *error = NULL;
 	unsigned int i;
-	char* new_path = "d19_tip11.gwy";
-	gwyf = gwyfile_read_file(new_path, &error);
+	gwyf = gwyfile_read_file(path, &error);
 	if (!gwyf) { return NULL; }
 	char key[32];
-	int32_t xres, yres;
-	double xreal, yreal;
 	char *xyunit = NULL, *zunit = NULL;
 	GwyfileItem *item, *auxitem;
 	GwyfileObject *object;
@@ -47,21 +44,17 @@ double* ReadGWYChannelData(char* path, int id, int *resX, int *resY) {
 	item = gwyfile_object_get(gwyf, key);
 	object = gwyfile_item_get_object(item);
 	gwyfile_object_datafield_get(object, &error,
-		"xres", &xres, "yres", &yres,
-		"xreal", &xreal, "yreal", &yreal,
-		"si_unit_xy", &xyunit,
-		"si_unit_z", &zunit,
+		"xres", xres, "yres", yres,
+		"xreal", xreal, "yreal", yreal,
 		NULL);
-	channelData = CreateArray(xres*yres);
+	channelData = CreateArray(*xres**yres);
 	gwyfile_object_datafield_get(object, &error,
 		"data", &channelData,
 		NULL);
-	channelDataCopy = CreateArray(xres*yres);
-	for (int i = 0;i < xres*yres;i++) {
+	channelDataCopy = CreateArray(*xres**yres);
+	for (int i = 0;i < *xres**yres;i++) {
 		channelDataCopy[i] = channelData[i];
 	}
-	*resX = xres;
-	*resY = yres;
 	gwyfile_object_free(gwyf);
 	return channelDataCopy;
 }
@@ -83,21 +76,21 @@ int* ReadGWYChannelNames(char *path, unsigned int* n) {
 	}
 }
 bool
-WriteGWY(double *imagedata,unsigned int xres,unsigned int yres)
+WriteGWYFile(char *path, double *imagedata, unsigned int xres, unsigned int yres, double xreal, double yreal, char *units)
 {
 	GwyfileObject *gwyf, *gwyf2, *datafield;
 	GwyfileError *error = NULL;
-	datafield = gwyfile_object_new_datafield(xres, yres, 1.6e-9, 1.6e-9,
+	datafield = gwyfile_object_new_datafield(xres, yres, xreal, yreal,
 		"data", imagedata,
 		"si_unit_xy", "m",
-		"si_unit_z", "",
+		"si_unit_z", units,
 		NULL);
 
 	gwyf = gwyfile_object_new("GwyContainer",
 		gwyfile_item_new_object("/0/data", datafield),
 		NULL);
 	/* Write the top-level GwyContainer to a file. */
-	if (!gwyfile_write_file(gwyf, "d19_R.gwy", &error)) {
+	if (!gwyfile_write_file(gwyf, path, &error)) {
 		//fprintf(stderr, "Cannot write test.gwy: %s\n", error->message);
 		gwyfile_error_clear(&error);
 		exit(EXIT_FAILURE);
@@ -106,30 +99,30 @@ WriteGWY(double *imagedata,unsigned int xres,unsigned int yres)
 	return true;
 }
 bool
-WriteGWYChannel(char* path, double *imagedata, unsigned int xres, unsigned int yres) {
+WriteGWYChannel(char *path, double *imagedata, unsigned int xres, unsigned int yres, double xreal, double yreal, char *units) {
 	GwyfileObject *gwyf,*gwyftemp,*datafield;
 	char key[32];
 	GwyfileError *error = NULL;
 	unsigned int i,n;
 	int* ids;
-	gwyf = gwyfile_read_file("d19_tip11.gwy", &error);
+	gwyf = gwyfile_read_file(path, &error);
 	if (!gwyf) {
 		gwyfile_object_free(gwyf);
 		return false;
 	}
 	else {
 		ids = gwyfile_object_container_enumerate_channels(gwyf, &n);
-		datafield = gwyfile_object_new_datafield(xres, yres, 1.6e-9, 1.6e-9,
+		datafield = gwyfile_object_new_datafield(xres, yres, xreal, yreal,
 			"data", imagedata,
 			"si_unit_xy", "m",
-			"si_unit_z", "",
+			"si_unit_z", units,
 			NULL);
 		snprintf(key, sizeof(key), "/%d/data", n);
 		gwyftemp = gwyfile_object_new("GwyContainer",
 			gwyfile_item_new_object(key, datafield),
 			NULL);
 		bool added = (gwyfile_object_add(gwyf, gwyfile_object_get(gwyftemp, key)));
-		bool saved = gwyfile_write_file(gwyf, "d19_R.gwy", &error);
+		bool saved = gwyfile_write_file(gwyf, path, &error);
 		gwyfile_object_free(gwyf);
 		return added&&saved;
 	}

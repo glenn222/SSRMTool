@@ -8,16 +8,16 @@ namespace SSRMTool
     {
 
         [DllImport("GwyddionLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
-        unsafe static extern bool WriteGWY(IntPtr newimagedata,int xres, int yres);
+        unsafe static extern bool WriteGWYFile(string path, IntPtr newimagedata, int xres, int yres, double xreal, double yreal, string units);
 
         [DllImport("GwyddionLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
-        unsafe static extern bool WriteGWYChannel(char* path, IntPtr newimagedata, int xres, int yres);
+        unsafe static extern bool WriteGWYChannel(string path, IntPtr newimagedata, int xres, int yres, double xreal, double yreal, string units);
 
         [DllImport("GwyddionLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
-        unsafe static extern IntPtr ReadGWYChannelData(char* path,int id,int *resX, int *resY);
+        unsafe static extern IntPtr ReadGWYChannelData(string path,int id,int *xres, int *yres, double *xreal, double *yreal);
 
         [DllImport("GwyddionLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
-        unsafe static extern IntPtr ReadGWYChannelNames(char* path, int* n);
+        unsafe static extern IntPtr ReadGWYChannelNames(string path, int* n);
 
         [DllImport("GwyddionLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
         unsafe static extern IntPtr CreateArray(int length);
@@ -35,7 +35,7 @@ namespace SSRMTool
 
             int n=0;
             IntPtr channels_ptr;
-            channels_ptr = ReadGWYChannelNames(char_path,&n);
+            channels_ptr = ReadGWYChannelNames(path,&n);
             int[] channels = new int[n];
             Marshal.Copy(channels_ptr, channels, 0, n);
             return channels;
@@ -49,7 +49,8 @@ namespace SSRMTool
             }
             IntPtr data_ptr;
             int xres, yres;
-            data_ptr = ReadGWYChannelData(char_path, id, &xres, &yres);
+            double xreal, yreal;
+            data_ptr = ReadGWYChannelData(path, id, &xres, &yres, &xreal, &yreal);
             double[] data = new double[xres * yres];
             Marshal.Copy(data_ptr, data, 0, xres * yres);
             double[,] matrix_data = new double[xres, yres];
@@ -62,7 +63,7 @@ namespace SSRMTool
             }
             return matrix_data;
         }
-        public unsafe bool WriteNewFile(double[,] imagedata,string filename)
+        public unsafe bool WriteNewFile(double[,] imagedata,string filename,string units="")
         {
             int xres, yres;
             xres = imagedata.GetLength(0);
@@ -77,9 +78,10 @@ namespace SSRMTool
             }
             IntPtr ptr_input= CreateArray(xres * yres);
             Marshal.Copy(linearized, 0, ptr_input, xres * yres);
-            return WriteGWY(ptr_input, xres, yres);
+            double xreal = 1e-6, yreal = 1e-6;
+            return WriteGWYFile(filename, ptr_input, xres, yres, xreal, yreal, units);
         }
-        public unsafe bool WriteNewChannel(double[,] imagedata,string filename)
+        public unsafe bool WriteNewChannel(double[,] imagedata, string filename, string units="")
         {
             //broken
             int xres, yres;
@@ -100,7 +102,8 @@ namespace SSRMTool
             }
             IntPtr ptr_input = CreateArray(xres * yres);
             Marshal.Copy(linearized, 0, ptr_input, xres * yres);
-            return WriteGWYChannel(char_path, ptr_input, xres, yres);
+            double xreal = 1e-6, yreal = 1e-6;
+            return WriteGWYChannel(filename, ptr_input, xres, yres, xreal, yreal, units);
         }
     }
 }
