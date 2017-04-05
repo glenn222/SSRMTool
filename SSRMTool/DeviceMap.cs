@@ -53,7 +53,8 @@ namespace SSRMTool
                         Expression function = Background;
                         for (int i = 0; i < Regions.Count; i++)
                         {
-                            if (InPolygon(x, y, Regions[i].Polygon))
+                            int[] point = new int[] { x, y };
+                            if (InPolygon(point, Regions[i].Polygon))
                             {
                                 function = Regions[i].Function;
                                 break;
@@ -71,8 +72,51 @@ namespace SSRMTool
             f.Parameters[var] = Measured;
             return (double)f.Evaluate();
         }
-        public static bool InPolygon(int x,int y,List<int[]> Polygon)
+        public static bool InPolygon(int[] point,List<int[]> Polygon)
         {
+            //Algorithm inspired by: http://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/
+            if (Polygon.Count<3) return false;
+            int[] extreme = new int[] { int.MaxValue, point[1] };
+            int count = 0, i = 0;
+            do
+            {
+                int next = (i + 1) % Polygon.Count;
+                if (doIntersect(new List<int[]>{Polygon[i], Polygon[next]}, new List<int[]> { point, extreme }))
+                {
+                    if (orientation(Polygon[i], point, Polygon[next]) == 0)
+                        return onSegment(Polygon[i], point, Polygon[next]);
+                    count++;
+                }
+                i = next;
+            } while (i != 0);
+            return count%2 == 1;
+        }
+        public static bool onSegment(int[] p, int[] q, int[] r)
+        {
+            //segment is [x,y],[x,y] for the two points defining the line segment
+            //point is the [x,y] of the point being evaluated
+            return (q[0] <= Math.Max(p[0], r[0]) 
+                && q[0] >= Math.Min(p[0], r[0]) 
+                && q[1] <= Math.Max(p[1], r[1]) 
+                && q[1] >= Math.Min(p[1], r[1]));
+        }
+        public static int orientation(int[] p, int[] q, int[] r)
+        {
+            int val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1]);
+            if (val == 0) return 0;
+            return (val > 0) ? 1 : 2;
+        }
+        public static bool doIntersect(List<int[]> polysegment, List<int[]> pointsegment)
+        {
+            int o1 = orientation(polysegment[0], polysegment[1], pointsegment[0]);
+            int o2 = orientation(polysegment[0], polysegment[1], pointsegment[1]);
+            int o3 = orientation(pointsegment[0], pointsegment[1], polysegment[0]);
+            int o4 = orientation(pointsegment[0], pointsegment[1], polysegment[1]);
+            if (o1 != o2 && o3 != o4) return true;
+            if (o1 == 0 && onSegment(polysegment[0], pointsegment[0], polysegment[1])) return true;
+            if (o2 == 0 && onSegment(polysegment[0], pointsegment[1], polysegment[1])) return true;
+            if (o3 == 0 && onSegment(pointsegment[0], polysegment[1], pointsegment[1])) return true;
+            if (o4 == 0 && onSegment(pointsegment[0], polysegment[1], pointsegment[1])) return true;
             return false;
         }
     }
