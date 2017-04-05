@@ -17,6 +17,7 @@ namespace SSRMToolUI
         private string _fileName;
         private Staircase _currentStairCase;
         private Measurement _currentMeasurement;
+        private List<int[]> _polygonPoints = new List<int[]>();
         private static readonly string FILE_DIALOG_JPG_FILTER = "JPEG File|*.jpg";
         private static readonly string FILE_DIALOG_FILTER = "Gwyddion File|*.gwy";
 
@@ -170,7 +171,7 @@ namespace SSRMToolUI
             ClearCurrentStairCase();
             ClearAllFormComponents();
             EnableAllFormComponents();
-
+            
             _currentStairCase = stairCase;
 
             PopulateStairCaseMetaData(ref stairCase);
@@ -228,5 +229,18 @@ namespace SSRMToolUI
             txtArea_FunctionExpression.Text = _currentMeasurement.FunctionStrings[index];
         }
 
+        private void pictureBox_ProcessedGwyddionImage_MouseUp(object sender, MouseEventArgs e)
+        {
+            var pictureBox = (PictureBox)sender;
+            
+            _polygonPoints.Add(new int[] { e.X, e.Y });
+            GraphicsAdapter.DrawPoint(Graphics.FromHwnd(pictureBox.Handle), e.X, e.Y);
+        }
+
+        private void btn_GenerateRegion_Click(object sender, EventArgs e)
+        {
+            GraphicsAdapter.DrawPolygon(Graphics.FromHwnd(pictureBox_ProcessedGwyddionImage.Handle), _polygonPoints);
+            _polygonPoints.Clear();
+        }
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using NCalc;
+﻿using NCalc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace SSRMTool
 {
