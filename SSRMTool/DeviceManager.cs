@@ -66,9 +66,9 @@ namespace SSRMTool
             String function = meas.FunctionStrings[FuncIndex];
             DeviceMap dMap = new DeviceMap(this.channelImage, function);
             Expression e = new Expression("0*[x]");
-            dMap.AddRegion(e, new List<int[]> { new int[] { 1, 1 }, new int[] { 100, 100 }, new int[] { 150, 150 } },"" );
+            dMap.AddRegion(e, new List<int[]> { new int[] { 25,25 }, new int[] { 25,100 }, new int[] { 100,100 } }, "");
             double[,] newImageValues = await dMap.Calculate().ConfigureAwait(false);
-            bool state = gwyAdapter.WriteNewFile(newImageValues, "d19_tip11.gwy");
+            bool state = gwyAdapter.WriteNewFile(newImageValues, "d19_tip11_new.gwy");
             Bitmap newImage = await BitmapMaker.CreateBitMap(newImageValues).ConfigureAwait(false);
             return newImage;
         }

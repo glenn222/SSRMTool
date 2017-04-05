@@ -76,11 +76,11 @@ namespace SSRMTool
         {
             //Algorithm inspired by: http://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/
             if (Polygon.Count<3) return false;
-            int[] extreme = new int[] { int.MaxValue, point[1] };
+            int[] extreme = new int[] { 10000, point[1] };
             int count = 0, i = 0;
             do
             {
-                int next = (i + 1) % Polygon.Count;
+                int next = (i + 1) % (Polygon.Count);
                 if (doIntersect(new List<int[]>{Polygon[i], Polygon[next]}, new List<int[]> { point, extreme }))
                 {
                     if (orientation(Polygon[i], point, Polygon[next]) == 0)
@@ -89,7 +89,7 @@ namespace SSRMTool
                 }
                 i = next;
             } while (i != 0);
-            return count%2 == 1;
+            return (count%2 == 1);
         }
         public static bool onSegment(int[] p, int[] q, int[] r)
         {
