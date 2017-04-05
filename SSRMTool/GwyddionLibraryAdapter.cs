@@ -25,6 +25,7 @@ namespace SSRMTool
         [DllImport("GwyddionLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
         unsafe static extern bool DestroyArray(IntPtr used_array);
 
+
         public unsafe int[] GetChannelList(string path)
         {
             char* char_path;
