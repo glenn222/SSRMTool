@@ -29,6 +29,7 @@ namespace SSRMTool
         {
             gwyAdapter = new GwyddionLibraryAdapter();
             FuncIndexToString = new Dictionary<int, String>();
+            this.path = "d19_tip11.gwy"; //Default Value
             FuncIndexToString.Add(0, "Resistance To Resistivity");
             FuncIndexToString.Add(1, "Resistance To Dopants");
             FuncIndexToString.Add(2, "Resistance Amplitude To Resistivity");
@@ -48,14 +49,15 @@ namespace SSRMTool
             return names;
         }
 
-        public async Task<Bitmap> GetChannelImage(String channel, int ch)
+        public async Task<Bitmap> GetChannelImage(String path, int ch)
         {
-            this.channelName = channel;
-            int index = 3;
-            if (ch == 1)
-                index = 5;
+            this.path = path;
+            int[] channelList = gwyAdapter.GetChannelList(path);
+            int index = channelList[3];
+            if (ch == 1 && channelList.Length >= 2)
+                index = channelList[5];
             // channelImage = gwyAdapter.GetChannelData(channelName, path);
-            this.channelImage = gwyAdapter.GetChannelData("d19_tip11.gwy", index);
+            this.channelImage = gwyAdapter.GetChannelData(path, index);
             Bitmap image = await BitmapMaker.CreateBitMap(channelImage);
 
             return image;
@@ -73,7 +75,7 @@ namespace SSRMTool
             }
             
             double[,] newImageValues = await dMap.Calculate().ConfigureAwait(false);
-            bool state = gwyAdapter.WriteNewFile(newImageValues, "d19_tip11_new.gwy");
+            bool state = gwyAdapter.WriteNewFile(newImageValues, this.path);
 
             if (state)
                  return await BitmapMaker.CreateBitMap(newImageValues).ConfigureAwait(false);

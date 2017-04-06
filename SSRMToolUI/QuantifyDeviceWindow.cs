@@ -39,7 +39,7 @@ namespace SSRMToolUI
             return _quantifyDeviceWindow;
         }
 
-        private void btn_OpenFile_Click(object sender, EventArgs e)
+        private async void btn_OpenFile_Click(object sender, EventArgs e)
         {
             using (FileDialog dialog = new OpenFileDialog())
             {
@@ -51,7 +51,14 @@ namespace SSRMToolUI
                 {
                     _fileName = dialog.FileName;
                     txtArea_GwyFilePath.Text = dialog.FileName;
-                    
+                    if (dropdown_DataChannels.SelectedIndex != -1) { 
+                        var index = dropdown_DataChannels.SelectedIndex;
+
+                        Bitmap image = await _deviceManager.GetChannelImage(_fileName, index);
+                        pictureBox_GwyddionImage.Image = image;
+
+                        pictureBox_GwyddionImage.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    }
                 }
             }
         }
@@ -128,13 +135,10 @@ namespace SSRMToolUI
             var dataChannelComboBox = (ComboBox)sender;
             var index = dataChannelComboBox.SelectedIndex;
 
-            Bitmap image = await _deviceManager.GetChannelImage(dataChannelComboBox.Items[index].ToString(), index);
+            Bitmap image = await _deviceManager.GetChannelImage(_fileName, index);
             pictureBox_GwyddionImage.Image = image;
 
-            // TODO:: Check bitmap creation to see if it can flip values.
             pictureBox_GwyddionImage.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-
-            // TODO:: Get image for that certain data channel.
         }
 
         private async void btn_Calculate_Click(object sender, EventArgs e)

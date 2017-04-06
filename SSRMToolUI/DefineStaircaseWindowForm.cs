@@ -298,7 +298,13 @@ namespace SSRMToolUI
 
         private void UpdateFunctionLabels()
         {
-            for( int i = 0; i < StringConstants.FUNCTION_LABELS.Count; i++)
+            if (_functions == null)
+            {
+                _textAreaOutputLogger.Clear();
+                return;
+            }
+
+            for ( int i = 0; i < StringConstants.FUNCTION_LABELS.Count; i++)
             {
                 _textAreaOutputLogger.AppendLine();
                 _textAreaOutputLogger.AppendLine(string.Join("\n", StringConstants.FUNCTION_LABELS[i], _functions[i]));

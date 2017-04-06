@@ -79,7 +79,10 @@ namespace SSRMTool
             }
             else
             {
-
+                if (Measurements[index].FunctionStrings == null)
+                {
+                    Measurements[index].FunctionStrings = new string[4];
+                }
                 Measurements[index].FunctionStrings[0] = Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureResistivity);
                 Measurements[index].FunctionStrings[1] = Staircase.PiecewiseFit(MeasuredData[index].Resistance, LiteratureCarriers);
                 Measurements[index].FunctionStrings[2] = Staircase.PiecewiseFit(MeasuredData[index].ResistanceAmplitude, LiteratureResistivity);

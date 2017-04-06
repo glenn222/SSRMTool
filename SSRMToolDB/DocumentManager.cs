@@ -54,8 +54,7 @@ namespace SSRMToolDB
         
         public void writeStaircase(Staircase obj)
         {
-            if (obj.DateCreated == null)
-                obj.DateCreated = DateTime.Now;
+            obj.DateCreated = DateTime.Now;
             obj.DateModified = DateTime.Now;
 
             dbManager.WriteStaircaseInDB(obj);
