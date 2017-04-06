@@ -21,7 +21,8 @@ Setup Instructions:
 
 https://github.com/MSOpenTech/redis/releases/.../win-3.2.100/Redis-x64-3.2.100.msi
 
-2) Install the Gwyddion Application. More information can be found here:__
+2) Install the Gwyddion Application. More information can be found here:
+
 http://gwyddion.net/download.php
 
 If you are using a windows machine, Gwyddion 2.47 is preferred, the link to the installer is below:
