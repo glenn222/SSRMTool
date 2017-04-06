@@ -94,7 +94,7 @@
             this.btn_Calculate.BackColor = System.Drawing.Color.YellowGreen;
             this.btn_Calculate.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Calculate.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_Calculate.Location = new System.Drawing.Point(1135, 642);
+            this.btn_Calculate.Location = new System.Drawing.Point(1135, 610);
             this.btn_Calculate.Name = "btn_Calculate";
             this.btn_Calculate.Size = new System.Drawing.Size(82, 47);
             this.btn_Calculate.TabIndex = 17;
@@ -144,6 +144,7 @@
             this.pictureBox_GwyddionImage.TabIndex = 22;
             this.pictureBox_GwyddionImage.TabStop = false;
             this.pictureBox_GwyddionImage.WaitOnLoad = true;
+            this.pictureBox_GwyddionImage.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_GwyddionImage_MouseUp);
             // 
             // dropdown_Measurements
             // 
@@ -194,7 +195,7 @@
             // 
             this.lbl_Message.AutoSize = true;
             this.lbl_Message.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Message.Location = new System.Drawing.Point(300, 625);
+            this.lbl_Message.Location = new System.Drawing.Point(300, 593);
             this.lbl_Message.Name = "lbl_Message";
             this.lbl_Message.Size = new System.Drawing.Size(90, 18);
             this.lbl_Message.TabIndex = 29;
@@ -245,7 +246,7 @@
             // txtArea_FunctionExpression
             // 
             this.txtArea_FunctionExpression.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtArea_FunctionExpression.Location = new System.Drawing.Point(303, 644);
+            this.txtArea_FunctionExpression.Location = new System.Drawing.Point(303, 612);
             this.txtArea_FunctionExpression.Name = "txtArea_FunctionExpression";
             this.txtArea_FunctionExpression.Size = new System.Drawing.Size(826, 47);
             this.txtArea_FunctionExpression.TabIndex = 35;
@@ -281,7 +282,6 @@
             this.pictureBox_ProcessedGwyddionImage.TabIndex = 36;
             this.pictureBox_ProcessedGwyddionImage.TabStop = false;
             this.pictureBox_ProcessedGwyddionImage.WaitOnLoad = true;
-            this.pictureBox_ProcessedGwyddionImage.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_ProcessedGwyddionImage_MouseUp);
             // 
             // label7
             // 
@@ -296,13 +296,15 @@
             // btn_GenerateRegion
             // 
             this.btn_GenerateRegion.BackColor = System.Drawing.Color.LemonChiffon;
+            this.btn_GenerateRegion.Enabled = false;
             this.btn_GenerateRegion.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_GenerateRegion.Location = new System.Drawing.Point(1076, 594);
+            this.btn_GenerateRegion.Location = new System.Drawing.Point(612, 594);
             this.btn_GenerateRegion.Name = "btn_GenerateRegion";
             this.btn_GenerateRegion.Size = new System.Drawing.Size(141, 31);
             this.btn_GenerateRegion.TabIndex = 38;
             this.btn_GenerateRegion.Text = "Generate Region";
             this.btn_GenerateRegion.UseVisualStyleBackColor = false;
+            this.btn_GenerateRegion.Visible = false;
             this.btn_GenerateRegion.Click += new System.EventHandler(this.btn_GenerateRegion_Click);
             // 
             // QuantifyDeviceWindow
@@ -310,7 +312,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1238, 722);
+            this.ClientSize = new System.Drawing.Size(1238, 674);
             this.Controls.Add(this.btn_GenerateRegion);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.pictureBox_ProcessedGwyddionImage);

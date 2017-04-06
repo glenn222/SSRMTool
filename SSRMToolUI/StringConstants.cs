@@ -14,6 +14,7 @@ namespace SSRMToolUI
         private const string FUNCTION_LABEL_4 = "Dopants to Resistance Amplitude (dR) Function: ";
         public const string COMPUTE_STATUS_LABEL = "Compute Status: ";
         public static readonly IList<string> FUNCTION_LABELS =  new List<string> { FUNCTION_LABEL_1, FUNCTION_LABEL_2, FUNCTION_LABEL_3, FUNCTION_LABEL_4 };
+        
         // Unused strings
         private static readonly string RESISTIVITY_UNITS_COLUMN_NAME = "ResistivityUnits";
         private static readonly string DOPANT_UNITS_COLUMN_NAME = "DopantUnits";
@@ -31,5 +32,7 @@ namespace SSRMToolUI
         // Error Messages
         public const string ERROR_NO_MEASUREMENT_DEFINED = "Please choose a staircase measurement first";
         public const string ERROR_NO_STAIRCASE_DEFINED = "Please load a staircase first";
+        public const string ERROR_REGION_SELECTION_NO_MEASUREMENT_DEFINED = "Please select a measurement function before drawing regions";
+
     }
 }

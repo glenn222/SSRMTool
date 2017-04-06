@@ -18,6 +18,7 @@ namespace SSRMToolUI
         private Staircase _currentStairCase;
         private Measurement _currentMeasurement;
         private List<int[]> _polygonPoints = new List<int[]>();
+        private List<List<int[]>> _regions = new List<List<int[]>>();
         private static readonly string FILE_DIALOG_JPG_FILTER = "JPEG File|*.jpg";
         private static readonly string FILE_DIALOG_FILTER = "Gwyddion File|*.gwy";
 
@@ -50,9 +51,7 @@ namespace SSRMToolUI
                 {
                     _fileName = dialog.FileName;
                     txtArea_GwyFilePath.Text = dialog.FileName;
-
-                    // Create fake bitmap values
-                    //double[,] bitMapValues = CreateFakeBitmapValues(1000, 1000);
+                    
                 }
             }
         }
@@ -72,22 +71,6 @@ namespace SSRMToolUI
             {
                 dropdown_MeasurementFunctions.Items.Add(functionName);
             }
-        }
-
-        private double[,] CreateFakeBitmapValues(int width, int height)
-        {
-            var rand = new Random();
-
-            double[,] bitMapValues = new double[width, height];
-            for (int i = 0; i < bitMapValues.GetLength(0); i++)
-            {
-                for (int j = 0; j < bitMapValues.GetLength(1); j++)
-                {
-                    bitMapValues[i, j] = rand.NextDouble();
-                }
-            }
-
-            return bitMapValues;
         }
 
         private void btn_OpenStaircase_Click(object sender, EventArgs e)
@@ -129,6 +112,8 @@ namespace SSRMToolUI
             {
                 var index = functionsComboBox.SelectedIndex;
                 PopulateFunctionExpression(index);
+                
+                btn_GenerateRegion.Enabled = true;
             }
         }
 
@@ -141,7 +126,9 @@ namespace SSRMToolUI
             }
 
             var dataChannelComboBox = (ComboBox)sender;
-            Bitmap image = await _deviceManager.GetChannelImage(" ", dataChannelComboBox.SelectedIndex);
+            var index = dataChannelComboBox.SelectedIndex;
+
+            Bitmap image = await _deviceManager.GetChannelImage(dataChannelComboBox.Items[index].ToString(), index);
             pictureBox_GwyddionImage.Image = image;
 
             // TODO:: Check bitmap creation to see if it can flip values.
@@ -160,7 +147,7 @@ namespace SSRMToolUI
 
             var index = dropdown_MeasurementFunctions.SelectedIndex;
             
-            Bitmap newImage = await _deviceManager.CalculateNewImage(_currentMeasurement, index);
+            Bitmap newImage = await _deviceManager.CalculateNewImage(_currentMeasurement, index, _regions, _currentStairCase.StaircaseMaterial);
 
             pictureBox_ProcessedGwyddionImage.Image = newImage;
             pictureBox_ProcessedGwyddionImage.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
@@ -228,19 +215,28 @@ namespace SSRMToolUI
         {
             txtArea_FunctionExpression.Text = _currentMeasurement.FunctionStrings[index];
         }
-
-        private void pictureBox_ProcessedGwyddionImage_MouseUp(object sender, MouseEventArgs e)
-        {
-            var pictureBox = (PictureBox)sender;
-            
-            _polygonPoints.Add(new int[] { e.X, e.Y });
-            GraphicsAdapter.DrawPoint(Graphics.FromHwnd(pictureBox.Handle), e.X, e.Y);
-        }
-
+        
         private void btn_GenerateRegion_Click(object sender, EventArgs e)
         {
-            GraphicsAdapter.DrawPolygon(Graphics.FromHwnd(pictureBox_ProcessedGwyddionImage.Handle), _polygonPoints);
+            GraphicsAdapter.DrawPolygon(Graphics.FromHwnd(pictureBox_GwyddionImage.Handle), _polygonPoints);
+            _regions.Add(_polygonPoints);
             _polygonPoints.Clear();
+        }
+
+        private void pictureBox_GwyddionImage_MouseUp(object sender, MouseEventArgs e)
+        {
+            return;
+
+            if (_currentMeasurement == null)
+            {
+                MessageBox.Show(StringConstants.ERROR_REGION_SELECTION_NO_MEASUREMENT_DEFINED);
+                return;
+            }
+
+            var pictureBox = (PictureBox)sender;
+
+            _polygonPoints.Add(new int[] { e.X, e.Y });
+            GraphicsAdapter.DrawPoint(Graphics.FromHwnd(pictureBox.Handle), e.X, e.Y);
         }
     }
 }

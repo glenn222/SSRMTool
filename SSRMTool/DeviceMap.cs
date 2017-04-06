@@ -60,7 +60,7 @@ namespace SSRMTool
                                 break;
                             }
                         }
-                        NewImage[x, y] = DeviceMap.CalculatePixel(function, Image[x, y], "x");
+                        NewImage[x, y] = Math.Log10(DeviceMap.CalculatePixel(function, Image[x, y], "x"));
                     }
                 }
             });

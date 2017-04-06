@@ -61,16 +61,24 @@ namespace SSRMTool
             return image;
         }
 
-        public async Task<Bitmap> CalculateNewImage(Measurement meas, int FuncIndex)
+        public async Task<Bitmap> CalculateNewImage(Measurement meas, int FuncIndex, IList<List<int[]>> regions, string material)
         {
             String function = meas.FunctionStrings[FuncIndex];
             DeviceMap dMap = new DeviceMap(this.channelImage, function);
-            Expression e = new Expression("0*[x]");
-            dMap.AddRegion(e, new List<int[]> { new int[] { 25,25 }, new int[] { 25,100 }, new int[] { 100,100 } }, "");
+            Expression e = new Expression(function);
+            
+            foreach (var region in regions)
+            {
+                dMap.AddRegion(e, region, material);
+            }
+            
             double[,] newImageValues = await dMap.Calculate().ConfigureAwait(false);
             bool state = gwyAdapter.WriteNewFile(newImageValues, "d19_tip11_new.gwy");
-            Bitmap newImage = await BitmapMaker.CreateBitMap(newImageValues).ConfigureAwait(false);
-            return newImage;
+
+            if (state)
+                 return await BitmapMaker.CreateBitMap(newImageValues).ConfigureAwait(false);
+
+            return null;
         }
 
     }
